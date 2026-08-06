@@ -1,0 +1,43 @@
+{
+    "execution_summary": {
+        "execution_id": "RUN-20260713-094945-0203",
+        "total_duration_seconds": 75.338286,
+        "pipeline_status": "SUCCESS",
+        "stages_executed": 4,
+        "error_summary": null
+    },
+    "stage_timings": [
+        {
+            "stage_name": "Dataset Loading",
+            "start_time": 50703.4834295,
+            "end_time": 50759.3537908,
+            "duration_seconds": 55.870361300003424,
+            "status": "SUCCESS",
+            "exception_metadata": null
+        },
+        {
+            "stage_name": "Analytics",
+            "start_time": 50759.3538232,
+            "end_time": 50760.8588791,
+            "duration_seconds": 1.5050559000010253,
+            "status": "SUCCESS",
+            "exception_metadata": null
+        },
+        {
+            "stage_name": "HTML Generator",
+            "start_time": 50760.8589386,
+            "end_time": 50760.9974089,
+            "duration_seconds": 0.13847030000033556,
+            "status": "SUCCESS",
+            "exception_metadata": null
+        },
+        {
+            "stage_name": "LLM Generation",
+            "start_time": 50760.9974346,
+            "end_time": 50778.8030518,
+            "duration_seconds": 17.805617199999688,
+            "status": "SUCCESS",
+            "exception_metadata": null
+        }
+    ]
+}

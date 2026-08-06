@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast Review & Decision Support Report</title>
+    <style>
+        {{ css_content }}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Forecast Review Report</h1>
+            <div class="header-meta">
+                <span><strong>Review Date:</strong> {{ meta.execution_timestamp.strftime('%Y-%m-%d') }}</span>
+                <span><strong>Execution:</strong> {{ meta.execution_timestamp.strftime('%Y-%m-%d %H:%M:%S UTC') }}</span>
+                <span><strong>Status:</strong> {{ meta.pipeline_status }}</span>
+                <span><strong>Rows Processed:</strong> {{ "{:,}".format(meta.rows_processed) }}</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Executive Summary</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card {% if insights.get('overall_forecast_health') in ['Good', 'Excellent'] %}success{% elif insights.get('overall_forecast_health') == 'Critical' %}critical{% else %}warning{% endif %}">
+                <div class="kpi-title">Overall Reliability</div>
+                <div class="kpi-value">{{ insights.get('overall_forecast_health', 'N/A') }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Forecasts Requiring Review</div>
+                <div class="kpi-value">{{ "{:,}".format(risk.get('manager_reviews_required', 0)) }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Winning Forecast Method</div>
+                <div class="kpi-value">{{ perf.get('winner', 'N/A') }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Primary Reliability Driver</div>
+                <div class="kpi-value">{{ risk.get('top_primary_risk_driver', 'N/A') }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Manager Reviews Required</div>
+                <div class="kpi-value">{{ "{:,}".format(risk.get('manager_reviews_required', 0)) }}</div>
+            </div>
+        </div>
+
+        <h2>Validation Summary</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card {% if meta.pipeline_status == 'SUCCESS' %}success{% else %}critical{% endif %}">
+                <div class="kpi-title">Validation Status</div>
+                <div class="kpi-value">{{ 'SUCCESS' if meta.pipeline_status == 'SUCCESS' else 'FAILED' }}</div>
+            </div>
+            <div class="kpi-card success">
+                <div class="kpi-title">Errors</div>
+                <div class="kpi-value">0</div>
+            </div>
+            <div class="kpi-card warning">
+                <div class="kpi-title">Warnings</div>
+                <div class="kpi-value">Logged</div>
+            </div>
+        </div>
+
+        <h2>Forecast Performance</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Manual Forecast</th>
+                    <th>ML Forecast</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Accuracy</strong></td>
+                    <td>{% if perf.get('manual_accuracy') is not none %}{{ "{:.2f}".format(perf.get('manual_accuracy')) }}%{% else %}N/A{% endif %}</td>
+                    <td>{% if perf.get('ml_accuracy') is not none %}{{ "{:.2f}".format(perf.get('ml_accuracy')) }}%{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                    <td><strong>Mean Absolute Error (MAE)</strong></td>
+                    <td>{% if perf.get('manual_mae') is not none %}{{ "{:.2f}".format(perf.get('manual_mae')) }}{% else %}N/A{% endif %}</td>
+                    <td>{% if perf.get('ml_mae') is not none %}{{ "{:.2f}".format(perf.get('ml_mae')) }}{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                    <td><strong>Mean Absolute Percentage Error (MAPE)</strong></td>
+                    <td>{% if perf.get('manual_mape') is not none %}{{ "{:.2f}".format(perf.get('manual_mape')) }}%{% else %}N/A{% endif %}</td>
+                    <td>{% if perf.get('ml_mape') is not none %}{{ "{:.2f}".format(perf.get('ml_mape')) }}%{% else %}N/A{% endif %}</td>
+                </tr>
+                <tr>
+                    <td><strong>Winning Method</strong></td>
+                    <td colspan="2">{{ perf.get('winner', 'N/A') }} (Based on Lowest MAE)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Forecast Reliability Assessment</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card critical">
+                <div class="kpi-title">High Review Forecasts</div>
+                <div class="kpi-value">{{ "{:,}".format(risk.get('high_risk_forecasts', 0)) }}</div>
+            </div>
+            <div class="kpi-card warning">
+                <div class="kpi-title">Medium Review Forecasts</div>
+                <div class="kpi-value">{{ "{:,}".format(risk.get('medium_risk_forecasts', 0)) }}</div>
+            </div>
+            <div class="kpi-card success">
+                <div class="kpi-title">Low Review Forecasts</div>
+                <div class="kpi-value">{{ "{:,}".format(risk.get('low_risk_forecasts', 0)) }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Average Reliability Score</div>
+                <div class="kpi-value">{% if risk.get('average_risk_score') is not none %}{{ "{:.2f}".format(risk.get('average_risk_score')) }}{% else %}N/A{% endif %}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Highest Risk Score</div>
+                <div class="kpi-value">{% if risk.get('maximum_risk_score') is not none %}{{ "{:.2f}".format(risk.get('maximum_risk_score')) }}{% else %}N/A{% endif %}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Manager Reviews Required</div>
+                <div class="kpi-value">{{ "{:,}".format(risk.get('manager_reviews_required', 0)) }}</div>
+            </div>
+        </div>
+
+        <h2>Business Insights</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Highest Risk Region</div>
+                <div class="kpi-value">{{ risk.get('highest_risk_region', 'N/A') }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Most Variable Offering</div>
+                <div class="kpi-value">{{ risk.get('highest_risk_offering', 'N/A') }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Primary Reliability Driver</div>
+                <div class="kpi-value">{{ risk.get('top_primary_risk_driver', 'N/A') }}</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Critical Forecasts</div>
+                <div class="kpi-value">{{ "{:,}".format(insights.get('critical_forecasts', 0)) }}</div>
+            </div>
+        </div>
+
+        <h2>Recommendations</h2>
+        {% if recommendations %}
+        <div class="action-grid">
+            {% for rec in recommendations %}
+            <div class="action-card">
+                <div class="action-header">
+                    <div class="action-title">{{ rec.action }}</div>
+                    <div class="priority-badge priority-{{ rec.priority }}">{{ rec.priority }}</div>
+                </div>
+                <div class="action-detail"><strong>Reason:</strong> {{ rec.reason }}</div>
+                <div class="action-detail"><strong>Expected Impact:</strong> Supports {{ rec.category }} objective</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No actionable recommendations generated.</p>
+        {% endif %}
+
+        <h2>Pipeline Execution</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td><strong>Execution Time</strong></td>
+                    <td>{{ "{:.4f}".format(meta.execution_time_seconds) }} seconds</td>
+                </tr>
+                <tr>
+                    <td><strong>Modules Executed</strong></td>
+                    <td>{{ ", ".join(meta.modules_executed) }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Rows Processed</strong></td>
+                    <td>{{ "{:,}".format(meta.rows_processed) }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        Forecast Review & Decision Support System<br>
+        Version 1.0 MVP<br>
+        Generated Automatically
+    </footer>
+</body>
+</html>

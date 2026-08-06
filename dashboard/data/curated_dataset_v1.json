@@ -1,0 +1,934 @@
+{
+  "execution_context_id": "exec-9f8a-4b2c-9a1f-0b3d5c6a8f1e",
+  "traceability_id": "trace-7e6d-5c4b-8a2f-1b4d6e9c0a2d",
+  "metadata": {
+    "title": "Global Contact Center Demand \u00e2\u20ac\u201d Forecast Decision Intelligence Dashboard",
+    "executive_summary": "Evaluation of ML models vs Manual forecasts for contact center volume.",
+    "generated_at": "2026-07-10T14:45:00Z",
+    "version": "1.0",
+    "records_evaluated": 35640,
+    "models_evaluated": 92,
+    "evaluation_period": "2026-03-13 to 2028-01-28 (99 weeks)"
+  },
+  "assets": [],
+  "appendices": [],
+  "sections": [
+    {
+      "business_question_id": "EXECUTIVE",
+      "observation": "Manual forecasts outperformed the aggregate ML system.",
+      "conclusion": "The current Manual forecast maintains statistical superiority.",
+      "decision_support": "Retain the Manual Forecast.",
+      "primary_evidence": [
+        {
+          "metric_id": "champion_model",
+          "value": "V2_9_Prophet",
+          "label": "Global Champion (By Score)"
+        },
+        {
+          "metric_id": "champion_score",
+          "value": "75.32/100",
+          "label": "Champion Score"
+        }
+      ],
+      "supporting_evidence": [
+        {
+          "metric_id": "volatility",
+          "value": "7.59%",
+          "label": "Volume Stability (CV)"
+        }
+      ],
+      "recommendation": "Retain Manual Forecast",
+      "recommendation_suppressed": false,
+      "confidence": "HIGH",
+      "charts_referenced": []
+    },
+    {
+      "business_question_id": "Q1",
+      "observation": "Manual WAPE was 17.84%. ML WAPE was 21.11%. Manual outperformed ML in 79.8% of evaluated weeks.",
+      "conclusion": "Manual forecasts were more accurate than the aggregate ML system across 99 weeks, with high statistical confidence.",
+      "decision_support": "Persistently higher aggregate ML error was associated with more forecasting misses across the evaluation window. This should be considered when evaluating continued reliance on the current ML pipeline.",
+      "primary_evidence": [
+        {
+          "metric_id": "manual_wape",
+          "value": "17.84%",
+          "label": "Manual WAPE"
+        },
+        {
+          "metric_id": "ml_wape",
+          "value": "21.11%",
+          "label": "ML WAPE"
+        },
+        {
+          "metric_id": "abs_improvement",
+          "value": "3.27pp",
+          "label": "Absolute Improvement (ML vs Manual)"
+        }
+      ],
+      "supporting_evidence": [
+        {
+          "metric_id": "manual_win_rate",
+          "value": "79.8%",
+          "label": "Weekly Win Rate (Manual)"
+        },
+        {
+          "metric_id": "p_value",
+          "value": "4.998e-5",
+          "label": "Statistical Significance (Wilcoxon, p)"
+        },
+        {
+          "metric_id": "effect_size",
+          "value": "0.0327",
+          "label": "Effect Size"
+        },
+        {
+          "metric_id": "sample_size",
+          "value": "99 weeks",
+          "label": "Sample Size"
+        }
+      ],
+      "recommendation": "Retain the Manual Forecast as the primary production forecasting method.",
+      "recommendation_suppressed": false,
+      "confidence": "HIGH",
+      "charts_referenced": []
+    },
+    {
+      "business_question_id": "Q2",
+      "observation": "V2_9_Prophet ranked first among 92 eligible models with a Composite Score of 75.32. V3_33_Prophet ranked second at 68.09.",
+      "conclusion": "V2_9_Prophet scored highest among 92 models, but its lead over the runner-up did not clear the policy's confidence threshold (p = 0.529839).",
+      "decision_support": "The non-significant margin (effect size 0.0087, below the 0.015 policy minimum) should be considered when evaluating whether a model change is operationally justified.",
+      "primary_evidence": [
+        {
+          "metric_id": "champion",
+          "value": "V2_9_Prophet",
+          "label": "Champion"
+        },
+        {
+          "metric_id": "score",
+          "value": "75.32",
+          "label": "Composite Score"
+        },
+        {
+          "metric_id": "runner_up",
+          "value": "V3_33_Prophet",
+          "label": "Runner-Up"
+        }
+      ],
+      "supporting_evidence": [
+        {
+          "metric_id": "p_value",
+          "value": "0.529839",
+          "label": "p-value"
+        }
+      ],
+      "recommendation": "Recommendation omitted: confidence is Low. The composite ranking gap did not clear the Medium-confidence minimum required to justify a deployment recommendation.",
+      "recommendation_suppressed": true,
+      "confidence": "LOW",
+      "charts_referenced": []
+    },
+    {
+      "business_question_id": "Q3",
+      "observation": "Weekly actual volume had a coefficient of variation of 7.59% across 99 weeks, below the policy's 15% high-volatility trigger. 3 weeks were flagged as statistical anomalies (|z| > 2.5).",
+      "conclusion": "Demand volatility was mathematically stable across the evaluation window, validating the use of standard forecasting metrics.",
+      "decision_support": "The absence of extreme systemic volatility indicates the evaluation window represents a standard operating environment.",
+      "primary_evidence": [
+        {
+          "metric_id": "cv",
+          "value": "7.59%",
+          "label": "Coefficient of Variation"
+        },
+        {
+          "metric_id": "anomalies",
+          "value": "3",
+          "label": "Anomalies Detected (|Z|>2.5)"
+        }
+      ],
+      "supporting_evidence": [
+        {
+          "metric_id": "mean_vol",
+          "value": "188,435",
+          "label": "Weekly Mean Volume"
+        },
+        {
+          "metric_id": "std_dev",
+          "value": "14,299",
+          "label": "Weekly Std Dev"
+        }
+      ],
+      "recommendation": "Proceed with standard model evaluation; volume variance is within acceptable bounds.",
+      "recommendation_suppressed": false,
+      "confidence": "HIGH",
+      "charts_referenced": []
+    },
+    {
+      "business_question_id": "Q4",
+      "observation": "Mean weekly ML WAPE was 21.2% in normal weeks and 21.74% in anomaly weeks (n=3).",
+      "conclusion": "Forecast accuracy was not significantly degraded during anomalous demand periods.",
+      "decision_support": "The models demonstrated sufficient robustness against the limited volume anomalies observed in the evaluation window.",
+      "primary_evidence": [
+        {
+          "metric_id": "normal_wape",
+          "value": "21.2%",
+          "label": "Normal Week WAPE"
+        },
+        {
+          "metric_id": "anomaly_wape",
+          "value": "21.74%",
+          "label": "Anomaly Week WAPE"
+        }
+      ],
+      "supporting_evidence": [
+        {
+          "metric_id": "anomaly_count",
+          "value": "3",
+          "label": "Anomaly Sample Size"
+        }
+      ],
+      "recommendation": "No anomaly-specific model overrides required.",
+      "recommendation_suppressed": true,
+      "confidence": "LOW",
+      "charts_referenced": []
+    }
+  ],
+  "leaderboard": [
+    {
+      "rank": 1,
+      "model": "V2_9_Prophet",
+      "score": 75.32,
+      "wape": "20.1%",
+      "bias": "1.2%",
+      "stability": "High",
+      "family": "Prophet"
+    },
+    {
+      "rank": 2,
+      "model": "V3_33_Prophet",
+      "score": 68.09,
+      "wape": "21.5%",
+      "bias": "2.4%",
+      "stability": "High",
+      "family": "Prophet"
+    },
+    {
+      "rank": 3,
+      "model": "ARIMA_Base",
+      "score": 65.4,
+      "wape": "22.1%",
+      "bias": "-1.5%",
+      "stability": "Medium",
+      "family": "ARIMA"
+    },
+    {
+      "rank": 4,
+      "model": "XGB_Reg_1",
+      "score": 62.11,
+      "wape": "23.4%",
+      "bias": "0.8%",
+      "stability": "Medium",
+      "family": "XGB_group"
+    },
+    {
+      "rank": 5,
+      "model": "LR_LA_group_1",
+      "score": 58.99,
+      "wape": "24.5%",
+      "bias": "-2.1%",
+      "stability": "Low",
+      "family": "LR_LA_group"
+    }
+  ],
+  "timeseries": [
+    {
+      "date": "2026-03-13",
+      "actual_volume": 190289,
+      "is_anomaly": false,
+      "manual_wape": 18.25,
+      "ml_wape": 22.94
+    },
+    {
+      "date": "2026-03-20",
+      "actual_volume": 178394,
+      "is_anomaly": false,
+      "manual_wape": 17.46,
+      "ml_wape": 24.74
+    },
+    {
+      "date": "2026-03-27",
+      "actual_volume": 198766,
+      "is_anomaly": false,
+      "manual_wape": 15.69,
+      "ml_wape": 25.08
+    },
+    {
+      "date": "2026-04-03",
+      "actual_volume": 188432,
+      "is_anomaly": false,
+      "manual_wape": 16.56,
+      "ml_wape": 17.54
+    },
+    {
+      "date": "2026-04-10",
+      "actual_volume": 180225,
+      "is_anomaly": false,
+      "manual_wape": 19.89,
+      "ml_wape": 15.14
+    },
+    {
+      "date": "2026-04-17",
+      "actual_volume": 188935,
+      "is_anomaly": false,
+      "manual_wape": 16.74,
+      "ml_wape": 23.12
+    },
+    {
+      "date": "2026-04-24",
+      "actual_volume": 174157,
+      "is_anomaly": false,
+      "manual_wape": 18.29,
+      "ml_wape": 20.62
+    },
+    {
+      "date": "2026-05-01",
+      "actual_volume": 185429,
+      "is_anomaly": false,
+      "manual_wape": 17.33,
+      "ml_wape": 19.96
+    },
+    {
+      "date": "2026-05-08",
+      "actual_volume": 184546,
+      "is_anomaly": false,
+      "manual_wape": 19.37,
+      "ml_wape": 23.05
+    },
+    {
+      "date": "2026-05-15",
+      "actual_volume": 167329,
+      "is_anomaly": false,
+      "manual_wape": 15.93,
+      "ml_wape": 26.83
+    },
+    {
+      "date": "2026-05-22",
+      "actual_volume": 174993,
+      "is_anomaly": false,
+      "manual_wape": 14.76,
+      "ml_wape": 15.73
+    },
+    {
+      "date": "2026-05-29",
+      "actual_volume": 198759,
+      "is_anomaly": false,
+      "manual_wape": 15.25,
+      "ml_wape": 17.74
+    },
+    {
+      "date": "2026-06-05",
+      "actual_volume": 205179,
+      "is_anomaly": false,
+      "manual_wape": 18.96,
+      "ml_wape": 21.93
+    },
+    {
+      "date": "2026-06-12",
+      "actual_volume": 202321,
+      "is_anomaly": false,
+      "manual_wape": 18.24,
+      "ml_wape": 23.56
+    },
+    {
+      "date": "2026-06-19",
+      "actual_volume": 197836,
+      "is_anomaly": false,
+      "manual_wape": 17.7,
+      "ml_wape": 18.09
+    },
+    {
+      "date": "2026-06-26",
+      "actual_volume": 176054,
+      "is_anomaly": false,
+      "manual_wape": 17.0,
+      "ml_wape": 18.13
+    },
+    {
+      "date": "2026-07-03",
+      "actual_volume": 205922,
+      "is_anomaly": false,
+      "manual_wape": 16.82,
+      "ml_wape": 17.63
+    },
+    {
+      "date": "2026-07-10",
+      "actual_volume": 199768,
+      "is_anomaly": false,
+      "manual_wape": 21.81,
+      "ml_wape": 21.88
+    },
+    {
+      "date": "2026-07-17",
+      "actual_volume": 203689,
+      "is_anomaly": false,
+      "manual_wape": 16.5,
+      "ml_wape": 26.52
+    },
+    {
+      "date": "2026-07-24",
+      "actual_volume": 170159,
+      "is_anomaly": false,
+      "manual_wape": 17.83,
+      "ml_wape": 14.69
+    },
+    {
+      "date": "2026-07-31",
+      "actual_volume": 154605,
+      "is_anomaly": false,
+      "manual_wape": 17.21,
+      "ml_wape": 20.64
+    },
+    {
+      "date": "2026-08-07",
+      "actual_volume": 195429,
+      "is_anomaly": false,
+      "manual_wape": 16.37,
+      "ml_wape": 19.67
+    },
+    {
+      "date": "2026-08-14",
+      "actual_volume": 167552,
+      "is_anomaly": false,
+      "manual_wape": 14.83,
+      "ml_wape": 15.91
+    },
+    {
+      "date": "2026-08-21",
+      "actual_volume": 170302,
+      "is_anomaly": false,
+      "manual_wape": 14.32,
+      "ml_wape": 21.46
+    },
+    {
+      "date": "2026-08-28",
+      "actual_volume": 186089,
+      "is_anomaly": false,
+      "manual_wape": 18.09,
+      "ml_wape": 17.12
+    },
+    {
+      "date": "2026-09-04",
+      "actual_volume": 190493,
+      "is_anomaly": false,
+      "manual_wape": 18.07,
+      "ml_wape": 21.05
+    },
+    {
+      "date": "2026-09-11",
+      "actual_volume": 169960,
+      "is_anomaly": false,
+      "manual_wape": 22.29,
+      "ml_wape": 24.26
+    },
+    {
+      "date": "2026-09-18",
+      "actual_volume": 165870,
+      "is_anomaly": false,
+      "manual_wape": 16.81,
+      "ml_wape": 17.02
+    },
+    {
+      "date": "2026-09-25",
+      "actual_volume": 195700,
+      "is_anomaly": false,
+      "manual_wape": 18.73,
+      "ml_wape": 14.2
+    },
+    {
+      "date": "2026-10-02",
+      "actual_volume": 178006,
+      "is_anomaly": false,
+      "manual_wape": 18.12,
+      "ml_wape": 26.61
+    },
+    {
+      "date": "2026-10-09",
+      "actual_volume": 187399,
+      "is_anomaly": false,
+      "manual_wape": 18.52,
+      "ml_wape": 19.99
+    },
+    {
+      "date": "2026-10-16",
+      "actual_volume": 192944,
+      "is_anomaly": false,
+      "manual_wape": 19.46,
+      "ml_wape": 20.84
+    },
+    {
+      "date": "2026-10-23",
+      "actual_volume": 201369,
+      "is_anomaly": false,
+      "manual_wape": 15.73,
+      "ml_wape": 20.5
+    },
+    {
+      "date": "2026-10-30",
+      "actual_volume": 204082,
+      "is_anomaly": false,
+      "manual_wape": 17.22,
+      "ml_wape": 17.91
+    },
+    {
+      "date": "2026-11-06",
+      "actual_volume": 195056,
+      "is_anomaly": false,
+      "manual_wape": 16.64,
+      "ml_wape": 14.14
+    },
+    {
+      "date": "2026-11-13",
+      "actual_volume": 126242,
+      "is_anomaly": true,
+      "manual_wape": 19.54,
+      "ml_wape": 24.09
+    },
+    {
+      "date": "2026-11-20",
+      "actual_volume": 186205,
+      "is_anomaly": false,
+      "manual_wape": 16.79,
+      "ml_wape": 20.58
+    },
+    {
+      "date": "2026-11-27",
+      "actual_volume": 175805,
+      "is_anomaly": false,
+      "manual_wape": 15.14,
+      "ml_wape": 22.47
+    },
+    {
+      "date": "2026-12-04",
+      "actual_volume": 200785,
+      "is_anomaly": false,
+      "manual_wape": 19.79,
+      "ml_wape": 17.97
+    },
+    {
+      "date": "2026-12-11",
+      "actual_volume": 192287,
+      "is_anomaly": false,
+      "manual_wape": 18.92,
+      "ml_wape": 27.38
+    },
+    {
+      "date": "2026-12-18",
+      "actual_volume": 183768,
+      "is_anomaly": false,
+      "manual_wape": 17.34,
+      "ml_wape": 20.68
+    },
+    {
+      "date": "2026-12-25",
+      "actual_volume": 205701,
+      "is_anomaly": false,
+      "manual_wape": 17.28,
+      "ml_wape": 14.12
+    },
+    {
+      "date": "2027-01-01",
+      "actual_volume": 125833,
+      "is_anomaly": true,
+      "manual_wape": 16.37,
+      "ml_wape": 24.32
+    },
+    {
+      "date": "2027-01-08",
+      "actual_volume": 186703,
+      "is_anomaly": false,
+      "manual_wape": 18.15,
+      "ml_wape": 23.22
+    },
+    {
+      "date": "2027-01-15",
+      "actual_volume": 197411,
+      "is_anomaly": false,
+      "manual_wape": 15.85,
+      "ml_wape": 21.2
+    },
+    {
+      "date": "2027-01-22",
+      "actual_volume": 217101,
+      "is_anomaly": false,
+      "manual_wape": 17.23,
+      "ml_wape": 30.48
+    },
+    {
+      "date": "2027-01-29",
+      "actual_volume": 176658,
+      "is_anomaly": false,
+      "manual_wape": 15.45,
+      "ml_wape": 21.25
+    },
+    {
+      "date": "2027-02-05",
+      "actual_volume": 201430,
+      "is_anomaly": false,
+      "manual_wape": 18.36,
+      "ml_wape": 27.21
+    },
+    {
+      "date": "2027-02-12",
+      "actual_volume": 187032,
+      "is_anomaly": false,
+      "manual_wape": 19.02,
+      "ml_wape": 27.06
+    },
+    {
+      "date": "2027-02-19",
+      "actual_volume": 179915,
+      "is_anomaly": false,
+      "manual_wape": 20.47,
+      "ml_wape": 25.61
+    },
+    {
+      "date": "2027-02-26",
+      "actual_volume": 209723,
+      "is_anomaly": false,
+      "manual_wape": 15.33,
+      "ml_wape": 23.25
+    },
+    {
+      "date": "2027-03-05",
+      "actual_volume": 181709,
+      "is_anomaly": false,
+      "manual_wape": 17.31,
+      "ml_wape": 14.86
+    },
+    {
+      "date": "2027-03-12",
+      "actual_volume": 189407,
+      "is_anomaly": false,
+      "manual_wape": 20.19,
+      "ml_wape": 18.23
+    },
+    {
+      "date": "2027-03-19",
+      "actual_volume": 187287,
+      "is_anomaly": false,
+      "manual_wape": 19.63,
+      "ml_wape": 24.36
+    },
+    {
+      "date": "2027-03-26",
+      "actual_volume": 187335,
+      "is_anomaly": false,
+      "manual_wape": 13.72,
+      "ml_wape": 24.84
+    },
+    {
+      "date": "2027-04-02",
+      "actual_volume": 208625,
+      "is_anomaly": false,
+      "manual_wape": 18.37,
+      "ml_wape": 29.86
+    },
+    {
+      "date": "2027-04-09",
+      "actual_volume": 174814,
+      "is_anomaly": false,
+      "manual_wape": 18.3,
+      "ml_wape": 18.71
+    },
+    {
+      "date": "2027-04-16",
+      "actual_volume": 201291,
+      "is_anomaly": false,
+      "manual_wape": 17.34,
+      "ml_wape": 28.86
+    },
+    {
+      "date": "2027-04-23",
+      "actual_volume": 202237,
+      "is_anomaly": false,
+      "manual_wape": 15.09,
+      "ml_wape": 12.09
+    },
+    {
+      "date": "2027-04-30",
+      "actual_volume": 200595,
+      "is_anomaly": false,
+      "manual_wape": 15.95,
+      "ml_wape": 27.56
+    },
+    {
+      "date": "2027-05-07",
+      "actual_volume": 173739,
+      "is_anomaly": false,
+      "manual_wape": 19.41,
+      "ml_wape": 19.46
+    },
+    {
+      "date": "2027-05-14",
+      "actual_volume": 174118,
+      "is_anomaly": false,
+      "manual_wape": 17.94,
+      "ml_wape": 23.64
+    },
+    {
+      "date": "2027-05-21",
+      "actual_volume": 212500,
+      "is_anomaly": false,
+      "manual_wape": 18.61,
+      "ml_wape": 21.75
+    },
+    {
+      "date": "2027-05-28",
+      "actual_volume": 183060,
+      "is_anomaly": false,
+      "manual_wape": 15.57,
+      "ml_wape": 23.59
+    },
+    {
+      "date": "2027-06-04",
+      "actual_volume": 182055,
+      "is_anomaly": false,
+      "manual_wape": 15.94,
+      "ml_wape": 22.57
+    },
+    {
+      "date": "2027-06-11",
+      "actual_volume": 164199,
+      "is_anomaly": false,
+      "manual_wape": 17.51,
+      "ml_wape": 20.58
+    },
+    {
+      "date": "2027-06-18",
+      "actual_volume": 229788,
+      "is_anomaly": false,
+      "manual_wape": 18.84,
+      "ml_wape": 25.29
+    },
+    {
+      "date": "2027-06-25",
+      "actual_volume": 181549,
+      "is_anomaly": false,
+      "manual_wape": 18.69,
+      "ml_wape": 22.88
+    },
+    {
+      "date": "2027-07-02",
+      "actual_volume": 179172,
+      "is_anomaly": false,
+      "manual_wape": 18.16,
+      "ml_wape": 24.73
+    },
+    {
+      "date": "2027-07-09",
+      "actual_volume": 178599,
+      "is_anomaly": false,
+      "manual_wape": 17.46,
+      "ml_wape": 18.53
+    },
+    {
+      "date": "2027-07-16",
+      "actual_volume": 186596,
+      "is_anomaly": false,
+      "manual_wape": 16.16,
+      "ml_wape": 21.84
+    },
+    {
+      "date": "2027-07-23",
+      "actual_volume": 192461,
+      "is_anomaly": false,
+      "manual_wape": 20.98,
+      "ml_wape": 18.22
+    },
+    {
+      "date": "2027-07-30",
+      "actual_volume": 177806,
+      "is_anomaly": false,
+      "manual_wape": 17.18,
+      "ml_wape": 22.04
+    },
+    {
+      "date": "2027-08-06",
+      "actual_volume": 198207,
+      "is_anomaly": false,
+      "manual_wape": 15.36,
+      "ml_wape": 13.26
+    },
+    {
+      "date": "2027-08-13",
+      "actual_volume": 208342,
+      "is_anomaly": false,
+      "manual_wape": 20.52,
+      "ml_wape": 16.53
+    },
+    {
+      "date": "2027-08-20",
+      "actual_volume": 182894,
+      "is_anomaly": false,
+      "manual_wape": 17.25,
+      "ml_wape": 21.63
+    },
+    {
+      "date": "2027-08-27",
+      "actual_volume": 189174,
+      "is_anomaly": false,
+      "manual_wape": 16.77,
+      "ml_wape": 26.25
+    },
+    {
+      "date": "2027-09-03",
+      "actual_volume": 207913,
+      "is_anomaly": false,
+      "manual_wape": 18.06,
+      "ml_wape": 20.14
+    },
+    {
+      "date": "2027-09-10",
+      "actual_volume": 197709,
+      "is_anomaly": false,
+      "manual_wape": 17.31,
+      "ml_wape": 23.59
+    },
+    {
+      "date": "2027-09-17",
+      "actual_volume": 198624,
+      "is_anomaly": false,
+      "manual_wape": 20.3,
+      "ml_wape": 17.95
+    },
+    {
+      "date": "2027-09-24",
+      "actual_volume": 183740,
+      "is_anomaly": false,
+      "manual_wape": 20.71,
+      "ml_wape": 21.87
+    },
+    {
+      "date": "2027-10-01",
+      "actual_volume": 209832,
+      "is_anomaly": false,
+      "manual_wape": 16.02,
+      "ml_wape": 20.9
+    },
+    {
+      "date": "2027-10-08",
+      "actual_volume": 174072,
+      "is_anomaly": false,
+      "manual_wape": 15.14,
+      "ml_wape": 24.16
+    },
+    {
+      "date": "2027-10-15",
+      "actual_volume": 198545,
+      "is_anomaly": false,
+      "manual_wape": 18.28,
+      "ml_wape": 26.18
+    },
+    {
+      "date": "2027-10-22",
+      "actual_volume": 174699,
+      "is_anomaly": false,
+      "manual_wape": 16.36,
+      "ml_wape": 16.61
+    },
+    {
+      "date": "2027-10-29",
+      "actual_volume": 189135,
+      "is_anomaly": false,
+      "manual_wape": 18.79,
+      "ml_wape": 16.85
+    },
+    {
+      "date": "2027-11-05",
+      "actual_volume": 198313,
+      "is_anomaly": false,
+      "manual_wape": 20.62,
+      "ml_wape": 20.85
+    },
+    {
+      "date": "2027-11-12",
+      "actual_volume": 177324,
+      "is_anomaly": false,
+      "manual_wape": 19.19,
+      "ml_wape": 22.85
+    },
+    {
+      "date": "2027-11-19",
+      "actual_volume": 128426,
+      "is_anomaly": true,
+      "manual_wape": 17.97,
+      "ml_wape": 22.73
+    },
+    {
+      "date": "2027-11-26",
+      "actual_volume": 183009,
+      "is_anomaly": false,
+      "manual_wape": 17.49,
+      "ml_wape": 22.52
+    },
+    {
+      "date": "2027-12-03",
+      "actual_volume": 161024,
+      "is_anomaly": false,
+      "manual_wape": 18.64,
+      "ml_wape": 21.43
+    },
+    {
+      "date": "2027-12-10",
+      "actual_volume": 157830,
+      "is_anomaly": false,
+      "manual_wape": 15.43,
+      "ml_wape": 22.75
+    },
+    {
+      "date": "2027-12-17",
+      "actual_volume": 199451,
+      "is_anomaly": false,
+      "manual_wape": 15.32,
+      "ml_wape": 27.51
+    },
+    {
+      "date": "2027-12-24",
+      "actual_volume": 194179,
+      "is_anomaly": false,
+      "manual_wape": 18.51,
+      "ml_wape": 28.94
+    },
+    {
+      "date": "2027-12-31",
+      "actual_volume": 174247,
+      "is_anomaly": false,
+      "manual_wape": 15.87,
+      "ml_wape": 20.39
+    },
+    {
+      "date": "2028-01-07",
+      "actual_volume": 190679,
+      "is_anomaly": false,
+      "manual_wape": 17.94,
+      "ml_wape": 23.1
+    },
+    {
+      "date": "2028-01-14",
+      "actual_volume": 172686,
+      "is_anomaly": false,
+      "manual_wape": 16.63,
+      "ml_wape": 18.92
+    },
+    {
+      "date": "2028-01-21",
+      "actual_volume": 193575,
+      "is_anomaly": false,
+      "manual_wape": 15.78,
+      "ml_wape": 23.55
+    },
+    {
+      "date": "2028-01-28",
+      "actual_volume": 202634,
+      "is_anomaly": false,
+      "manual_wape": 19.25,
+      "ml_wape": 20.2
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+--- final_v_1
+
++++ Dashboard_2
+
+@@ -120,8 +120,7 @@
+
+ .exec-summary-card h3{font-family:var(--serif);font-size:17px;color:var(--navy);margin:0 0 10px;display:flex;align-items:center;gap:9px;}
+ .exec-summary-card h3::before{content:'◆';color:var(--teal);font-size:13px;}
+ .exec-summary-card p{font-size:13.5px;color:var(--text);margin:0 0 8px;line-height:1.7;}
+-.nav-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:16px;}
+-@media(max-width:700px){.nav-cards{grid-template-columns:1fr;}}
++.nav-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:16px;}
+ .nav-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;cursor:pointer;transition:box-shadow .25s cubic-bezier(.22,.61,.36,1),transform .25s cubic-bezier(.22,.61,.36,1),border-color .25s ease;position:relative;overflow:hidden;}
+ .nav-card::after{content:'';position:absolute;inset:0;border-radius:14px;padding:1.5px;background:linear-gradient(135deg,var(--teal),transparent 60%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .25s ease;pointer-events:none;}
+ .nav-card:hover{box-shadow:0 14px 30px rgba(16,27,51,.1);transform:translateY(-4px);}
+@@ -226,8 +225,8 @@
+
+   <div class="rail">
+     <div class="rail-brand">
+       <div class="rail-mark">◆</div>
+-      <div class="rail-wordmark">Forecast Intelligence</div>
+-      <div class="rail-eyebrow">Enterprise Decision Platform</div>
++      <div class="rail-wordmark">EFDI</div>
++      <div class="rail-eyebrow">Forecast Decision<br>Intelligence Platform</div>
+     </div>
+     <div class="rail-nav">
+       <div class="rail-item active" data-page="exec"><span class="rail-icon">◆</span> Executive Overview</div>
+@@ -286,8 +285,8 @@
+
+     </div>
+     <div class="grid-2">
+       <div class="card">
+-        <h3>Weekly Accuracy Advantage — Manual vs. ML</h3>
+-        <div class="bq">Positive = Manual more accurate that week. Negative = ML more accurate. See Q1 for the full paired trend.</div>
++        <h3>Manual vs. ML — Weekly WAPE</h3>
++        <div class="bq">Did Machine Learning outperform the Manual Forecast?</div>
+         <canvas id="chart-exec-main"></canvas>
+       </div>
+       <div class="card">
+@@ -503,39 +502,6 @@
+
+       <div class="decision-support" id="q4-decision-support"></div>
+     </div>
+ 
+-    <h3 style="font-family:var(--serif);color:var(--navy);margin:22px 0 4px;">Deeper Signal — Does Everyone Degrade the Same Way?</h3>
+-    <div class="bq" style="margin-bottom:14px;">The aggregate ML view above blends 92 models together. Breaking it apart by method tells a sharper story.</div>
+-
+-    <div class="grid-2">
+-      <div class="card">
+-        <h4>Normal vs. Anomaly WAPE — Manual vs. Champion Model</h4>
+-        <div class="bq" style="margin-bottom:10px;">Comparing the incumbent (Manual) against the scored champion (V2_9_Prophet) specifically.</div>
+-        <canvas id="chart-q4-compare" style="max-height:240px;"></canvas>
+-      </div>
+-      <div class="card">
+-        <h4>Degradation Magnitude by Anomaly Week</h4>
+-        <div class="bq" style="margin-bottom:10px;">Same data as the table below, visualized: teal bars recovered, rust bars degraded.</div>
+-        <canvas id="chart-q4-degbar" style="max-height:240px;"></canvas>
+-      </div>
+-    </div>
+-
+-    <div class="rc-note" id="q4-insight-callout" style="margin-bottom:16px;"></div>
+-
+-    <h3 style="font-family:var(--serif);color:var(--navy);margin:22px 0 4px;">Statistical Test Detail</h3>
+-    <div class="table-wrap" style="margin-bottom:16px;">
+-      <table class="evidence-table">
+-        <thead><tr><th>Parameter</th><th class="num">Value</th></tr></thead>
+-        <tbody>
+-          <tr><td>Test</td><td class="num">Mann-Whitney U</td></tr>
+-          <tr><td>Comparison</td><td class="num">Anomaly weeks (n=3) vs. Normal weeks (n=96)</td></tr>
+-          <tr><td>Metric tested</td><td class="num">Weekly aggregate ML WAPE</td></tr>
+-          <tr><td>p-value</td><td class="num" id="q4-stat-p"></td></tr>
+-          <tr><td>Confidence tier</td><td class="num" id="q4-stat-conf"></td></tr>
+-          <tr><td>Why Low confidence</td><td class="num">Sample size (n=3 anomalies) falls well below any threshold for reliable inference</td></tr>
+-        </tbody>
+-      </table>
+-    </div>
+-
+     <h3 style="font-family:var(--serif);color:var(--navy);margin:22px 0 4px;">Degradation Detail — Anomaly Weeks vs. Normal-Period Baseline</h3>
+     <div class="bq" style="margin-bottom:12px;">Each anomaly week's ML WAPE compared against the 96-week normal-period baseline of 21.20%.</div>
+     <div class="table-wrap">

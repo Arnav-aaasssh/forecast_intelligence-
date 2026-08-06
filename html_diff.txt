@@ -1,0 +1,61 @@
+--- 
++++ 
+@@ -217,0 +218,23 @@
++/* Interactive quick-view chips (flat table) */
++.qv-chip{cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--text-2);transition:all .15s ease;user-select:none;}
++.qv-chip::before{display:none;}
++.qv-chip:hover{border-color:var(--navy);color:var(--navy);background:#fff;}
++.qv-chip.qv-active{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 2px 8px rgba(16,27,51,.25);}
++/* Explicit deep-dive: per-row Analyze trigger, revealed on row hover/active */
++.sa-analyze-cell{ text-align:right; white-space:nowrap; }
++.sa-analyze-btn{
++  opacity:0; transform:translateX(4px); pointer-events:none;
++  display:inline-flex; align-items:center; gap:5px;
++  font-family:var(--sans); font-size:11px; font-weight:600; color:#fff;
++  background:var(--navy); border:none; border-radius:5px; padding:5px 10px; cursor:pointer;
++  transition:opacity .18s ease, transform .18s ease, background-color .15s ease;
++}
++#sa-hierarchy-table tbody tr:hover .sa-analyze-btn,
++#sa-hierarchy-table tbody tr.row-active .sa-analyze-btn,
++.sa-analyze-btn:focus-visible{ opacity:1; transform:translateX(0); pointer-events:auto; }
++.sa-analyze-btn:hover{ background:var(--teal); }
++#sa-hierarchy-table tbody tr:hover{ background-color:var(--teal-soft); }
++/* Reset-to-Global control */
++#sa-reset-global{ display:none; align-items:center; gap:6px; padding:6px 12px; font-size:13px; font-weight:500; color:var(--navy); background:#fff; border:1px solid var(--line); border-radius:4px; cursor:pointer; transition:background-color .15s ease; }
++#sa-reset-global:hover{ background:var(--bg); }
++@media (prefers-reduced-motion: reduce){ .sa-analyze-btn, #sa-hierarchy-table tbody tr{ transition:none; } }
+@@ -812,0 +836 @@
++              <th style="text-align:right;"><span style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);">Actions</span></th>
+@@ -822 +846 @@
+-      <section id="sa-deep-dive-panel" class="deep-dive-hidden" aria-hidden="true" aria-live="polite">
++      <section id="sa-deep-dive-panel" class="deep-dive-visible" aria-hidden="false" aria-live="polite">
+@@ -827 +851 @@
+-                      <span id="sa-deep-dive-node-name">Select a node...</span>
++                      <span id="sa-deep-dive-node-name">Global Portfolio</span>
+@@ -832 +856 @@
+-                  <button id="sa-close-deep-dive" style="padding:6px 12px; font-size:13px; color:white; background:var(--navy); border:none; border-radius:4px; cursor:pointer;">✕ Close View</button>
++                  <button id="sa-reset-global" type="button" aria-label="Reset the deep dive back to the global portfolio"><span aria-hidden="true">↺</span> Reset to Global</button>
+@@ -870,2 +894,2 @@
+-              <h4 style="font-family:var(--sans); font-size:14px; font-weight:600; color:var(--navy);">Weekly Forecast Comparison: Actual vs Manual FC vs ML FC</h4>
+-              <div class="bq">Absolute volume comparison across the evaluation window.</div>
++              <h4 style="font-family:var(--sans); font-size:14px; font-weight:600; color:var(--navy);">Weekly Variance to Actual (Forecast &minus; Actual)</h4>
++              <div class="bq">Bars diverge from the zero baseline: above = over-forecast, below = under-forecast. Shorter bars = more accurate.</div>
+@@ -878,2 +902,2 @@
+-              <h4 style="font-family:var(--sans); font-size:14px; font-weight:600; color:var(--navy);">Cumulative Bias Drift</h4>
+-              <div class="bq">Tracking signal showing systematic over- or under-forecasting over time.</div>
++              <h4 style="font-family:var(--sans); font-size:14px; font-weight:600; color:var(--navy);">Net Directional Bias</h4>
++              <div class="bq">Net cumulative bias per model. Teal = over-forecast (excess capacity); rust = under-forecast (SLA / abandonment risk).</div>
+@@ -897,0 +922,6 @@
++      <div id="sa-flat-quick-views" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:4px 0 2px;">
++        <span style="font-family:var(--mono); font-size:10px; letter-spacing:.5px; text-transform:uppercase; color:var(--text-2); margin-right:2px;">Quick views:</span>
++        <button class="chip qv-chip" data-view="manualfail" onclick="applyQuickView('manualfail')">Top 10 Manual Failures</button>
++        <button class="chip qv-chip" data-view="volatility" onclick="applyQuickView('volatility')">Highest Volatility</button>
++        <button class="chip qv-chip" data-view="mlwins" onclick="applyQuickView('mlwins')">Where ML &gt; Manual</button>
++      </div>
+@@ -909,0 +940 @@
++            <th class="num" style="text-align:right;">Opportunity (Units)</th>
+@@ -1057,2 +1088,2 @@
+-<script src="data/report.js?v=20260727"></script>
+-<script src="js/dashboard2_app.js?v=13"></script>
++<script src="data/report.js"></script>
++<script src="js/dashboard2_app.js"></script>

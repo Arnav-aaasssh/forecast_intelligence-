@@ -1,0 +1,31 @@
+{
+  "Q1": {
+    "Manual_WAPE": null,
+    "ML_Combined_WAPE": 0.21110640622982452
+  },
+  "Q2": {
+    "Overall_Winner": "V2_9_Prophet",
+    "Overall_Composite": 75.31718763248107
+  },
+  "Q3": {
+    "Weekly_Mean": 188435.0303030303,
+    "Weekly_Std": 14299.373563026835,
+    "CV": 0.07588490070042396,
+    "Anomalies": {
+      "2026-12-25 00:00:00": -4.161163427248428,
+      "2027-01-01 00:00:00": -4.3701935632068665,
+      "2027-12-31 00:00:00": -4.666710049143226
+    }
+  },
+  "Q4": {
+    "Best_Normal_WAPE": 0.09510070201163909,
+    "Best_Anomaly_WAPE": 0.06607998747865676,
+    "Degradation_Ratio": 0.6948422680472898
+  },
+  "Performance": {
+    "Execution_Time_sec": 61.22170853614807,
+    "Memory_Peak_MB": 92.122536,
+    "Rows_Processed": 35640,
+    "Models_Processed": 92
+  }
+}

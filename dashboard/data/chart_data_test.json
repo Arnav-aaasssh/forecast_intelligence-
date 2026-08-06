@@ -1,0 +1,2186 @@
+{
+  "q1": {
+    "series": [
+      {
+        "week": "2026-03-13",
+        "manual_wape": 15.619279110332634,
+        "ml_wape": 11.166884494835113
+      },
+      {
+        "week": "2026-03-20",
+        "manual_wape": 16.61647193078278,
+        "ml_wape": 14.375473177354925
+      },
+      {
+        "week": "2026-03-27",
+        "manual_wape": 18.00001553168904,
+        "ml_wape": 15.640717827812622
+      },
+      {
+        "week": "2026-04-03",
+        "manual_wape": 19.769308674631482,
+        "ml_wape": 14.954558569750587
+      },
+      {
+        "week": "2026-04-10",
+        "manual_wape": 18.038497465746275,
+        "ml_wape": 17.198115461164782
+      },
+      {
+        "week": "2026-04-17",
+        "manual_wape": 15.974109646106216,
+        "ml_wape": 15.474618958366252
+      },
+      {
+        "week": "2026-04-24",
+        "manual_wape": 15.438766113142197,
+        "ml_wape": 16.85134341178886
+      },
+      {
+        "week": "2026-05-01",
+        "manual_wape": 17.972921383015734,
+        "ml_wape": 18.545621106005218
+      },
+      {
+        "week": "2026-05-08",
+        "manual_wape": 16.84348773444028,
+        "ml_wape": 18.809668868615713
+      },
+      {
+        "week": "2026-05-15",
+        "manual_wape": 15.55750920859173,
+        "ml_wape": 16.09738299105249
+      },
+      {
+        "week": "2026-05-22",
+        "manual_wape": 17.49140469028881,
+        "ml_wape": 16.84938688181016
+      },
+      {
+        "week": "2026-05-29",
+        "manual_wape": 19.131036759294844,
+        "ml_wape": 20.21946655600439
+      },
+      {
+        "week": "2026-06-05",
+        "manual_wape": 20.3011245990132,
+        "ml_wape": 21.17005130226708
+      },
+      {
+        "week": "2026-06-12",
+        "manual_wape": 12.912136583265218,
+        "ml_wape": 13.865540698436194
+      },
+      {
+        "week": "2026-06-19",
+        "manual_wape": 13.937222698117205,
+        "ml_wape": 16.02423201966828
+      },
+      {
+        "week": "2026-06-26",
+        "manual_wape": 14.43901287482252,
+        "ml_wape": 16.487996218649897
+      },
+      {
+        "week": "2026-07-03",
+        "manual_wape": 13.784659987536473,
+        "ml_wape": 16.54162225751789
+      },
+      {
+        "week": "2026-07-10",
+        "manual_wape": 14.784083550065985,
+        "ml_wape": 16.869063791565427
+      },
+      {
+        "week": "2026-07-17",
+        "manual_wape": 15.942947348370994,
+        "ml_wape": 17.029026862890106
+      },
+      {
+        "week": "2026-07-24",
+        "manual_wape": 15.300078307623338,
+        "ml_wape": 15.804778755243223
+      },
+      {
+        "week": "2026-07-31",
+        "manual_wape": 13.966281936861941,
+        "ml_wape": 15.01850931314698
+      },
+      {
+        "week": "2026-08-07",
+        "manual_wape": 14.05780144478623,
+        "ml_wape": 15.3986769371707
+      },
+      {
+        "week": "2026-08-14",
+        "manual_wape": 15.805155747321088,
+        "ml_wape": 18.58664071598972
+      },
+      {
+        "week": "2026-08-21",
+        "manual_wape": 15.41934977700173,
+        "ml_wape": 19.96755652295857
+      },
+      {
+        "week": "2026-08-28",
+        "manual_wape": 14.82156652598627,
+        "ml_wape": 18.300748571781934
+      },
+      {
+        "week": "2026-09-04",
+        "manual_wape": 13.715020235988678,
+        "ml_wape": 16.157418094987943
+      },
+      {
+        "week": "2026-09-11",
+        "manual_wape": 13.721744160705708,
+        "ml_wape": 15.131546887296302
+      },
+      {
+        "week": "2026-09-18",
+        "manual_wape": 14.806941429520437,
+        "ml_wape": 17.84483157610071
+      },
+      {
+        "week": "2026-09-25",
+        "manual_wape": 15.823847858376016,
+        "ml_wape": 19.781389938249184
+      },
+      {
+        "week": "2026-10-02",
+        "manual_wape": 13.542139520870453,
+        "ml_wape": 19.967908938057004
+      },
+      {
+        "week": "2026-10-09",
+        "manual_wape": 12.662433003822592,
+        "ml_wape": 24.544660061698714
+      },
+      {
+        "week": "2026-10-16",
+        "manual_wape": 14.84485074782873,
+        "ml_wape": 27.352707970874874
+      },
+      {
+        "week": "2026-10-23",
+        "manual_wape": 15.392463553088259,
+        "ml_wape": 23.421153972994237
+      },
+      {
+        "week": "2026-10-30",
+        "manual_wape": 14.438685141456704,
+        "ml_wape": 26.44259301406695
+      },
+      {
+        "week": "2026-11-06",
+        "manual_wape": 15.133944546709827,
+        "ml_wape": 21.849670387374907
+      },
+      {
+        "week": "2026-11-13",
+        "manual_wape": 15.293715211857542,
+        "ml_wape": 22.442122265501176
+      },
+      {
+        "week": "2026-11-20",
+        "manual_wape": 13.63327690190889,
+        "ml_wape": 21.3343710384955
+      },
+      {
+        "week": "2026-11-27",
+        "manual_wape": 15.038587635693132,
+        "ml_wape": 25.079571141208255
+      },
+      {
+        "week": "2026-12-04",
+        "manual_wape": 14.131877266938242,
+        "ml_wape": 21.534365140180242
+      },
+      {
+        "week": "2026-12-11",
+        "manual_wape": 15.221302713360446,
+        "ml_wape": 17.956536137671282
+      },
+      {
+        "week": "2026-12-18",
+        "manual_wape": 13.581278777465055,
+        "ml_wape": 21.845708240395155
+      },
+      {
+        "week": "2026-12-25",
+        "manual_wape": 17.248419637659904,
+        "ml_wape": 29.667053489797024
+      },
+      {
+        "week": "2027-01-01",
+        "manual_wape": 16.09284100911222,
+        "ml_wape": 22.778879028774693
+      },
+      {
+        "week": "2027-01-08",
+        "manual_wape": 14.794334500171175,
+        "ml_wape": 21.072198319230896
+      },
+      {
+        "week": "2027-01-15",
+        "manual_wape": 14.657502457189153,
+        "ml_wape": 19.20534889036158
+      },
+      {
+        "week": "2027-01-22",
+        "manual_wape": 15.537437354449043,
+        "ml_wape": 19.93906279749501
+      },
+      {
+        "week": "2027-01-29",
+        "manual_wape": 14.991690156406001,
+        "ml_wape": 25.08915119558784
+      },
+      {
+        "week": "2027-02-05",
+        "manual_wape": 13.117291303446052,
+        "ml_wape": 22.967767234939636
+      },
+      {
+        "week": "2027-02-12",
+        "manual_wape": 12.13186066040849,
+        "ml_wape": 22.6906664226174
+      },
+      {
+        "week": "2027-02-19",
+        "manual_wape": 15.02455975259831,
+        "ml_wape": 27.636039785955884
+      },
+      {
+        "week": "2027-02-26",
+        "manual_wape": 14.199410291986009,
+        "ml_wape": 23.999295815110155
+      },
+      {
+        "week": "2027-03-05",
+        "manual_wape": 14.128529326615974,
+        "ml_wape": 23.15198957482054
+      },
+      {
+        "week": "2027-03-12",
+        "manual_wape": 14.183656500018275,
+        "ml_wape": 23.05240682005101
+      },
+      {
+        "week": "2027-03-19",
+        "manual_wape": 15.716770646523,
+        "ml_wape": 21.361491087436463
+      },
+      {
+        "week": "2027-03-26",
+        "manual_wape": 13.546273243508592,
+        "ml_wape": 25.524796673078676
+      },
+      {
+        "week": "2027-04-02",
+        "manual_wape": 14.288865004435703,
+        "ml_wape": 27.502552097004607
+      },
+      {
+        "week": "2027-04-09",
+        "manual_wape": 13.641107735107466,
+        "ml_wape": 24.529830689588458
+      },
+      {
+        "week": "2027-04-16",
+        "manual_wape": 14.864747426994168,
+        "ml_wape": 23.22708232412886
+      },
+      {
+        "week": "2027-04-23",
+        "manual_wape": 15.35185773709052,
+        "ml_wape": 23.965140379252947
+      },
+      {
+        "week": "2027-04-30",
+        "manual_wape": 14.930481176290153,
+        "ml_wape": 26.615986826619668
+      },
+      {
+        "week": "2027-05-07",
+        "manual_wape": 15.32027073059118,
+        "ml_wape": 26.72784122226737
+      },
+      {
+        "week": "2027-05-14",
+        "manual_wape": 15.122090896085712,
+        "ml_wape": 23.293138840374684
+      },
+      {
+        "week": "2027-05-21",
+        "manual_wape": 13.725507755874746,
+        "ml_wape": 25.91900463033886
+      },
+      {
+        "week": "2027-05-28",
+        "manual_wape": 13.961113012146525,
+        "ml_wape": 28.58563888203129
+      },
+      {
+        "week": "2027-06-04",
+        "manual_wape": 14.312688362123252,
+        "ml_wape": 25.50882403606615
+      },
+      {
+        "week": "2027-06-11",
+        "manual_wape": 12.261490813587436,
+        "ml_wape": 23.855021674831566
+      },
+      {
+        "week": "2027-06-18",
+        "manual_wape": 14.476025535069926,
+        "ml_wape": 27.0252123813766
+      },
+      {
+        "week": "2027-06-25",
+        "manual_wape": 13.303687017547672,
+        "ml_wape": 25.696236298794002
+      },
+      {
+        "week": "2027-07-02",
+        "manual_wape": 14.095260706851983,
+        "ml_wape": 29.02904865468911
+      },
+      {
+        "week": "2027-07-09",
+        "manual_wape": 13.439871363109306,
+        "ml_wape": 26.360926901125698
+      },
+      {
+        "week": "2027-07-16",
+        "manual_wape": 13.288274426552416,
+        "ml_wape": 26.214820271801827
+      },
+      {
+        "week": "2027-07-23",
+        "manual_wape": 13.88094013426472,
+        "ml_wape": 26.139279528950766
+      },
+      {
+        "week": "2027-07-30",
+        "manual_wape": 13.776407597792259,
+        "ml_wape": 29.266428970775095
+      },
+      {
+        "week": "2027-08-06",
+        "manual_wape": 14.20138104874927,
+        "ml_wape": 27.10498199310877
+      },
+      {
+        "week": "2027-08-13",
+        "manual_wape": 16.38386585442023,
+        "ml_wape": 30.1416375500334
+      },
+      {
+        "week": "2027-08-20",
+        "manual_wape": 12.52023547570767,
+        "ml_wape": 27.646634153162918
+      },
+      {
+        "week": "2027-08-27",
+        "manual_wape": 13.610463939074293,
+        "ml_wape": 26.27207019535554
+      },
+      {
+        "week": "2027-09-03",
+        "manual_wape": 13.26032006753115,
+        "ml_wape": 27.544383692843116
+      },
+      {
+        "week": "2027-09-10",
+        "manual_wape": 12.726471048085847,
+        "ml_wape": 29.933922771036386
+      },
+      {
+        "week": "2027-09-17",
+        "manual_wape": 14.230428075419798,
+        "ml_wape": 32.24769396675612
+      },
+      {
+        "week": "2027-09-24",
+        "manual_wape": 14.641639144887868,
+        "ml_wape": 34.635304380195855
+      },
+      {
+        "week": "2027-10-01",
+        "manual_wape": 14.519392912806978,
+        "ml_wape": 36.13369917292608
+      },
+      {
+        "week": "2027-10-08",
+        "manual_wape": 13.99694091195179,
+        "ml_wape": 37.78080172952373
+      },
+      {
+        "week": "2027-10-15",
+        "manual_wape": 13.938990982026633,
+        "ml_wape": 41.21754098705501
+      },
+      {
+        "week": "2027-10-22",
+        "manual_wape": 14.979332349686858,
+        "ml_wape": 35.3287786255173
+      },
+      {
+        "week": "2027-10-29",
+        "manual_wape": 14.696301316173127,
+        "ml_wape": 44.720553702386816
+      },
+      {
+        "week": "2027-11-05",
+        "manual_wape": 35.748398958894064,
+        "ml_wape": 8.836000305855553
+      },
+      {
+        "week": "2027-11-12",
+        "manual_wape": 36.28807195147157,
+        "ml_wape": 9.306356492795146
+      },
+      {
+        "week": "2027-11-19",
+        "manual_wape": 36.30972078937907,
+        "ml_wape": 8.978768333515132
+      },
+      {
+        "week": "2027-11-26",
+        "manual_wape": 38.03909400243527,
+        "ml_wape": 7.640336265073949
+      },
+      {
+        "week": "2027-12-03",
+        "manual_wape": 37.660823931298644,
+        "ml_wape": 7.441354403259039
+      },
+      {
+        "week": "2027-12-10",
+        "manual_wape": 36.37486693668413,
+        "ml_wape": 9.173442470216605
+      },
+      {
+        "week": "2027-12-17",
+        "manual_wape": 38.511978777531624,
+        "ml_wape": 7.032606630396724
+      },
+      {
+        "week": "2027-12-24",
+        "manual_wape": 44.94051453046591,
+        "ml_wape": 7.273930040146332
+      },
+      {
+        "week": "2027-12-31",
+        "manual_wape": 47.10042897207414,
+        "ml_wape": 12.765517736475385
+      },
+      {
+        "week": "2028-01-07",
+        "manual_wape": 39.671196575991914,
+        "ml_wape": 7.8416978866684275
+      },
+      {
+        "week": "2028-01-14",
+        "manual_wape": 39.32560735482329,
+        "ml_wape": 8.424670762995714
+      },
+      {
+        "week": "2028-01-21",
+        "manual_wape": 37.80712234186785,
+        "ml_wape": 9.34269252444695
+      },
+      {
+        "week": "2028-01-28",
+        "manual_wape": 41.90698070290505,
+        "ml_wape": 7.7465695409993245
+      }
+    ]
+  },
+  "q2": {
+    "scatter": [
+      {
+        "Model": "V2_0_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 17.932009349517653,
+        "Hit10": 27.27272727272727,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_0_LR",
+        "Family": "LR_LA_group",
+        "WAPE": 50.014556883876374,
+        "Hit10": 23.56902356902357,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_0_LR_With_VIF",
+        "Family": "LR_LA_group",
+        "WAPE": 30.217414901095612,
+        "Hit10": 20.53872053872054,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_0_Prophet",
+        "Family": "Prophet",
+        "WAPE": 41.72363030727767,
+        "Hit10": 26.430976430976433,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_10_Prophet",
+        "Family": "Prophet",
+        "WAPE": 23.57003052954524,
+        "Hit10": 37.878787878787875,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_11_Prophet",
+        "Family": "Prophet",
+        "WAPE": 14.850292504256748,
+        "Hit10": 38.38383838383838,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_12_Prophet",
+        "Family": "Prophet",
+        "WAPE": 206.7609832376139,
+        "Hit10": 0.0,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_13_Prophet",
+        "Family": "Prophet",
+        "WAPE": 19.718690941864786,
+        "Hit10": 38.38383838383838,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_16_Prophet",
+        "Family": "Prophet",
+        "WAPE": 57.438379403121345,
+        "Hit10": 24.242424242424242,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_1_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 31.6234792847852,
+        "Hit10": 19.393939393939394,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_22_Prophet",
+        "Family": "Prophet",
+        "WAPE": 17.331874224446032,
+        "Hit10": 42.42424242424242,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_23_Prophet",
+        "Family": "Prophet",
+        "WAPE": 24.734891595099054,
+        "Hit10": 28.28282828282828,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_24_Prophet",
+        "Family": "Prophet",
+        "WAPE": 25.308237818075458,
+        "Hit10": 32.323232323232325,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_28_Prophet",
+        "Family": "Prophet",
+        "WAPE": 18.286541362518445,
+        "Hit10": 32.323232323232325,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_29_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.828738781838315,
+        "Hit10": 37.37373737373738,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_2_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 11.573723666778795,
+        "Hit10": 60.60606060606061,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_32_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.673853889344795,
+        "Hit10": 45.45454545454545,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_35_Prophet",
+        "Family": "Prophet",
+        "WAPE": 53.75336863217007,
+        "Hit10": 19.19191919191919,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_37_Prophet",
+        "Family": "Prophet",
+        "WAPE": 9.504197773571919,
+        "Hit10": 49.158249158249156,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_38_Prophet",
+        "Family": "Prophet",
+        "WAPE": 11.053811905174827,
+        "Hit10": 43.93939393939394,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_3_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 35.71728398489583,
+        "Hit10": 27.27272727272727,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_3_Prophet",
+        "Family": "Prophet",
+        "WAPE": 35.682562272544246,
+        "Hit10": 26.262626262626267,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_40_Prophet",
+        "Family": "Prophet",
+        "WAPE": 13.755055174587,
+        "Hit10": 40.909090909090914,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_43_Prophet",
+        "Family": "Prophet",
+        "WAPE": 18.840280375961264,
+        "Hit10": 35.35353535353536,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_44_Prophet",
+        "Family": "Prophet",
+        "WAPE": 22.921343805812132,
+        "Hit10": 26.767676767676768,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_46_Prophet",
+        "Family": "Prophet",
+        "WAPE": 23.546741366657436,
+        "Hit10": 27.27272727272727,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_47_Prophet",
+        "Family": "Prophet",
+        "WAPE": 17.800793271263533,
+        "Hit10": 37.71043771043771,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_4_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 43.66532128605405,
+        "Hit10": 20.77922077922078,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_4_Prophet",
+        "Family": "Prophet",
+        "WAPE": 11.808388064448629,
+        "Hit10": 54.54545454545454,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_6_Prophet",
+        "Family": "Prophet",
+        "WAPE": 17.925701549548098,
+        "Hit10": 25.925925925925924,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V2_9_Prophet",
+        "Family": "Prophet",
+        "WAPE": 9.47164419005991,
+        "Hit10": 65.65656565656566,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_0_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 18.430314095006743,
+        "Hit10": 25.252525252525253,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_0_LR",
+        "Family": "LR_LA_group",
+        "WAPE": 42.33930176089103,
+        "Hit10": 23.83838383838384,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_0_LR_With_VIF",
+        "Family": "LR_LA_group",
+        "WAPE": 12.154985182907357,
+        "Hit10": 47.474747474747474,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_0_Prophet",
+        "Family": "Prophet",
+        "WAPE": 21.180145854944076,
+        "Hit10": 30.072150072150073,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_0_XGB",
+        "Family": "XGB_group",
+        "WAPE": 16.05761499674691,
+        "Hit10": 33.33333333333333,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_10_Prophet",
+        "Family": "Prophet",
+        "WAPE": 19.080630131529453,
+        "Hit10": 33.18903318903319,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_10_XGB",
+        "Family": "XGB_group",
+        "WAPE": 30.099583752345215,
+        "Hit10": 22.22222222222222,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_11_Prophet",
+        "Family": "Prophet",
+        "WAPE": 18.674275329664628,
+        "Hit10": 39.39393939393939,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_12_Prophet",
+        "Family": "Prophet",
+        "WAPE": 20.58031236671858,
+        "Hit10": 30.808080808080806,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_13_Prophet",
+        "Family": "Prophet",
+        "WAPE": 29.37468633429817,
+        "Hit10": 24.646464646464647,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_14_Prophet",
+        "Family": "Prophet",
+        "WAPE": 30.891110144927538,
+        "Hit10": 17.17171717171717,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_15_Prophet",
+        "Family": "Prophet",
+        "WAPE": 13.78860993212408,
+        "Hit10": 42.592592592592595,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_16_Prophet",
+        "Family": "Prophet",
+        "WAPE": 22.442080442653587,
+        "Hit10": 27.27272727272727,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_17_Prophet",
+        "Family": "Prophet",
+        "WAPE": 23.337168397408995,
+        "Hit10": 25.252525252525253,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_18_Prophet",
+        "Family": "Prophet",
+        "WAPE": 26.95801537860436,
+        "Hit10": 26.767676767676768,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_19_Prophet",
+        "Family": "Prophet",
+        "WAPE": 18.31225132603109,
+        "Hit10": 35.52188552188552,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_1_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 18.164904459539173,
+        "Hit10": 38.63636363636363,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_1_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.873743174444124,
+        "Hit10": 31.313131313131315,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_20_Prophet",
+        "Family": "Prophet",
+        "WAPE": 14.543322976791176,
+        "Hit10": 32.996632996633,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_21_Prophet",
+        "Family": "Prophet",
+        "WAPE": 35.667737953980975,
+        "Hit10": 19.19191919191919,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_22_Prophet",
+        "Family": "Prophet",
+        "WAPE": 14.45832755035629,
+        "Hit10": 44.94949494949495,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_23_Prophet",
+        "Family": "Prophet",
+        "WAPE": 24.779861634182907,
+        "Hit10": 25.925925925925924,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_24_Prophet",
+        "Family": "Prophet",
+        "WAPE": 28.22874319131162,
+        "Hit10": 21.21212121212121,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_25_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.605731916356872,
+        "Hit10": 35.858585858585855,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_27_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.369202393811124,
+        "Hit10": 35.35353535353536,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_28_Prophet",
+        "Family": "Prophet",
+        "WAPE": 29.112474073940664,
+        "Hit10": 27.104377104377104,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_2_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 27.234271720932522,
+        "Hit10": 26.36363636363636,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_30_Prophet",
+        "Family": "Prophet",
+        "WAPE": 28.705500472284374,
+        "Hit10": 22.22222222222222,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_31_Prophet",
+        "Family": "Prophet",
+        "WAPE": 22.744248468848998,
+        "Hit10": 26.262626262626267,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_32_Prophet",
+        "Family": "Prophet",
+        "WAPE": 17.863550407356865,
+        "Hit10": 34.34343434343434,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_33_Prophet",
+        "Family": "Prophet",
+        "WAPE": 10.344205819519031,
+        "Hit10": 58.58585858585859,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_34_Prophet",
+        "Family": "Prophet",
+        "WAPE": 22.353841293848735,
+        "Hit10": 30.707070707070706,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_35_Prophet",
+        "Family": "Prophet",
+        "WAPE": 21.785166904049888,
+        "Hit10": 48.98989898989899,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_37_Prophet",
+        "Family": "Prophet",
+        "WAPE": 16.872500711503665,
+        "Hit10": 41.91919191919192,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_38_Prophet",
+        "Family": "Prophet",
+        "WAPE": 13.01852173731825,
+        "Hit10": 44.78114478114478,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_3_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 12.454487404049784,
+        "Hit10": 41.41414141414141,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_3_Prophet",
+        "Family": "Prophet",
+        "WAPE": 31.679224525705717,
+        "Hit10": 32.51748251748251,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_3_XGB",
+        "Family": "XGB_group",
+        "WAPE": 60.39105207680251,
+        "Hit10": 12.121212121212121,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_40_Prophet",
+        "Family": "Prophet",
+        "WAPE": 19.211429605076237,
+        "Hit10": 37.878787878787875,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_43_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.492231215013753,
+        "Hit10": 35.01683501683502,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_44_Prophet",
+        "Family": "Prophet",
+        "WAPE": 13.775263138069379,
+        "Hit10": 33.83838383838384,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_46_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.914875150930479,
+        "Hit10": 36.868686868686865,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_47_Prophet",
+        "Family": "Prophet",
+        "WAPE": 53.67585778722089,
+        "Hit10": 31.060606060606062,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_48_Prophet",
+        "Family": "Prophet",
+        "WAPE": 15.748554175798372,
+        "Hit10": 45.45454545454545,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_4_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 26.684021323849688,
+        "Hit10": 21.085858585858585,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_4_Prophet",
+        "Family": "Prophet",
+        "WAPE": 18.542947625409127,
+        "Hit10": 32.88439955106622,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_6_Prophet",
+        "Family": "Prophet",
+        "WAPE": 17.15009553941293,
+        "Hit10": 37.14927048260381,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_7_Prophet",
+        "Family": "Prophet",
+        "WAPE": 20.33421735482982,
+        "Hit10": 24.675324675324674,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_8_Prophet",
+        "Family": "Prophet",
+        "WAPE": 16.001995232548218,
+        "Hit10": 42.76094276094276,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_9_Prophet",
+        "Family": "Prophet",
+        "WAPE": 16.577549169405703,
+        "Hit10": 35.52188552188552,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V3_9_XGB",
+        "Family": "XGB_group",
+        "WAPE": 58.752179012163666,
+        "Hit10": 12.626262626262626,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_0_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 51.20246513213981,
+        "Hit10": 20.2020202020202,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_0_LR",
+        "Family": "LR_LA_group",
+        "WAPE": 219.57377478130996,
+        "Hit10": 4.040404040404041,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_0_LR_With_VIF",
+        "Family": "LR_LA_group",
+        "WAPE": 25.031171128974083,
+        "Hit10": 26.936026936026934,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_10_XGB",
+        "Family": "XGB_group",
+        "WAPE": 34.51811216347714,
+        "Hit10": 24.242424242424242,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_11_XGB",
+        "Family": "XGB_group",
+        "WAPE": 26.65164569343066,
+        "Hit10": 28.28282828282828,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_15_XGB",
+        "Family": "XGB_group",
+        "WAPE": 37.477688380041016,
+        "Hit10": 16.161616161616163,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_1_XGB",
+        "Family": "XGB_group",
+        "WAPE": 41.35998264818355,
+        "Hit10": 20.2020202020202,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_2_ARIMA",
+        "Family": "ARIMA",
+        "WAPE": 30.363268004941318,
+        "Hit10": 14.14141414141414,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_6_XGB",
+        "Family": "XGB_group",
+        "WAPE": 61.32586336436171,
+        "Hit10": 18.181818181818183,
+        "CompositeScore": 0.0
+      },
+      {
+        "Model": "V4_9_XGB",
+        "Family": "XGB_group",
+        "WAPE": 49.197255220800656,
+        "Hit10": 20.2020202020202,
+        "CompositeScore": 0.0
+      }
+    ],
+    "boxplot": [
+      {
+        "family": "ARIMA",
+        "min": 11.573723666778795,
+        "q1": 18.106680682033794,
+        "median": 26.959146522391105,
+        "q3": 32.64693045981286,
+        "max": 51.20246513213981,
+        "n": 12
+      },
+      {
+        "family": "LR_LA_group",
+        "min": 12.154985182907357,
+        "q1": 26.327732072004466,
+        "median": 36.27835833099332,
+        "q3": 48.09574310313004,
+        "max": 219.57377478130996,
+        "n": 6
+      },
+      {
+        "family": "Prophet",
+        "min": 9.47164419005991,
+        "q1": 15.729879104184977,
+        "median": 18.757277852812948,
+        "q3": 24.746134104870016,
+        "max": 206.7609832376139,
+        "n": 64
+      },
+      {
+        "family": "XGB_group",
+        "min": 16.05761499674691,
+        "q1": 31.204215855128197,
+        "median": 39.41883551411229,
+        "q3": 56.36344806432291,
+        "max": 61.32586336436171,
+        "n": 10
+      }
+    ]
+  },
+  "q3": {
+    "series": [
+      {
+        "week": "2026-03-13",
+        "volume": 209298,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-03-20",
+        "volume": 203276,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-03-27",
+        "volume": 204080,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-03",
+        "volume": 189002,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-10",
+        "volume": 182386,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-17",
+        "volume": 202528,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-24",
+        "volume": 204532,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-01",
+        "volume": 185189,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-08",
+        "volume": 184261,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-15",
+        "volume": 207432,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-22",
+        "volume": 208512,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-29",
+        "volume": 190369,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-05",
+        "volume": 195582,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-12",
+        "volume": 199961,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-19",
+        "volume": 190764,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-26",
+        "volume": 201674,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-03",
+        "volume": 192973,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-10",
+        "volume": 202903,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-17",
+        "volume": 202830,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-24",
+        "volume": 210033,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-31",
+        "volume": 207599,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-07",
+        "volume": 201944,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-14",
+        "volume": 194081,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-21",
+        "volume": 199664,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-28",
+        "volume": 202140,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-04",
+        "volume": 209395,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-11",
+        "volume": 204838,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-18",
+        "volume": 201529,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-25",
+        "volume": 200969,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-02",
+        "volume": 181102,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-09",
+        "volume": 185093,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-16",
+        "volume": 197218,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-23",
+        "volume": 186849,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-30",
+        "volume": 189309,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-06",
+        "volume": 192759,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-13",
+        "volume": 186131,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-20",
+        "volume": 190256,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-27",
+        "volume": 179862,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-04",
+        "volume": 195962,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-11",
+        "volume": 192226,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-18",
+        "volume": 180586,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-25",
+        "volume": 128933,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-01",
+        "volume": 125944,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-08",
+        "volume": 182238,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-15",
+        "volume": 185601,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-22",
+        "volume": 184751,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-29",
+        "volume": 185850,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-05",
+        "volume": 191164,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-12",
+        "volume": 184389,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-19",
+        "volume": 192764,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-26",
+        "volume": 196636,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-05",
+        "volume": 190155,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-12",
+        "volume": 192110,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-19",
+        "volume": 194770,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-26",
+        "volume": 186629,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-02",
+        "volume": 175703,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-09",
+        "volume": 180905,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-16",
+        "volume": 182520,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-23",
+        "volume": 186841,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-30",
+        "volume": 175885,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-07",
+        "volume": 184575,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-14",
+        "volume": 192269,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-21",
+        "volume": 185386,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-28",
+        "volume": 179039,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-04",
+        "volume": 186657,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-11",
+        "volume": 184938,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-18",
+        "volume": 184091,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-25",
+        "volume": 195439,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-02",
+        "volume": 184790,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-09",
+        "volume": 190282,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-16",
+        "volume": 197644,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-23",
+        "volume": 192931,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-30",
+        "volume": 195963,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-06",
+        "volume": 190677,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-13",
+        "volume": 181129,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-20",
+        "volume": 189145,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-27",
+        "volume": 191497,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-03",
+        "volume": 193087,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-10",
+        "volume": 185916,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-17",
+        "volume": 194141,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-24",
+        "volume": 186567,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-01",
+        "volume": 180395,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-08",
+        "volume": 178951,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-15",
+        "volume": 179220,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-22",
+        "volume": 181712,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-29",
+        "volume": 174374,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-05",
+        "volume": 189632,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-12",
+        "volume": 189872,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-19",
+        "volume": 192519,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-26",
+        "volume": 175800,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-03",
+        "volume": 191222,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-10",
+        "volume": 181393,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-17",
+        "volume": 185645,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-24",
+        "volume": 179593,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-31",
+        "volume": 121704,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-07",
+        "volume": 174038,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-14",
+        "volume": 179136,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-21",
+        "volume": 181311,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-28",
+        "volume": 181503,
+        "is_anomaly": false
+      }
+    ],
+    "anomaly_cards": []
+  },
+  "q4": {
+    "series": [
+      {
+        "week": "2026-03-13",
+        "wape": 11.166884494835113,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-03-20",
+        "wape": 14.375473177354925,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-03-27",
+        "wape": 15.640717827812622,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-03",
+        "wape": 14.954558569750587,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-10",
+        "wape": 17.198115461164782,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-17",
+        "wape": 15.474618958366252,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-04-24",
+        "wape": 16.85134341178886,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-01",
+        "wape": 18.545621106005218,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-08",
+        "wape": 18.809668868615713,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-15",
+        "wape": 16.09738299105249,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-22",
+        "wape": 16.84938688181016,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-05-29",
+        "wape": 20.21946655600439,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-05",
+        "wape": 21.17005130226708,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-12",
+        "wape": 13.865540698436194,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-19",
+        "wape": 16.02423201966828,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-06-26",
+        "wape": 16.487996218649897,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-03",
+        "wape": 16.54162225751789,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-10",
+        "wape": 16.869063791565427,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-17",
+        "wape": 17.029026862890106,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-24",
+        "wape": 15.804778755243223,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-07-31",
+        "wape": 15.01850931314698,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-07",
+        "wape": 15.3986769371707,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-14",
+        "wape": 18.58664071598972,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-21",
+        "wape": 19.96755652295857,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-08-28",
+        "wape": 18.300748571781934,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-04",
+        "wape": 16.157418094987943,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-11",
+        "wape": 15.131546887296302,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-18",
+        "wape": 17.84483157610071,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-09-25",
+        "wape": 19.781389938249184,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-02",
+        "wape": 19.967908938057004,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-09",
+        "wape": 24.544660061698714,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-16",
+        "wape": 27.352707970874874,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-23",
+        "wape": 23.421153972994237,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-10-30",
+        "wape": 26.44259301406695,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-06",
+        "wape": 21.849670387374907,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-13",
+        "wape": 22.442122265501176,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-20",
+        "wape": 21.3343710384955,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-11-27",
+        "wape": 25.079571141208255,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-04",
+        "wape": 21.534365140180242,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-11",
+        "wape": 17.956536137671282,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-18",
+        "wape": 21.845708240395155,
+        "is_anomaly": false
+      },
+      {
+        "week": "2026-12-25",
+        "wape": 29.667053489797024,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-01",
+        "wape": 22.778879028774693,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-08",
+        "wape": 21.072198319230896,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-15",
+        "wape": 19.20534889036158,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-22",
+        "wape": 19.93906279749501,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-01-29",
+        "wape": 25.08915119558784,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-05",
+        "wape": 22.967767234939636,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-12",
+        "wape": 22.6906664226174,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-19",
+        "wape": 27.636039785955884,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-02-26",
+        "wape": 23.999295815110155,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-05",
+        "wape": 23.15198957482054,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-12",
+        "wape": 23.05240682005101,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-19",
+        "wape": 21.361491087436463,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-03-26",
+        "wape": 25.524796673078676,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-02",
+        "wape": 27.502552097004607,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-09",
+        "wape": 24.529830689588458,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-16",
+        "wape": 23.22708232412886,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-23",
+        "wape": 23.965140379252947,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-04-30",
+        "wape": 26.615986826619668,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-07",
+        "wape": 26.72784122226737,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-14",
+        "wape": 23.293138840374684,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-21",
+        "wape": 25.91900463033886,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-05-28",
+        "wape": 28.58563888203129,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-04",
+        "wape": 25.50882403606615,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-11",
+        "wape": 23.855021674831566,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-18",
+        "wape": 27.0252123813766,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-06-25",
+        "wape": 25.696236298794002,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-02",
+        "wape": 29.02904865468911,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-09",
+        "wape": 26.360926901125698,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-16",
+        "wape": 26.214820271801827,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-23",
+        "wape": 26.139279528950766,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-07-30",
+        "wape": 29.266428970775095,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-06",
+        "wape": 27.10498199310877,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-13",
+        "wape": 30.1416375500334,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-20",
+        "wape": 27.646634153162918,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-08-27",
+        "wape": 26.27207019535554,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-03",
+        "wape": 27.544383692843116,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-10",
+        "wape": 29.933922771036386,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-17",
+        "wape": 32.24769396675612,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-09-24",
+        "wape": 34.635304380195855,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-01",
+        "wape": 36.13369917292608,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-08",
+        "wape": 37.78080172952373,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-15",
+        "wape": 41.21754098705501,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-22",
+        "wape": 35.3287786255173,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-10-29",
+        "wape": 44.720553702386816,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-05",
+        "wape": 8.836000305855553,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-12",
+        "wape": 9.306356492795146,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-19",
+        "wape": 8.978768333515132,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-11-26",
+        "wape": 7.640336265073949,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-03",
+        "wape": 7.441354403259039,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-10",
+        "wape": 9.173442470216605,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-17",
+        "wape": 7.032606630396724,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-24",
+        "wape": 7.273930040146332,
+        "is_anomaly": false
+      },
+      {
+        "week": "2027-12-31",
+        "wape": 12.765517736475385,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-07",
+        "wape": 7.8416978866684275,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-14",
+        "wape": 8.424670762995714,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-21",
+        "wape": 9.34269252444695,
+        "is_anomaly": false
+      },
+      {
+        "week": "2028-01-28",
+        "wape": 7.7465695409993245,
+        "is_anomaly": false
+      }
+    ]
+  }
+}

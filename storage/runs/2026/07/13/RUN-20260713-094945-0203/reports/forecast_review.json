@@ -1,0 +1,48 @@
+{
+    "metadata": {
+        "schema_version": "1.0",
+        "application_version": "0.9.0",
+        "generated_at": "2026-07-13T09:51:00.918514+00:00",
+        "generated_by": "Forecast Review System",
+        "environment": "development"
+    },
+    "pipeline": {
+        "execution_id": "RUN-20260713-094945-0203",
+        "status": "SUCCESS",
+        "execution_time_seconds": 1.5043,
+        "total_execution_duration": 75.338286,
+        "rows_processed": 35640,
+        "modules_executed": [
+            "validation",
+            "performance",
+            "comparison",
+            "drift",
+            "risk",
+            "insights",
+            "recommendations"
+        ],
+        "failed_module": null
+    },
+    "validation": {
+        "status": "SUCCESS",
+        "warnings": 0,
+        "errors": 0
+    },
+    "performance": {},
+    "comparison": {},
+    "risk": {},
+    "insights": {},
+    "recommendations": {
+        "summary": {},
+        "actions": []
+    },
+    "artifacts": {
+        "directory": "D:\\project_1 imp docs\\Forecast review\\storage\\runs\\2026\\07\\13\\RUN-20260713-094945-0203\\reports",
+        "html": "forecast_review.html",
+        "json": "forecast_review.json",
+        "executive_summary": "executive_summary.md",
+        "manager_summary": "manager_summary.md",
+        "email_summary": "email_summary.md",
+        "teams_summary": "teams_summary.md"
+    }
+}

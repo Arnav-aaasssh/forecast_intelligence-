@@ -1,0 +1,9 @@
+{
+    "APP_VERSION": "0.9.0",
+    "APP_ENVIRONMENT": "development",
+    "PRIMARY_PROVIDER": "gemini",
+    "SECONDARY_PROVIDER": "company",
+    "GEMINI_MODEL": "gemini-3.5-flash",
+    "COMPANY_MODEL": "llama3.1:8b",
+    "MAX_RETRIES": 3
+}

@@ -1,0 +1,70 @@
+--- final_v_1_custom.js
+
++++ dashboard2_custom.js
+
+@@ -290,42 +290,6 @@
+
+ document.getElementById('q4-conclusion').textContent = 'Forecast error was marginally higher during anomaly weeks, but the small anomaly sample (n=3) limits confidence in this association.';
+ document.getElementById('q4-decision-support').textContent = 'Observational only — no causal mechanism is asserted, and no recommendations are produced for this question, per policy.';
+ 
+-// ---- Q4 deeper signal: Manual vs Champion, Normal vs Anomaly ----
+-new Chart(document.getElementById('chart-q4-compare'), {
+-  type: 'bar',
+-  data: {
+-    labels: ['Normal Weeks', 'Anomaly Weeks'],
+-    datasets: [
+-      { label: 'Manual', data: [DATA.q4.manual_normal_wape, DATA.q4.manual_anomaly_wape], backgroundColor: COLORS.navy },
+-      { label: 'Champion (V2_9_Prophet)', data: [DATA.q4.champion_normal_wape, DATA.q4.champion_anomaly_wape], backgroundColor: COLORS.teal }
+-    ]
+-  },
+-  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{boxWidth:10}}},
+-    scales:{ y:{title:{display:true,text:'WAPE %',font:{size:10}}, grid:{color:'#EEF1F4'}}, x:{grid:{display:false}} } }
+-});
+-
+-const degLabels = DATA.q4.degradation_detail.map(d=>d.week);
+-const degVals = DATA.q4.degradation_detail.map(d=>d.delta_pp);
+-new Chart(document.getElementById('chart-q4-degbar'), {
+-  type: 'bar',
+-  data: { labels: degLabels, datasets: [{ label: 'Δ vs. baseline (pp)', data: degVals,
+-    backgroundColor: degVals.map(v => v > 0 ? COLORS.rust : COLORS.teal) }] },
+-  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+-    scales:{ y:{title:{display:true,text:'pp',font:{size:10}}, grid:{color:'#EEF1F4'}}, x:{grid:{display:false}} } }
+-});
+-
+-const manualDelta = (DATA.q4.manual_anomaly_wape - DATA.q4.manual_normal_wape).toFixed(2);
+-const champDelta = (DATA.q4.champion_anomaly_wape - DATA.q4.champion_normal_wape).toFixed(2);
+-document.getElementById('q4-insight-callout').innerHTML =
+-  `<b>Observed split:</b> during anomaly weeks, Manual WAPE moved ${manualDelta>0?'+':''}${manualDelta}pp `+
+-  `(${DATA.q4.manual_normal_wape}% → ${DATA.q4.manual_anomaly_wape}%), while the champion model moved `+
+-  `${champDelta>0?'+':''}${champDelta}pp (${DATA.q4.champion_normal_wape}% → ${DATA.q4.champion_anomaly_wape}%). `+
+-  `The aggregate ML view alone would not have surfaced this split — it blends the champion together with weaker models. `+
+-  `This is an observed association at n=3 anomaly weeks, not a causal claim, and does not meet the confidence bar for a recommendation.`;
+-
+-document.getElementById('q4-stat-p').textContent = DATA.q4.p_value;
+-document.getElementById('q4-stat-conf').innerHTML = chip(DATA.q4.confidence);
+-
+ document.getElementById('q4-degradation-body').innerHTML = DATA.q4.degradation_detail.map((d,i) => `
+   <tr class="stagger" style="animation-delay:${i*0.08}s">
+     <td>${d.week}</td>
+@@ -350,16 +314,10 @@
+
+ }
+ 
+ const q1labels = DATA.q1.series.map(d=>d.week);
+-const q1deltas = DATA.q1.series.map(d => Math.round((d.ml_wape - d.manual_wape)*100)/100); // positive = Manual better
+-new Chart(document.getElementById('chart-exec-main'), {
+-  type: 'bar',
+-  data: { labels: q1labels, datasets: [{
+-    label: 'Manual advantage (pp)', data: q1deltas,
+-    backgroundColor: q1deltas.map(v => v >= 0 ? COLORS.teal : COLORS.rust)
+-  }]},
+-  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+-    scales:{ x:{ticks:{maxTicksLimit:10}, grid:{display:false}}, y:{grid:{color:'#EEF1F4'}, title:{display:true,text:'pp',font:{size:10}}} } }
+-});
++lineChart('chart-exec-main', q1labels, [
++  {label:'Manual WAPE %', data: DATA.q1.series.map(d=>d.manual_wape), borderColor:COLORS.navy, backgroundColor:COLORS.navy+'15', borderWidth:2, pointRadius:0, tension:.25},
++  {label:'ML WAPE %', data: DATA.q1.series.map(d=>d.ml_wape), borderColor:COLORS.rust, backgroundColor:COLORS.rust+'15', borderWidth:2, pointRadius:0, tension:.25}
++]);
+ renderQ1('All','All','All');
+ 
+ // ---- Q3 volume chart ----

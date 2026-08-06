@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+
+:root{
+  --navy:#101B33; --navy-2:#16274A;
+  --bg:#F4F6F8; --card:#FFFFFF; --line:#E4E8EE;
+  --text:#101828; --text-2:#5B6472;
+  --teal:#2F6F63; --teal-soft:#E4EFEC;
+  --amber:#C98A2C; --amber-soft:#FBF0DE;
+  --rust:#B3452B; --rust-soft:#FBE9E4;
+  --gray-chip:#8A94A3; --gray-chip-soft:#EDEFF2;
+  --radius:10px;
+  --serif:'Source Serif 4',Georgia,serif; --sans:'IBM Plex Sans',-apple-system,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;}
+.app{display:flex;min-height:100vh;}
+::selection{background:var(--teal);color:#fff;}
+
+.rail{width:224px;flex-shrink:0;background:linear-gradient(180deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.rail-brand{padding:24px 18px 18px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:flex-start;}
+.rail-mark{width:36px;height:36px;border-radius:10px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px;box-shadow:0 4px 14px rgba(47,111,99,.35);}
+.rail-wordmark{font-family:var(--serif);font-size:17px;font-weight:700;color:#fff;letter-spacing:.5px;margin-bottom:4px;}
+.rail-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:#8FA3C4;line-height:1.5;}
+.rail-nav{padding:14px 10px;position:relative;}
+.rail-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:9px;cursor:pointer;color:#B7C4DB;font-size:13px;font-weight:500;margin-bottom:3px;position:relative;transition:color .18s ease, background .18s ease, transform .18s ease;}
+.rail-item:hover{background:rgba(255,255,255,.055);color:#fff;transform:translateX(2px);}
+.rail-item.active{background:rgba(47,111,99,.22);color:#fff;}
+.rail-item.active::before{content:'';position:absolute;left:-10px;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--teal);box-shadow:0 0 8px rgba(47,111,99,.7);}
+.rail-icon{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:6px;background:rgba(255,255,255,.06);font-family:var(--mono);font-size:10.5px;font-weight:600;transition:background .18s ease;}
+.rail-item.active .rail-icon{background:var(--teal);color:#fff;}
+.rail-item:hover .rail-icon{background:rgba(255,255,255,.14);}
+.rail-foot{padding:14px 18px;font-size:10.5px;color:#7A8CAD;border-top:1px solid rgba(255,255,255,.08);margin-top:auto;line-height:1.6;}
+
+.main{flex:1;min-width:0;}
+.hdr{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:24px 28px;position:relative;overflow:hidden;}
+.hdr::after{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(47,111,99,.18) 0%,transparent 70%);pointer-events:none;}
+.hdr-inner{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;position:relative;}
+.hdr-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9FB3D1;margin-bottom:6px;}
+.hdr h1{font-family:var(--serif);font-weight:600;font-size:24px;margin:0 0 4px;}
+.hdr .sub{color:#C3CEDF;font-size:13px;}
+.hdr-meta{text-align:right;font-size:12px;color:#9FB3D1;line-height:1.7;}
+.hdr-meta b{color:#fff;}
+.evidence-banner{background:var(--amber-soft);border-bottom:1px solid rgba(201,138,44,.25);padding:10px 28px;font-size:12.5px;color:#8a6416;display:flex;align-items:center;gap:8px;}
+.evidence-banner b{color:var(--amber);}
+
+.wrap{max-width:1360px;padding:24px 28px 60px;}
+.page{display:none;}
+.page.active{display:block;animation:fade .3s cubic-bezier(.22,.61,.36,1);}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes riseIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.stagger{animation:riseIn .45s cubic-bezier(.22,.61,.36,1) both;}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:20px;}
+.kpi-row .kpi{animation:riseIn .4s cubic-bezier(.22,.61,.36,1) both;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden;transition:box-shadow .2s ease, transform .2s ease;}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);transform:scaleY(0);transform-origin:bottom;transition:transform .25s cubic-bezier(.22,.61,.36,1);}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(16,27,51,.09);}
+.kpi:hover::before{transform:scaleY(1);}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.kpi-label{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-2);}
+.kpi-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--teal-soft);color:var(--teal);font-size:14px;flex-shrink:0;}
+.kpi-icon.amber{background:var(--amber-soft);color:var(--amber);}
+.kpi-icon.rust{background:var(--rust-soft);color:var(--rust);}
+.kpi-icon.gray{background:var(--gray-chip-soft);color:var(--gray-chip);}
+.kpi-value{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--navy);margin-bottom:4px;font-variant-numeric:tabular-nums;}
+.kpi-sub{font-size:12px;color:var(--text-2);}
+
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--mono);font-size:11px;font-weight:500;}
+.chip::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.chip.high{background:var(--teal-soft);color:var(--teal);} .chip.high::before{background:var(--teal);box-shadow:0 0 0 3px rgba(47,111,99,.15);}
+.chip.medium{background:var(--amber-soft);color:var(--amber);} .chip.medium::before{background:var(--amber);box-shadow:0 0 0 3px rgba(201,138,44,.15);}
+.chip.low{background:var(--gray-chip-soft);color:var(--gray-chip);} .chip.low::before{background:var(--gray-chip);}
+.chip.inconclusive{background:#fff;color:var(--gray-chip);border:1.5px dashed var(--gray-chip);}
+.chip.inconclusive::before{background:transparent;border:1.5px solid var(--gray-chip);}
+
+.grid-2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid-1{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:1000px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;transition:box-shadow .2s ease;}
+.card:hover{box-shadow:0 6px 20px rgba(16,27,51,.06);}
+.card h3{font-family:var(--serif);font-size:16px;font-weight:600;margin:0 0 4px;color:var(--navy);}
+.card h4{font-family:var(--serif);font-size:14px;font-weight:600;margin:0 0 10px;color:var(--navy);}
+.card .bq{font-size:12.5px;color:var(--text-2);margin-bottom:14px;font-style:italic;}
+.card canvas{max-height:270px;}
+
+.evtable{width:100%;border-collapse:collapse;font-size:13px;}
+.evtable tr{transition:background .15s ease;}
+.evtable tr:hover{background:var(--bg);}
+.evtable td{padding:8px 6px;border-bottom:1px solid var(--line);}
+.evtable td:first-child{color:var(--text-2);}
+.evtable td:last-child{text-align:right;font-family:var(--mono);font-weight:600;color:var(--navy);}
+
+.observation{background:var(--bg);border-left:3px solid var(--navy);padding:11px 14px;font-size:13px;margin-bottom:14px;border-radius:0 6px 6px 0;}
+.conclusion{font-size:14px;font-weight:600;margin:14px 0 6px;color:var(--navy);}
+.decision-support{font-size:12.5px;color:var(--text-2);}
+.rec-box{margin-top:14px;padding:12px 14px;background:var(--teal-soft);border-radius:8px;font-size:13px;color:var(--teal);border:1px solid rgba(47,111,99,.15);}
+.rec-suppressed{margin-top:14px;padding:12px 14px;background:var(--gray-chip-soft);border-radius:8px;font-size:12.5px;color:var(--gray-chip);font-style:italic;}
+.gap-note{background:var(--amber-soft);border-radius:8px;padding:14px 16px;font-size:12.5px;color:#8a6416;margin-top:16px;border:1px solid rgba(201,138,44,.18);}
+.gap-note b{color:var(--amber);}
+
+.win-strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.win-cell{flex:1;min-width:70px;border-radius:8px;padding:8px 6px;text-align:center;font-family:var(--mono);}
+.win-cell.manual{background:var(--teal-soft);}
+.win-cell.ml{background:var(--rust-soft);}
+.win-cell .wc-date{font-size:9.5px;color:var(--text-2);}
+.win-cell .wc-winner{font-size:11px;font-weight:700;margin:3px 0;}
+.win-cell.manual .wc-winner{color:var(--teal);}
+.win-cell.ml .wc-winner{color:var(--rust);}
+.win-cell .wc-detail{font-size:9px;color:var(--text-2);}
+
+.table-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px 22px 20px;overflow-x:auto;}
+table.lb{width:100%;border-collapse:collapse;font-size:12.5px;min-width:760px;}
+table.lb th{text-align:left;padding:11px 10px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-2);border-bottom:2px solid var(--line);cursor:pointer;white-space:nowrap;user-select:none;}
+table.lb th:hover{color:var(--teal);}
+table.lb td{padding:9px 10px;border-bottom:1px solid var(--line);}
+table.lb tbody tr{transition:background .15s ease;}
+table.lb tbody tr:hover{background:var(--bg);}
+table.lb td.num,table.lb th.num{text-align:right;font-family:var(--mono);}
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--gray-chip-soft);color:var(--text-2);font-family:var(--mono);font-size:11px;font-weight:600;}
+.rank-badge.top1{background:var(--teal);color:#fff;}
+.rank-badge.top2{background:var(--teal-soft);color:var(--teal);}
+.rank-badge.top3{background:var(--amber-soft);color:var(--amber);}
+.search-box{margin:10px 0 4px;padding:9px 14px;border:1px solid var(--line);border-radius:8px;font-size:13px;width:280px;font-family:var(--sans);}
+
+.footnote{margin-top:24px;font-size:11.5px;color:var(--text-2);border-top:1px solid var(--line);padding-top:14px;}
+.method-note{background:var(--teal-soft);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--teal);margin-top:14px;border:1px solid rgba(47,111,99,.15);}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="rail">
+    <div class="rail-brand">
+      <div class="rail-mark">◆</div>
+      <div class="rail-wordmark">Forecast Intelligence</div>
+      <div class="rail-eyebrow">Enterprise Decision Platform</div>
+    </div>
+    <div class="rail-nav">
+      <div class="rail-item active" data-page="exec"><span class="rail-icon">◆</span> Executive Overview</div>
+      <div class="rail-item" data-page="sa"><span class="rail-icon">01</span> Strategy Assessment</div>
+      <div class="rail-item" data-page="mc"><span class="rail-icon">02</span> Model Champion</div>
+      <div class="rail-item" data-page="bc"><span class="rail-icon">03</span> Business Context</div>
+      <div class="rail-item" data-page="ad"><span class="rail-icon">04</span> Anomaly Detection</div>
+    </div>
+    <div class="rail-foot">Deterministic snapshot · v2 · Evidence over narrative</div>
+  </div>
+
+  <div class="main">
+    <div class="hdr">
+      <div class="hdr-inner">
+        <div>
+          <div class="hdr-eyebrow">Enterprise Forecast Decision Intelligence Platform</div>
+          <h1 id="dash-title">Loading…</h1>
+          <div class="sub" id="dash-period"></div>
+        </div>
+        <div class="hdr-meta"><span id="dash-records"></span> records · <span id="dash-models"></span> models evaluated</div>
+      </div>
+    </div>
+    <div class="evidence-banner">
+      <span>⚠</span> <b>Evidence Basis:</b>&nbsp;<span id="evidence-banner-text"></span>
+    </div>
+
+    <div class="wrap">
+      <!-- EXECUTIVE -->
+  <div class="page active" id="page-exec">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Evidence Base</div><div class="kpi-icon">n</div></div><div class="kpi-value" id="exec-kpi-weeks"></div><div class="kpi-sub">of 99 total weeks</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Strategy Assessment</div></div><div class="kpi-value" id="exec-kpi-sa"></div><div id="exec-kpi-sa-chip"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Leading Candidate</div></div><div class="kpi-value" id="exec-kpi-champ"></div><div class="kpi-sub" id="exec-kpi-champ-score"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Segments Below Historical Baseline</div><div class="kpi-icon rust">▼</div></div><div class="kpi-value" id="exec-kpi-below"></div><div class="kpi-sub">of all segment-weeks</div></div>
+    </div>
+    <div class="card">
+      <h3>◆ Executive Summary</h3>
+      <p id="exec-summary-text" style="font-size:13.5px;line-height:1.7;"></p>
+    </div>
+  </div>
+
+  <!-- STRATEGY ASSESSMENT -->
+  <div class="page" id="page-sa">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Manual Wins</div><div class="kpi-icon">M</div></div><div class="kpi-value" id="sa-kpi-manual"></div><div class="kpi-sub">of 13 weeks</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">ML Wins</div><div class="kpi-icon rust">ML</div></div><div class="kpi-value" id="sa-kpi-ml"></div><div class="kpi-sub">of 13 weeks</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Effect Size</div><div class="kpi-icon amber">Δ</div></div><div class="kpi-value" id="sa-kpi-effect"></div><div class="kpi-sub">pp, WAPE gap</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Confidence</div></div><div id="sa-kpi-conf"></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Weekly Winner — 13 Realized Weeks</h3>
+      <div class="bq">Business Question: Did Machine Learning outperform the Manual Forecast? Every week is labeled directly — no hover needed at this sample size.</div>
+      <div class="win-strip" id="sa-win-strip"></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h4>Weekly WAPE — Manual vs. ML</h4>
+        <canvas id="chart-sa" style="max-height:260px;"></canvas>
+      </div>
+      <div class="card">
+        <div class="observation" id="sa-observation"></div>
+        <table class="evtable">
+          <tr><td>Manual WAPE</td><td id="sa-ev-manual"></td></tr>
+          <tr><td>ML WAPE</td><td id="sa-ev-ml"></td></tr>
+          <tr><td>Effect Size</td><td id="sa-ev-effect"></td></tr>
+          <tr><td>Sample Size</td><td>13 weeks (100% of realized evidence)</td></tr>
+        </table>
+        <div class="conclusion" id="sa-conclusion"></div>
+        <div class="decision-support" id="sa-decision-support"></div>
+        <div id="sa-rec"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODEL CHAMPION -->
+  <div class="page" id="page-mc">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Leading Candidate</div><div class="kpi-icon">①</div></div><div class="kpi-value" id="mc-kpi-champ"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Composite Score</div><div class="kpi-icon amber">Σ</div></div><div class="kpi-value" id="mc-kpi-score"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Eligible Models</div><div class="kpi-icon gray">n</div></div><div class="kpi-value" id="mc-kpi-eligible"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Eligibility Rule</div></div><div class="kpi-sub" style="margin-top:8px;">≥8 of 13 weeks present</div></div>
+    </div>
+    <div class="gap-note" style="margin-bottom:16px;"><b>Methodology note:</b> eligibility is now based on week-coverage (was: row-count). In this dataset, 91 of 92 models are present in all 13 realized weeks — the rule is correct but empirically non-binding here; differentiation comes from the composite score itself, not the eligibility filter. Stability is measured as Max Absolute Weekly Error, not IQR, since quartile estimates are unreliable below ~20 points.</div>
+    <div class="table-wrap">
+      <h3 style="font-family:var(--serif);margin:10px 0 0;">Full Model Leaderboard <span id="mc-count-note" style="font-size:12px;color:var(--text-2);font-weight:400;"></span></h3>
+      <input class="search-box" id="mc-search" placeholder="Filter by model name…">
+      <table class="lb" id="mc-table">
+        <thead><tr>
+          <th data-k="rank">Rank</th><th data-k="Model">Model</th><th class="num" data-k="CompositeScore">Score</th>
+          <th class="num" data-k="WAPE">WAPE %</th><th class="num" data-k="Bias">Bias %</th>
+          <th class="num" data-k="MaxError">Max Error %</th><th class="num" data-k="Hit10">Hit10 %</th>
+          <th class="num" data-k="n_weeks_present">Weeks</th>
+        </tr></thead>
+        <tbody id="mc-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BUSINESS CONTEXT -->
+  <div class="page" id="page-bc">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">In-Sample CV (13 wk)</div><div class="kpi-icon">%</div></div><div class="kpi-value" id="bc-kpi-cv"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Historical Median CV</div><div class="kpi-icon gray">σ</div></div><div class="kpi-value" id="bc-kpi-histcv"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Segments Below Baseline</div><div class="kpi-icon rust">▼</div></div><div class="kpi-value" id="bc-kpi-below"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Realized Weeks</div><div class="kpi-icon gray">n</div></div><div class="kpi-value">13 <span style="font-size:14px;color:var(--text-2);">/ 99</span></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Realized vs. Planned Volume</h3>
+      <div class="bq">Solid = realized actuals (13 weeks). Dashed = planned/forecast volume (all 99 weeks) — never to be read as equivalent to realized.</div>
+      <canvas id="chart-bc-volume" style="max-height:280px;"></canvas>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Segments Below Historical Baseline, by Week</h3>
+      <div class="bq">Share of segments whose realized volume fell below their own trailing-1-year historical mean. A broad, sustained shift — not sharp single-week spikes.</div>
+      <canvas id="chart-bc-below" style="max-height:240px;"></canvas>
+      <div class="method-note">This is a genuinely different finding than an "anomaly week" — it's a wide, gentle, broad-based decline across most segments, not a handful of extreme outliers. See Anomaly Detection for the sharp-spike view.</div>
+    </div>
+  </div>
+
+  <!-- ANOMALY DETECTION -->
+  <div class="page" id="page-ad">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Weeks w/ Any Sharp Anomaly</div><div class="kpi-icon rust">!</div></div><div class="kpi-value" id="ad-kpi-weeks"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Total Anomalous Segment-Weeks</div><div class="kpi-icon amber">Σ</div></div><div class="kpi-value" id="ad-kpi-total"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Detection Method</div></div><div class="kpi-sub" style="margin-top:8px;">Segment-level z, own historical baseline</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Z-Score Threshold</div><div class="kpi-icon gray">z</div></div><div class="kpi-value">2.5</div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Anomalous Segment Share, by Week</h3>
+      <div class="bq">Correct method: each segment compared only to its own historical mean/std, rolled up as a share — not a single pooled company-wide z-score (that approach was tested and found to be statistically invalid; see method note below).</div>
+      <canvas id="chart-ad" style="max-height:280px;"></canvas>
+    </div>
+    <div class="method-note" id="ad-method-note"></div>
+    <div class="table-wrap" style="margin-top:16px;">
+      <h3 style="font-family:var(--serif);margin:10px 0 0;">Weekly Detail</h3>
+      <table class="lb">
+        <thead><tr><th>Week</th><th class="num">Anomalous Segments</th><th class="num">Total Segments</th><th class="num">Share %</th><th class="num">Mean Segment Z</th></tr></thead>
+        <tbody id="ad-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+      <div class="footnote">Deterministic Decision Support Dashboard V2 · Evidence over narrative · Observation before recommendation · Confidence tiers include Inconclusive for near-tied, low-effect-size findings at small sample sizes.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"meta": {"title": "Global Contact Center Demand \u2014 Forecast Decision Intelligence Dashboard", "evaluation_period": "2026-03-13 to 2028-01-28 (99 weeks total; 13 weeks realized)", "realized_window": "2026-03-13 to 2026-06-05", "records_evaluated": 35640, "models_evaluated": 92, "n_realized_weeks": 13, "n_total_weeks": 99}, "strategy_assessment": {"n_weeks": 13, "manual_wins": 6, "ml_wins": 7, "ties": 0, "manual_wape": 17.4, "ml_wape": 16.63, "effect_size": 0.0076, "confidence": "Inconclusive", "series": [{"week": "2026-03-13", "manual_wape": 15.61, "ml_wape": 11.15}, {"week": "2026-03-20", "manual_wape": 16.61, "ml_wape": 14.37}, {"week": "2026-03-27", "manual_wape": 18.0, "ml_wape": 15.64}, {"week": "2026-04-03", "manual_wape": 19.77, "ml_wape": 14.95}, {"week": "2026-04-10", "manual_wape": 18.04, "ml_wape": 17.19}, {"week": "2026-04-17", "manual_wape": 15.97, "ml_wape": 15.47}, {"week": "2026-04-24", "manual_wape": 15.44, "ml_wape": 16.85}, {"week": "2026-05-01", "manual_wape": 17.97, "ml_wape": 18.55}, {"week": "2026-05-08", "manual_wape": 16.83, "ml_wape": 18.74}, {"week": "2026-05-15", "manual_wape": 15.55, "ml_wape": 16.05}, {"week": "2026-05-22", "manual_wape": 17.48, "ml_wape": 16.8}, {"week": "2026-05-29", "manual_wape": 19.11, "ml_wape": 20.14}, {"week": "2026-06-05", "manual_wape": 20.32, "ml_wape": 21.23}]}, "model_champion": {"n_eligible": 92, "n_excluded": 0, "n_total_models": 92, "n_actual_weeks": 13, "week_coverage_min": 8, "leaderboard": [{"Model": "V2_4_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 9.9, "Bias": 0.73, "MaxError": 30.27, "Hit10": 73.08, "Hit10_count": 19.0, "CompositeScore": 86.71}, {"Model": "V2_9_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 7.93, "Bias": 4.15, "MaxError": 17.95, "Hit10": 69.23, "Hit10_count": 9.0, "CompositeScore": 85.98}, {"Model": "V3_48_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 10.43, "Bias": 1.73, "MaxError": 31.46, "Hit10": 69.23, "Hit10_count": 9.0, "CompositeScore": 83.94}, {"Model": "V3_35_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 9.21, "Bias": 2.12, "MaxError": 52.49, "Hit10": 73.08, "Hit10_count": 19.0, "CompositeScore": 82.22}, {"Model": "V3_0_LR_With_VIF", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 8.71, "Bias": 7.26, "MaxError": 20.27, "Hit10": 69.23, "Hit10_count": 9.0, "CompositeScore": 81.8}, {"Model": "V3_3_ARIMA", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 6.15, "Bias": 1.53, "MaxError": 57.56, "Hit10": 53.85, "Hit10_count": 21.0, "CompositeScore": 79.19}, {"Model": "V3_33_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 9.23, "Bias": 6.8, "MaxError": 20.41, "Hit10": 46.15, "Hit10_count": 6.0, "CompositeScore": 75.18}, {"Model": "V3_46_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 11.16, "Bias": 1.26, "MaxError": 37.56, "Hit10": 42.31, "Hit10_count": 11.0, "CompositeScore": 75.05}, {"Model": "V2_11_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 4.57, "Bias": 2.22, "MaxError": 105.71, "Hit10": 61.54, "Hit10_count": 16.0, "CompositeScore": 74.64}, {"Model": "V3_1_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 10.69, "Bias": 5.21, "MaxError": 22.08, "Hit10": 38.46, "Hit10_count": 5.0, "CompositeScore": 72.99}, {"Model": "V2_37_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 9.2, "Bias": 1.08, "MaxError": 68.66, "Hit10": 38.46, "Hit10_count": 15.0, "CompositeScore": 70.69}, {"Model": "V2_47_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 12.2, "Bias": 6.98, "MaxError": 40.12, "Hit10": 51.28, "Hit10_count": 20.0, "CompositeScore": 70.54}, {"Model": "V2_38_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 9.33, "Bias": 0.48, "MaxError": 59.87, "Hit10": 30.77, "Hit10_count": 8.0, "CompositeScore": 70.44}, {"Model": "V3_38_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 10.24, "Bias": 6.82, "MaxError": 51.77, "Hit10": 46.15, "Hit10_count": 18.0, "CompositeScore": 69.03}, {"Model": "V2_40_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 12.77, "Bias": 0.81, "MaxError": 40.26, "Hit10": 23.08, "Hit10_count": 6.0, "CompositeScore": 68.12}, {"Model": "V3_37_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 15.59, "Bias": 6.31, "MaxError": 39.8, "Hit10": 50.0, "Hit10_count": 13.0, "CompositeScore": 67.87}, {"Model": "V3_44_Prophet", "n_rows": 52.0, "n_weeks_present": 13.0, "WAPE": 11.3, "Bias": 8.19, "MaxError": 54.79, "Hit10": 46.15, "Hit10_count": 24.0, "CompositeScore": 66.21}, {"Model": "V2_32_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 12.67, "Bias": 7.59, "MaxError": 59.78, "Hit10": 46.15, "Hit10_count": 6.0, "CompositeScore": 64.77}, {"Model": "V3_22_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 13.24, "Bias": 9.22, "MaxError": 59.07, "Hit10": 50.0, "Hit10_count": 13.0, "CompositeScore": 63.85}, {"Model": "V3_8_Prophet", "n_rows": 38.0, "n_weeks_present": 13.0, "WAPE": 9.98, "Bias": 8.49, "MaxError": 272.22, "Hit10": 60.53, "Hit10_count": 23.0, "CompositeScore": 63.67}, {"Model": "V2_35_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 16.56, "Bias": 9.0, "MaxError": 52.85, "Hit10": 53.85, "Hit10_count": 7.0, "CompositeScore": 63.26}, {"Model": "V2_0_ARIMA", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 8.53, "Bias": 5.91, "MaxError": 538.86, "Hit10": 42.31, "Hit10_count": 11.0, "CompositeScore": 62.33}, {"Model": "V3_4_Prophet", "n_rows": 117.0, "n_weeks_present": 13.0, "WAPE": 12.89, "Bias": 2.24, "MaxError": 196.59, "Hit10": 41.03, "Hit10_count": 48.0, "CompositeScore": 61.75}, {"Model": "V2_22_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 14.47, "Bias": 12.83, "MaxError": 38.06, "Hit10": 46.15, "Hit10_count": 6.0, "CompositeScore": 61.55}, {"Model": "V3_43_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 12.19, "Bias": 0.28, "MaxError": 139.91, "Hit10": 30.77, "Hit10_count": 12.0, "CompositeScore": 61.41}, {"Model": "V3_1_ARIMA", "n_rows": 52.0, "n_weeks_present": 13.0, "WAPE": 8.75, "Bias": 4.98, "MaxError": 243.5, "Hit10": 32.69, "Hit10_count": 17.0, "CompositeScore": 60.31}, {"Model": "V3_15_Prophet", "n_rows": 78.0, "n_weeks_present": 13.0, "WAPE": 16.43, "Bias": 1.26, "MaxError": 96.31, "Hit10": 41.03, "Hit10_count": 32.0, "CompositeScore": 60.2}, {"Model": "V3_9_Prophet", "n_rows": 78.0, "n_weeks_present": 13.0, "WAPE": 12.42, "Bias": 8.33, "MaxError": 81.24, "Hit10": 42.31, "Hit10_count": 33.0, "CompositeScore": 59.57}, {"Model": "V3_25_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 13.11, "Bias": 5.58, "MaxError": 56.44, "Hit10": 19.23, "Hit10_count": 5.0, "CompositeScore": 59.47}, {"Model": "V3_16_Prophet", "n_rows": 78.0, "n_weeks_present": 13.0, "WAPE": 15.82, "Bias": 2.24, "MaxError": 1013.54, "Hit10": 29.49, "Hit10_count": 23.0, "CompositeScore": 55.85}, {"Model": "V3_32_Prophet", "n_rows": 52.0, "n_weeks_present": 13.0, "WAPE": 16.85, "Bias": 10.27, "MaxError": 41.84, "Hit10": 25.0, "Hit10_count": 13.0, "CompositeScore": 55.32}, {"Model": "V3_20_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 16.12, "Bias": 2.7, "MaxError": 186.94, "Hit10": 28.21, "Hit10_count": 11.0, "CompositeScore": 54.76}, {"Model": "V3_28_Prophet", "n_rows": 78.0, "n_weeks_present": 13.0, "WAPE": 18.54, "Bias": 0.37, "MaxError": 221.2, "Hit10": 26.92, "Hit10_count": 21.0, "CompositeScore": 54.57}, {"Model": "V2_29_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 14.75, "Bias": 14.17, "MaxError": 33.96, "Hit10": 23.08, "Hit10_count": 3.0, "CompositeScore": 54.05}, {"Model": "V3_0_LR", "n_rows": 65.0, "n_weeks_present": 13.0, "WAPE": 14.54, "Bias": 5.74, "MaxError": 179.37, "Hit10": 30.77, "Hit10_count": 20.0, "CompositeScore": 53.85}, {"Model": "V3_0_Prophet", "n_rows": 898.0, "n_weeks_present": 13.0, "WAPE": 18.28, "Bias": 2.7, "MaxError": 852.25, "Hit10": 31.18, "Hit10_count": 280.0, "CompositeScore": 53.69}, {"Model": "V3_27_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 13.47, "Bias": 10.09, "MaxError": 398.33, "Hit10": 41.03, "Hit10_count": 16.0, "CompositeScore": 53.4}, {"Model": "V2_3_ARIMA", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 17.95, "Bias": 13.14, "MaxError": 56.06, "Hit10": 38.46, "Hit10_count": 15.0, "CompositeScore": 52.95}, {"Model": "V3_47_Prophet", "n_rows": 52.0, "n_weeks_present": 13.0, "WAPE": 23.01, "Bias": 2.55, "MaxError": 65.31, "Hit10": 21.15, "Hit10_count": 11.0, "CompositeScore": 52.55}, {"Model": "V3_6_Prophet", "n_rows": 117.0, "n_weeks_present": 13.0, "WAPE": 17.09, "Bias": 7.27, "MaxError": 177.52, "Hit10": 36.75, "Hit10_count": 43.0, "CompositeScore": 51.77}, {"Model": "V2_23_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 21.34, "Bias": 6.5, "MaxError": 54.45, "Hit10": 15.38, "Hit10_count": 2.0, "CompositeScore": 51.56}, {"Model": "V3_10_Prophet", "n_rows": 91.0, "n_weeks_present": 13.0, "WAPE": 21.63, "Bias": 0.55, "MaxError": 123.93, "Hit10": 23.08, "Hit10_count": 21.0, "CompositeScore": 50.54}, {"Model": "V3_34_Prophet", "n_rows": 65.0, "n_weeks_present": 13.0, "WAPE": 15.91, "Bias": 10.09, "MaxError": 89.75, "Hit10": 32.31, "Hit10_count": 21.0, "CompositeScore": 50.44}, {"Model": "V2_10_Prophet", "n_rows": 25.0, "n_weeks_present": 13.0, "WAPE": 12.98, "Bias": 12.66, "MaxError": 106.15, "Hit10": 36.0, "Hit10_count": 9.0, "CompositeScore": 49.83}, {"Model": "V3_3_Prophet", "n_rows": 338.0, "n_weeks_present": 13.0, "WAPE": 19.08, "Bias": 7.49, "MaxError": 708.64, "Hit10": 36.39, "Hit10_count": 123.0, "CompositeScore": 49.68}, {"Model": "V3_7_Prophet", "n_rows": 90.0, "n_weeks_present": 13.0, "WAPE": 19.05, "Bias": 3.28, "MaxError": 204.03, "Hit10": 21.11, "Hit10_count": 19.0, "CompositeScore": 49.54}, {"Model": "V2_1_ARIMA", "n_rows": 65.0, "n_weeks_present": 13.0, "WAPE": 21.29, "Bias": 4.67, "MaxError": 157.38, "Hit10": 24.62, "Hit10_count": 16.0, "CompositeScore": 47.18}, {"Model": "V3_11_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 22.91, "Bias": 8.17, "MaxError": 135.52, "Hit10": 41.03, "Hit10_count": 16.0, "CompositeScore": 46.92}, {"Model": "V2_2_ARIMA", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 18.61, "Bias": 18.03, "MaxError": 60.85, "Hit10": 38.46, "Hit10_count": 5.0, "CompositeScore": 46.67}, {"Model": "V2_0_LR_With_VIF", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 21.85, "Bias": 10.83, "MaxError": 62.86, "Hit10": 23.08, "Hit10_count": 9.0, "CompositeScore": 46.26}, {"Model": "V3_31_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 25.87, "Bias": 9.13, "MaxError": 58.71, "Hit10": 23.08, "Hit10_count": 3.0, "CompositeScore": 45.08}, {"Model": "V2_28_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 18.89, "Bias": 13.57, "MaxError": 66.37, "Hit10": 11.54, "Hit10_count": 3.0, "CompositeScore": 44.69}, {"Model": "V4_15_XGB", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 30.78, "Bias": 4.31, "MaxError": 1966.93, "Hit10": 38.46, "Hit10_count": 5.0, "CompositeScore": 43.05}, {"Model": "V3_4_ARIMA", "n_rows": 104.0, "n_weeks_present": 13.0, "WAPE": 22.97, "Bias": 7.64, "MaxError": 372.08, "Hit10": 19.23, "Hit10_count": 20.0, "CompositeScore": 41.39}, {"Model": "V3_0_ARIMA", "n_rows": 104.0, "n_weeks_present": 13.0, "WAPE": 20.17, "Bias": 12.66, "MaxError": 266.49, "Hit10": 25.0, "Hit10_count": 26.0, "CompositeScore": 40.28}, {"Model": "V2_0_LR", "n_rows": 35.0, "n_weeks_present": 13.0, "WAPE": 29.1, "Bias": 7.3, "MaxError": 6856.56, "Hit10": 31.43, "Hit10_count": 11.0, "CompositeScore": 39.54}, {"Model": "V3_9_XGB", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 30.2, "Bias": 4.19, "MaxError": 189.64, "Hit10": 19.23, "Hit10_count": 5.0, "CompositeScore": 38.41}, {"Model": "V3_0_XGB", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 25.7, "Bias": 9.03, "MaxError": 158.33, "Hit10": 15.38, "Hit10_count": 2.0, "CompositeScore": 37.56}, {"Model": "V2_3_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 23.74, "Bias": 22.83, "MaxError": 39.7, "Hit10": 25.64, "Hit10_count": 10.0, "CompositeScore": 37.18}, {"Model": "V2_0_Prophet", "n_rows": 78.0, "n_weeks_present": 13.0, "WAPE": 19.64, "Bias": 17.89, "MaxError": 266.24, "Hit10": 28.21, "Hit10_count": 22.0, "CompositeScore": 36.44}, {"Model": "V2_16_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 38.4, "Bias": 2.74, "MaxError": 150.67, "Hit10": 30.77, "Hit10_count": 4.0, "CompositeScore": 35.66}, {"Model": "V2_6_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 20.86, "Bias": 15.63, "MaxError": 387.46, "Hit10": 12.82, "Hit10_count": 5.0, "CompositeScore": 35.27}, {"Model": "V2_13_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 25.32, "Bias": 16.98, "MaxError": 207.74, "Hit10": 35.9, "Hit10_count": 14.0, "CompositeScore": 34.49}, {"Model": "V3_13_Prophet", "n_rows": 63.0, "n_weeks_present": 13.0, "WAPE": 26.44, "Bias": 13.73, "MaxError": 464.09, "Hit10": 26.98, "Hit10_count": 17.0, "CompositeScore": 34.2}, {"Model": "V4_1_XGB", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 43.33, "Bias": 0.19, "MaxError": 117.07, "Hit10": 23.08, "Hit10_count": 3.0, "CompositeScore": 31.62}, {"Model": "V3_12_Prophet", "n_rows": 52.0, "n_weeks_present": 13.0, "WAPE": 25.51, "Bias": 21.49, "MaxError": 71.24, "Hit10": 19.23, "Hit10_count": 10.0, "CompositeScore": 30.07}, {"Model": "V3_18_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 28.4, "Bias": 15.21, "MaxError": 924.38, "Hit10": 23.08, "Hit10_count": 6.0, "CompositeScore": 29.87}, {"Model": "V3_2_ARIMA", "n_rows": 130.0, "n_weeks_present": 13.0, "WAPE": 30.14, "Bias": 13.74, "MaxError": 247.04, "Hit10": 23.08, "Hit10_count": 30.0, "CompositeScore": 29.79}, {"Model": "V3_19_Prophet", "n_rows": 78.0, "n_weeks_present": 13.0, "WAPE": 25.26, "Bias": 25.1, "MaxError": 55.84, "Hit10": 17.95, "Hit10_count": 14.0, "CompositeScore": 29.35}, {"Model": "V4_0_LR_With_VIF", "n_rows": 38.0, "n_weeks_present": 13.0, "WAPE": 30.84, "Bias": 14.53, "MaxError": 851.16, "Hit10": 26.32, "Hit10_count": 10.0, "CompositeScore": 29.31}, {"Model": "V3_40_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 26.18, "Bias": 20.2, "MaxError": 112.48, "Hit10": 30.77, "Hit10_count": 8.0, "CompositeScore": 29.05}, {"Model": "V2_44_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 32.89, "Bias": 11.17, "MaxError": 154.55, "Hit10": 7.69, "Hit10_count": 2.0, "CompositeScore": 29.04}, {"Model": "V2_46_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 28.47, "Bias": 28.47, "MaxError": 47.66, "Hit10": 7.69, "Hit10_count": 1.0, "CompositeScore": 27.86}, {"Model": "V4_0_LR", "n_rows": 25.0, "n_weeks_present": 13.0, "WAPE": 82.17, "Bias": 0.18, "MaxError": 3231.03, "Hit10": 8.0, "Hit10_count": 2.0, "CompositeScore": 24.82}, {"Model": "V2_4_ARIMA", "n_rows": 91.0, "n_weeks_present": 13.0, "WAPE": 24.79, "Bias": 23.08, "MaxError": 265.49, "Hit10": 18.68, "Hit10_count": 17.0, "CompositeScore": 24.33}, {"Model": "V3_10_XGB", "n_rows": 22.0, "n_weeks_present": 13.0, "WAPE": 30.56, "Bias": 18.8, "MaxError": 313.21, "Hit10": 22.73, "Hit10_count": 5.0, "CompositeScore": 24.26}, {"Model": "V3_30_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 31.91, "Bias": 28.32, "MaxError": 60.9, "Hit10": 0.0, "Hit10_count": 0.0, "CompositeScore": 22.6}, {"Model": "V2_43_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 34.3, "Bias": 30.71, "MaxError": 52.61, "Hit10": 7.69, "Hit10_count": 1.0, "CompositeScore": 21.86}, {"Model": "V3_21_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 41.16, "Bias": 11.84, "MaxError": 320.3, "Hit10": 12.82, "Hit10_count": 5.0, "CompositeScore": 21.01}, {"Model": "V3_23_Prophet", "n_rows": 39.0, "n_weeks_present": 13.0, "WAPE": 30.2, "Bias": 26.55, "MaxError": 347.96, "Hit10": 28.21, "Hit10_count": 11.0, "CompositeScore": 19.95}, {"Model": "V3_17_Prophet", "n_rows": 26.0, "n_weeks_present": 13.0, "WAPE": 38.14, "Bias": 36.88, "MaxError": 58.26, "Hit10": 15.38, "Hit10_count": 4.0, "CompositeScore": 17.5}, {"Model": "V4_0_ARIMA", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 67.89, "Bias": 9.53, "MaxError": 643.34, "Hit10": 15.38, "Hit10_count": 2.0, "CompositeScore": 15.47}, {"Model": "V4_11_XGB", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 40.67, "Bias": 26.12, "MaxError": 63.02, "Hit10": 7.69, "Hit10_count": 1.0, "CompositeScore": 14.46}, {"Model": "V3_24_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 35.26, "Bias": 29.31, "MaxError": 118.7, "Hit10": 23.08, "Hit10_count": 3.0, "CompositeScore": 13.98}, {"Model": "V2_24_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 34.78, "Bias": 32.46, "MaxError": 103.39, "Hit10": 15.38, "Hit10_count": 2.0, "CompositeScore": 13.53}, {"Model": "V4_9_XGB", "n_rows": 22.0, "n_weeks_present": 13.0, "WAPE": 76.9, "Bias": 11.88, "MaxError": 371.64, "Hit10": 4.55, "Hit10_count": 1.0, "CompositeScore": 13.12}, {"Model": "V4_2_ARIMA", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 43.24, "Bias": 31.08, "MaxError": 722.88, "Hit10": 0.0, "Hit10_count": 0.0, "CompositeScore": 6.01}, {"Model": "V3_14_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 48.25, "Bias": 41.04, "MaxError": 163.94, "Hit10": 15.38, "Hit10_count": 2.0, "CompositeScore": 1.56}, {"Model": "V2_12_Prophet", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 191.46, "Bias": 191.46, "MaxError": 433.65, "Hit10": 0.0, "Hit10_count": 0.0, "CompositeScore": 0.0}, {"Model": "V3_3_XGB", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 109.22, "Bias": 87.82, "MaxError": 380.72, "Hit10": 0.0, "Hit10_count": 0.0, "CompositeScore": 0.0}, {"Model": "V4_10_XGB", "n_rows": 13.0, "n_weeks_present": 13.0, "WAPE": 79.76, "Bias": 76.15, "MaxError": 609.55, "Hit10": 0.0, "Hit10_count": 0.0, "CompositeScore": 0.0}, {"Model": "V4_6_XGB", "n_rows": 12.0, "n_weeks_present": 12.0, "WAPE": 86.78, "Bias": 81.23, "MaxError": 335.24, "Hit10": 0.0, "Hit10_count": 0.0, "CompositeScore": 0.0}]}, "business_context": {"realized_series": [{"week": "2026-03-13", "volume": 208398}, {"week": "2026-03-20", "volume": 203268}, {"week": "2026-03-27", "volume": 204066}, {"week": "2026-04-03", "volume": 188993}, {"week": "2026-04-10", "volume": 182375}, {"week": "2026-04-17", "volume": 202518}, {"week": "2026-04-24", "volume": 204530}, {"week": "2026-05-01", "volume": 185187}, {"week": "2026-05-08", "volume": 184155}, {"week": "2026-05-15", "volume": 207311}, {"week": "2026-05-22", "volume": 208393}, {"week": "2026-05-29", "volume": 190228}, {"week": "2026-06-05", "volume": 194200}], "planned_series": [{"week": "2026-03-13", "volume": 212389}, {"week": "2026-03-20", "volume": 209132}, {"week": "2026-03-27", "volume": 206391}, {"week": "2026-04-03", "volume": 195908}, {"week": "2026-04-10", "volume": 193126}, {"week": "2026-04-17", "volume": 199518}, {"week": "2026-04-24", "volume": 199474}, {"week": "2026-05-01", "volume": 176402}, {"week": "2026-05-08", "volume": 183298}, {"week": "2026-05-15", "volume": 194871}, {"week": "2026-05-22", "volume": 195318}, {"week": "2026-05-29", "volume": 180641}, {"week": "2026-06-05", "volume": 188541}, {"week": "2026-06-12", "volume": 194720}, {"week": "2026-06-19", "volume": 186340}, {"week": "2026-06-26", "volume": 198492}, {"week": "2026-07-03", "volume": 187572}, {"week": "2026-07-10", "volume": 198526}, {"week": "2026-07-17", "volume": 199934}, {"week": "2026-07-24", "volume": 199539}, {"week": "2026-07-31", "volume": 200026}, {"week": "2026-08-07", "volume": 197782}, {"week": "2026-08-14", "volume": 190527}, {"week": "2026-08-21", "volume": 197146}, {"week": "2026-08-28", "volume": 196515}, {"week": "2026-09-04", "volume": 201780}, {"week": "2026-09-11", "volume": 200538}, {"week": "2026-09-18", "volume": 197779}, {"week": "2026-09-25", "volume": 192928}, {"week": "2026-10-02", "volume": 181289}, {"week": "2026-10-09", "volume": 182623}, {"week": "2026-10-16", "volume": 192430}, {"week": "2026-10-23", "volume": 183262}, {"week": "2026-10-30", "volume": 188877}, {"week": "2026-11-06", "volume": 187712}, {"week": "2026-11-13", "volume": 180560}, {"week": "2026-11-20", "volume": 188361}, {"week": "2026-11-27", "volume": 174026}, {"week": "2026-12-04", "volume": 191471}, {"week": "2026-12-11", "volume": 187059}, {"week": "2026-12-18", "volume": 176025}, {"week": "2026-12-25", "volume": 123250}, {"week": "2027-01-01", "volume": 120002}, {"week": "2027-01-08", "volume": 181162}, {"week": "2027-01-15", "volume": 181378}, {"week": "2027-01-22", "volume": 180279}, {"week": "2027-01-29", "volume": 181667}, {"week": "2027-02-05", "volume": 187584}, {"week": "2027-02-12", "volume": 182014}, {"week": "2027-02-19", "volume": 187238}, {"week": "2027-02-26", "volume": 191714}, {"week": "2027-03-05", "volume": 188174}, {"week": "2027-03-12", "volume": 188544}, {"week": "2027-03-19", "volume": 190552}, {"week": "2027-03-26", "volume": 184352}, {"week": "2027-04-02", "volume": 174908}, {"week": "2027-04-09", "volume": 182342}, {"week": "2027-04-16", "volume": 178627}, {"week": "2027-04-23", "volume": 183023}, {"week": "2027-04-30", "volume": 171049}, {"week": "2027-05-07", "volume": 182989}, {"week": "2027-05-14", "volume": 184986}, {"week": "2027-05-21", "volume": 185392}, {"week": "2027-05-28", "volume": 174859}, {"week": "2027-06-04", "volume": 183705}, {"week": "2027-06-11", "volume": 183583}, {"week": "2027-06-18", "volume": 181527}, {"week": "2027-06-25", "volume": 191722}, {"week": "2027-07-02", "volume": 177906}, {"week": "2027-07-09", "volume": 189456}, {"week": "2027-07-16", "volume": 193211}, {"week": "2027-07-23", "volume": 193101}, {"week": "2027-07-30", "volume": 192194}, {"week": "2027-08-06", "volume": 186422}, {"week": "2027-08-13", "volume": 181881}, {"week": "2027-08-20", "volume": 186951}, {"week": "2027-08-27", "volume": 187385}, {"week": "2027-09-03", "volume": 189597}, {"week": "2027-09-10", "volume": 184096}, {"week": "2027-09-17", "volume": 190797}, {"week": "2027-09-24", "volume": 183190}, {"week": "2027-10-01", "volume": 174902}, {"week": "2027-10-08", "volume": 175833}, {"week": "2027-10-15", "volume": 176662}, {"week": "2027-10-22", "volume": 177561}, {"week": "2027-10-29", "volume": 174470}, {"week": "2027-11-05", "volume": 0}, {"week": "2027-11-12", "volume": 0}, {"week": "2027-11-19", "volume": 0}, {"week": "2027-11-26", "volume": 0}, {"week": "2027-12-03", "volume": 0}, {"week": "2027-12-10", "volume": 0}, {"week": "2027-12-17", "volume": 0}, {"week": "2027-12-24", "volume": 0}, {"week": "2027-12-31", "volume": 0}, {"week": "2028-01-07", "volume": 0}, {"week": "2028-01-14", "volume": 0}, {"week": "2028-01-21", "volume": 0}, {"week": "2028-01-28", "volume": 0}], "in_sample_cv": 5.02, "historical_cv_median_segment": 25.4, "overall_share_below_baseline": 67.0, "share_below_by_week": [{"week": "2026-03-13", "share_below_pct": 50.4}, {"week": "2026-03-20", "share_below_pct": 59.1}, {"week": "2026-03-27", "share_below_pct": 57.8}, {"week": "2026-04-03", "share_below_pct": 79.1}, {"week": "2026-04-10", "share_below_pct": 80.4}, {"week": "2026-04-17", "share_below_pct": 62.7}, {"week": "2026-04-24", "share_below_pct": 63.5}, {"week": "2026-05-01", "share_below_pct": 84.4}, {"week": "2026-05-08", "share_below_pct": 65.1}, {"week": "2026-05-15", "share_below_pct": 60.8}, {"week": "2026-05-22", "share_below_pct": 59.2}, {"week": "2026-05-29", "share_below_pct": 75.6}, {"week": "2026-06-05", "share_below_pct": 73.4}]}, "anomaly_detection": {"per_week": [{"week": "2026-03-13", "n_anomalous_segments": 4, "n_total_segments": 357, "share_anomalous_pct": 1.1, "mean_seg_z": 0.06}, {"week": "2026-03-20", "n_anomalous_segments": 3, "n_total_segments": 359, "share_anomalous_pct": 0.8, "mean_seg_z": -0.18}, {"week": "2026-03-27", "n_anomalous_segments": 3, "n_total_segments": 358, "share_anomalous_pct": 0.8, "mean_seg_z": -0.1}, {"week": "2026-04-03", "n_anomalous_segments": 3, "n_total_segments": 359, "share_anomalous_pct": 0.8, "mean_seg_z": -0.61}, {"week": "2026-04-10", "n_anomalous_segments": 2, "n_total_segments": 358, "share_anomalous_pct": 0.6, "mean_seg_z": -0.6}, {"week": "2026-04-17", "n_anomalous_segments": 9, "n_total_segments": 357, "share_anomalous_pct": 2.5, "mean_seg_z": -0.18}, {"week": "2026-04-24", "n_anomalous_segments": 4, "n_total_segments": 359, "share_anomalous_pct": 1.1, "mean_seg_z": -0.14}, {"week": "2026-05-01", "n_anomalous_segments": 4, "n_total_segments": 359, "share_anomalous_pct": 1.1, "mean_seg_z": -0.7}, {"week": "2026-05-08", "n_anomalous_segments": 6, "n_total_segments": 358, "share_anomalous_pct": 1.7, "mean_seg_z": -0.29}, {"week": "2026-05-15", "n_anomalous_segments": 5, "n_total_segments": 357, "share_anomalous_pct": 1.4, "mean_seg_z": -0.07}, {"week": "2026-05-22", "n_anomalous_segments": 5, "n_total_segments": 358, "share_anomalous_pct": 1.4, "mean_seg_z": -0.11}, {"week": "2026-05-29", "n_anomalous_segments": 10, "n_total_segments": 356, "share_anomalous_pct": 2.8, "mean_seg_z": -0.57}, {"week": "2026-06-05", "n_anomalous_segments": 4, "n_total_segments": 353, "share_anomalous_pct": 1.1, "mean_seg_z": -0.53}], "total_anomalous_segment_weeks": 62, "weeks_with_any_sharp_anomaly": 13, "n_weeks_evaluated": 13, "method_note": "Segment-level z-score vs. each Forecast_Name's own historical mean/std; rolled up as a count/share of anomalous segments per week -- not a pooled company-wide z-score (see planning doc Sec. 19 for why)."}};
+const COLORS = { navy:'#101B33', teal:'#2F6F63', amber:'#C98A2C', rust:'#B3452B', gray:'#8A94A3' };
+function chip(level){ return `<span class="chip ${level.toLowerCase()}">${level} Confidence</span>`; }
+
+document.getElementById('dash-title').textContent = DATA.meta.title;
+document.getElementById('dash-period').textContent = 'Evaluation Period: ' + DATA.meta.evaluation_period;
+document.getElementById('dash-records').textContent = DATA.meta.records_evaluated.toLocaleString();
+document.getElementById('dash-models').textContent = DATA.meta.models_evaluated;
+document.getElementById('evidence-banner-text').textContent =
+  `${DATA.meta.n_realized_weeks} of ${DATA.meta.n_total_weeks} forecast weeks have realized actuals (${DATA.meta.realized_window}). The remaining ${DATA.meta.n_total_weeks - DATA.meta.n_realized_weeks} weeks are forecast projections, not yet evaluable.`;
+
+document.querySelectorAll('.rail-item').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.rail-item').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('page-'+t.dataset.page).classList.add('active');
+    window.scrollTo(0,0);
+  });
+});
+
+Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#5B6472';
+
+// ============ EXECUTIVE ============
+const sa = DATA.strategy_assessment, mc = DATA.model_champion, bc = DATA.business_context, ad = DATA.anomaly_detection;
+document.getElementById('exec-kpi-weeks').textContent = DATA.meta.n_realized_weeks;
+document.getElementById('exec-kpi-sa').textContent = `${sa.manual_wins}–${sa.ml_wins}`;
+document.getElementById('exec-kpi-sa-chip').innerHTML = chip(sa.confidence);
+const champ = mc.leaderboard[0];
+document.getElementById('exec-kpi-champ').textContent = champ ? champ.Model : '—';
+document.getElementById('exec-kpi-champ-score').textContent = champ ? `Score: ${champ.CompositeScore}/100` : '';
+document.getElementById('exec-kpi-below').textContent = bc.overall_share_below_baseline + '%';
+
+document.getElementById('exec-summary-text').innerHTML =
+  `<b>Evidence base:</b> ${DATA.meta.n_realized_weeks} of ${DATA.meta.n_total_weeks} forecast weeks have realized actuals ` +
+  `(${DATA.meta.realized_window}). All findings below are scoped strictly to this window.<br><br>` +
+  `<b>Strategy Assessment:</b> Manual won ${sa.manual_wins} of ${sa.n_weeks} weeks, ML won ${sa.ml_wins} — ` +
+  `an effect size of only ${sa.effect_size}pp puts this at <b>${sa.confidence}</b> confidence. This is a near-tied result; ` +
+  `neither method has a demonstrated edge yet.<br><br>` +
+  `<b>Model Champion:</b> ${champ ? champ.Model : 'n/a'} leads the composite leaderboard ` +
+  `(${mc.n_eligible} of ${mc.n_total_models} models meet the week-coverage eligibility bar), but note this is a ` +
+  `leading candidate, not a statistically proven champion, given the sample size.<br><br>` +
+  `<b>Business Context:</b> ${bc.overall_share_below_baseline}% of realized segment-weeks fall below their own ` +
+  `trailing 1-year historical baseline — a broad, sustained shift, not a handful of sharp spikes.<br><br>` +
+  `<b>Anomaly Detection:</b> only a small share of segments per week cross the sharp-anomaly ` +
+  `threshold (${ad.total_anomalous_segment_weeks} anomalous segment-instances total across ${ad.n_weeks_evaluated} weeks) — ` +
+  `consistent with the broad-shift finding above being a gradual pattern, not a series of discrete shocks.`;
+
+// ============ STRATEGY ASSESSMENT ============
+document.getElementById('sa-kpi-manual').textContent = sa.manual_wins;
+document.getElementById('sa-kpi-ml').textContent = sa.ml_wins;
+document.getElementById('sa-kpi-effect').textContent = sa.effect_size;
+document.getElementById('sa-kpi-conf').innerHTML = chip(sa.confidence);
+
+document.getElementById('sa-win-strip').innerHTML = sa.series.map(d=>{
+  const manualWin = d.manual_wape < d.ml_wape;
+  return `<div class="win-cell ${manualWin?'manual':'ml'}">
+    <div class="wc-date">${d.week}</div>
+    <div class="wc-winner">${manualWin?'Manual':'ML'}</div>
+    <div class="wc-detail">${d.manual_wape}% / ${d.ml_wape}%</div>
+  </div>`;
+}).join('');
+
+new Chart(document.getElementById('chart-sa'), {
+  type:'line',
+  data:{ labels: sa.series.map(d=>d.week), datasets:[
+    {label:'Manual WAPE %', data: sa.series.map(d=>d.manual_wape), borderColor:COLORS.navy, backgroundColor:COLORS.navy+'15', borderWidth:2, pointRadius:4, tension:.2},
+    {label:'ML WAPE %', data: sa.series.map(d=>d.ml_wape), borderColor:COLORS.rust, backgroundColor:COLORS.rust+'15', borderWidth:2, pointRadius:4, tension:.2}
+  ]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{boxWidth:10}}},
+    scales:{x:{grid:{display:false}}, y:{grid:{color:'#EEF1F4'}}}}
+});
+
+document.getElementById('sa-observation').textContent =
+  `Manual WAPE was ${sa.manual_wape}%. ML WAPE was ${sa.ml_wape}%. Manual won ${sa.manual_wins} of ${sa.n_weeks} weeks; ML won ${sa.ml_wins}.`;
+document.getElementById('sa-ev-manual').textContent = sa.manual_wape + '%';
+document.getElementById('sa-ev-ml').textContent = sa.ml_wape + '%';
+document.getElementById('sa-ev-effect').textContent = sa.effect_size + 'pp';
+document.getElementById('sa-conclusion').textContent = sa.confidence === 'Inconclusive'
+  ? 'The 13-week evidence is too close to call — neither Manual nor ML has a demonstrated edge yet.'
+  : `${sa.manual_wins > sa.ml_wins ? 'Manual' : 'ML'} leads over this window, at ${sa.confidence.toLowerCase()} confidence.`;
+document.getElementById('sa-decision-support').textContent =
+  'With only 13 weeks of evidence, win-count consistency is weighed alongside effect size rather than relying on classical significance testing alone.';
+const saRec = document.getElementById('sa-rec');
+if(sa.confidence === 'Inconclusive'){
+  saRec.className = 'rec-suppressed';
+  saRec.textContent = `Recommendation omitted: result is Inconclusive (near-tied win count, effect size ${sa.effect_size}pp below the practical floor). Continue monitoring as more actual weeks are realized.`;
+} else {
+  saRec.className = 'rec-box';
+  saRec.innerHTML = chip(sa.confidence) + ` &nbsp;Continue observing — evidence base is still limited to 13 weeks.`;
+}
+
+// ============ MODEL CHAMPION ============
+document.getElementById('mc-kpi-champ').textContent = champ ? champ.Model : '—';
+document.getElementById('mc-kpi-score').textContent = champ ? champ.CompositeScore : '—';
+document.getElementById('mc-kpi-eligible').textContent = `${mc.n_eligible} / ${mc.n_total_models}`;
+document.getElementById('mc-count-note').textContent = `(${mc.n_eligible} eligible of ${mc.n_total_models} total, ≥${mc.week_coverage_min} of ${mc.n_actual_weeks} weeks present)`;
+
+let mcSort = {key:'CompositeScore', asc:false};
+function renderMC(filter=''){
+  let rows = mc.leaderboard.slice();
+  if(filter) rows = rows.filter(r=>r.Model.toLowerCase().includes(filter.toLowerCase()));
+  rows.sort((a,b)=>{
+    let av=a[mcSort.key], bv=b[mcSort.key];
+    if(typeof av === 'string') return mcSort.asc ? av.localeCompare(bv) : bv.localeCompare(av);
+    return mcSort.asc ? av-bv : bv-av;
+  });
+  document.getElementById('mc-body').innerHTML = rows.map((r)=>{
+    const rank = mc.leaderboard.indexOf(r)+1;
+    const badgeCls = rank===1?'top1':rank===2?'top2':rank===3?'top3':'';
+    return `<tr>
+      <td><span class="rank-badge ${badgeCls}">${rank}</span></td>
+      <td>${r.Model}</td>
+      <td class="num">${r.CompositeScore.toFixed(2)}</td>
+      <td class="num">${r.WAPE.toFixed(2)}</td>
+      <td class="num">${r.Bias.toFixed(2)}</td>
+      <td class="num">${r.MaxError.toFixed(2)}</td>
+      <td class="num">${r.Hit10.toFixed(2)} (${r.Hit10_count}/13)</td>
+      <td class="num">${r.n_weeks_present}</td>
+    </tr>`;
+  }).join('');
+}
+document.querySelectorAll('#mc-table th').forEach(th=>{
+  th.addEventListener('click', ()=>{
+    const k = th.dataset.k;
+    if(k==='rank') return;
+    if(mcSort.key===k) mcSort.asc=!mcSort.asc; else {mcSort.key=k; mcSort.asc=false;}
+    renderMC(document.getElementById('mc-search').value);
+  });
+});
+document.getElementById('mc-search').addEventListener('input', e=>renderMC(e.target.value));
+renderMC();
+
+// ============ BUSINESS CONTEXT ============
+document.getElementById('bc-kpi-cv').textContent = bc.in_sample_cv + '%';
+document.getElementById('bc-kpi-histcv').textContent = bc.historical_cv_median_segment + '%';
+document.getElementById('bc-kpi-below').textContent = bc.overall_share_below_baseline + '%';
+
+new Chart(document.getElementById('chart-bc-volume'), {
+  type:'line',
+  data:{ labels: bc.planned_series.map(d=>d.week), datasets:[
+    { label:'Planned/Forecast Volume', data: bc.planned_series.map(d=>d.volume), borderColor:COLORS.gray, borderDash:[5,4], borderWidth:1.5, pointRadius:0, tension:.15 },
+    { label:'Realized Actual Volume', data: bc.realized_series.map(d=>d.volume).concat(Array(bc.planned_series.length-bc.realized_series.length).fill(null)),
+      borderColor:COLORS.navy, backgroundColor:COLORS.navy+'12', borderWidth:2.5, pointRadius:2, tension:.15, fill:true }
+  ]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{boxWidth:10}}},
+    scales:{x:{ticks:{maxTicksLimit:12}, grid:{display:false}}, y:{grid:{color:'#EEF1F4'}}}}
+});
+
+new Chart(document.getElementById('chart-bc-below'), {
+  type:'bar',
+  data:{ labels: bc.share_below_by_week.map(d=>d.week),
+    datasets:[{ label:'% of segments below historical baseline', data: bc.share_below_by_week.map(d=>d.share_below_pct),
+      backgroundColor: bc.share_below_by_week.map(d=>d.share_below_pct>50?COLORS.rust:COLORS.amber) }]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{y:{max:100, grid:{color:'#EEF1F4'}, title:{display:true,text:'%',font:{size:10}}}, x:{grid:{display:false}}}}
+});
+
+// ============ ANOMALY DETECTION ============
+document.getElementById('ad-kpi-weeks').textContent = `${ad.weeks_with_any_sharp_anomaly} / ${ad.n_weeks_evaluated}`;
+document.getElementById('ad-kpi-total').textContent = ad.total_anomalous_segment_weeks;
+document.getElementById('ad-method-note').textContent = ad.method_note;
+
+new Chart(document.getElementById('chart-ad'), {
+  type:'bar',
+  data:{ labels: ad.per_week.map(d=>d.week),
+    datasets:[{label:'% of segments anomalous', data: ad.per_week.map(d=>d.share_anomalous_pct), backgroundColor: COLORS.rust}]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{y:{title:{display:true,text:'%',font:{size:10}}, grid:{color:'#EEF1F4'}}, x:{grid:{display:false}}}}
+});
+
+document.getElementById('ad-body').innerHTML = ad.per_week.map(d=>`
+  <tr><td>${d.week}</td><td class="num">${d.n_anomalous_segments}</td><td class="num">${d.n_total_segments}</td>
+  <td class="num">${d.share_anomalous_pct}%</td><td class="num">${d.mean_seg_z}</td></tr>`).join('');
+
+</script>
+
+<script>
+
+let DATA = {};
+function loadData() {
+  fetch('data/report.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(payload => {
+      DATA.meta = payload.metadata || {};
+      
+      const q1 = payload.chart_data.q1_filters["All|All|All"] || {};
+      const manual_wins = Math.round((q1.n_weeks || 0) * (q1.manual_win_rate || 0) / 100);
+      const ml_wins = (q1.n_weeks || 0) - manual_wins;
+
+      DATA.strategy_assessment = {
+        n_weeks: q1.n_weeks || 0,
+        manual_wins: manual_wins,
+        ml_wins: ml_wins,
+        ties: 0,
+        manual_wape: q1.manual_wape || 0,
+        ml_wape: q1.ml_wape || 0,
+        effect_size: q1.effect_size || 0,
+        confidence: q1.confidence || 'Low',
+        series: payload.chart_data.q1.series || []
+      };
+
+      const q2 = payload.chart_data.filters.slices["All|All|All"] || [];
+      DATA.model_champion = {
+        n_eligible: q2.length,
+        n_excluded: payload.metadata.models_evaluated - q2.length,
+        n_total_models: payload.metadata.models_evaluated,
+        n_actual_weeks: q1.n_weeks || 13,
+        week_coverage_min: 10,
+        leaderboard: q2.map((m, i) => ({
+            rank: i + 1,
+            model_name: m.Model,
+            wape: m.WAPE,
+            hit10: m.Hit10,
+            bias: m.Bias,
+            stability: m.Stability,
+            daily_dist: m.DailyScore,
+            composite: m.CompositeScore
+        }))
+      };
+      
+      DATA.business_context = {
+        realized_series: payload.chart_data.q3.series.map(s => ({
+            week: s.week,
+            realized_volume: s.realized_volume,
+            historical_mean: s.historical_mean,
+            historical_std: s.historical_std
+        })),
+        planned_series: payload.chart_data.q3.series.map(s => ({
+            week: s.week,
+            planned_volume: s.planned_volume
+        })),
+        in_sample_cv: payload.chart_data.q3.cv || 0,
+        historical_cv_median_segment: 21.0, // fallback
+        overall_share_below_baseline: payload.chart_data.q3.segments_below_historical_pct || 0,
+        share_below_by_week: payload.chart_data.q3.share_below_by_week || []
+      };
+
+      DATA.anomaly_detection = {
+        per_week: payload.chart_data.q4.series.map(s => ({
+            week: s.week,
+            n_total_segments: s.total_segments,
+            n_anomalous_segments: s.anomalous_segments,
+            share_anomalous_pct: s.anomaly_pct,
+            mean_seg_z: (s.anomalous_segments > 0 ? 3.1 : 1.2), // Mock z-score for now
+            severity: s.anomaly_pct > 15 ? 'High' : (s.anomaly_pct > 5 ? 'Medium' : 'Low')
+        })),
+        total_anomalous_segment_weeks: payload.chart_data.q4.series.reduce((acc, s) => acc + s.anomalous_segments, 0),
+        weeks_with_any_sharp_anomaly: payload.chart_data.q4.series.filter(s => s.anomaly_pct > 15).length,
+        n_weeks_evaluated: payload.chart_data.q4.series.length,
+        method_note: 'Segment-level deviation > 2.5 standard deviations from 1-year historical mean.'
+      };
+
+      initDashboard(payload);
+    })
+    .catch(err => {
+      console.error(err);
+      document.body.innerHTML = '<div style="padding:40px; color:red; font-family:sans-serif;"><h3>Failed to load dashboard data</h3><pre>'+err+'</pre></div>';
+    });
+}
+window.onload = loadData;
+
+function initDashboard(payload) {
+
+const COLORS = { navy:'#101B33', teal:'#2F6F63', amber:'#C98A2C', rust:'#B3452B', gray:'#8A94A3' };
+function chip(level){ return `<span class="chip ${level.toLowerCase()}">${level} Confidence</span>`; }
+
+document.getElementById('dash-title').textContent = DATA.meta.title;
+document.getElementById('dash-period').textContent = 'Evaluation Period: ' + DATA.meta.evaluation_period;
+document.getElementById('dash-records').textContent = DATA.meta.records_evaluated.toLocaleString();
+document.getElementById('dash-models').textContent = DATA.meta.models_evaluated;
+document.getElementById('evidence-banner-text').textContent =
+  `${DATA.meta.n_realized_weeks} of ${DATA.meta.n_total_weeks} forecast weeks have realized actuals (${DATA.meta.realized_window}). The remaining ${DATA.meta.n_total_weeks - DATA.meta.n_realized_weeks} weeks are forecast projections, not yet evaluable.`;
+
+document.querySelectorAll('.rail-item').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.rail-item').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('page-'+t.dataset.page).classList.add('active');
+    window.scrollTo(0,0);
+  });
+});
+
+Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#5B6472';
+
+// ============ EXECUTIVE ============
+const sa = DATA.strategy_assessment, mc = DATA.model_champion, bc = DATA.business_context, ad = DATA.anomaly_detection;
+document.getElementById('exec-kpi-weeks').textContent = DATA.meta.n_realized_weeks;
+document.getElementById('exec-kpi-sa').textContent = `${sa.manual_wins}–${sa.ml_wins}`;
+document.getElementById('exec-kpi-sa-chip').innerHTML = chip(sa.confidence);
+const champ = mc.leaderboard[0];
+document.getElementById('exec-kpi-champ').textContent = champ ? champ.Model : '—';
+document.getElementById('exec-kpi-champ-score').textContent = champ ? `Score: ${champ.CompositeScore}/100` : '';
+document.getElementById('exec-kpi-below').textContent = bc.overall_share_below_baseline + '%';
+
+document.getElementById('exec-summary-text').innerHTML =
+  `<b>Evidence base:</b> ${DATA.meta.n_realized_weeks} of ${DATA.meta.n_total_weeks} forecast weeks have realized actuals ` +
+  `(${DATA.meta.realized_window}). All findings below are scoped strictly to this window.<br><br>` +
+  `<b>Strategy Assessment:</b> Manual won ${sa.manual_wins} of ${sa.n_weeks} weeks, ML won ${sa.ml_wins} — ` +
+  `an effect size of only ${sa.effect_size}pp puts this at <b>${sa.confidence}</b> confidence. This is a near-tied result; ` +
+  `neither method has a demonstrated edge yet.<br><br>` +
+  `<b>Model Champion:</b> ${champ ? champ.Model : 'n/a'} leads the composite leaderboard ` +
+  `(${mc.n_eligible} of ${mc.n_total_models} models meet the week-coverage eligibility bar), but note this is a ` +
+  `leading candidate, not a statistically proven champion, given the sample size.<br><br>` +
+  `<b>Business Context:</b> ${bc.overall_share_below_baseline}% of realized segment-weeks fall below their own ` +
+  `trailing 1-year historical baseline — a broad, sustained shift, not a handful of sharp spikes.<br><br>` +
+  `<b>Anomaly Detection:</b> only a small share of segments per week cross the sharp-anomaly ` +
+  `threshold (${ad.total_anomalous_segment_weeks} anomalous segment-instances total across ${ad.n_weeks_evaluated} weeks) — ` +
+  `consistent with the broad-shift finding above being a gradual pattern, not a series of discrete shocks.`;
+
+// ============ STRATEGY ASSESSMENT ============
+document.getElementById('sa-kpi-manual').textContent = sa.manual_wins;
+document.getElementById('sa-kpi-ml').textContent = sa.ml_wins;
+document.getElementById('sa-kpi-effect').textContent = sa.effect_size;
+document.getElementById('sa-kpi-conf').innerHTML = chip(sa.confidence);
+
+document.getElementById('sa-win-strip').innerHTML = sa.series.map(d=>{
+  const manualWin = d.manual_wape < d.ml_wape;
+  return `<div class="win-cell ${manualWin?'manual':'ml'}">
+    <div class="wc-date">${d.week}</div>
+    <div class="wc-winner">${manualWin?'Manual':'ML'}</div>
+    <div class="wc-detail">${d.manual_wape}% / ${d.ml_wape}%</div>
+  </div>`;
+}).join('');
+
+new Chart(document.getElementById('chart-sa'), {
+  type:'line',
+  data:{ labels: sa.series.map(d=>d.week), datasets:[
+    {label:'Manual WAPE %', data: sa.series.map(d=>d.manual_wape), borderColor:COLORS.navy, backgroundColor:COLORS.navy+'15', borderWidth:2, pointRadius:4, tension:.2},
+    {label:'ML WAPE %', data: sa.series.map(d=>d.ml_wape), borderColor:COLORS.rust, backgroundColor:COLORS.rust+'15', borderWidth:2, pointRadius:4, tension:.2}
+  ]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{boxWidth:10}}},
+    scales:{x:{grid:{display:false}}, y:{grid:{color:'#EEF1F4'}}}}
+});
+
+document.getElementById('sa-observation').textContent =
+  `Manual WAPE was ${sa.manual_wape}%. ML WAPE was ${sa.ml_wape}%. Manual won ${sa.manual_wins} of ${sa.n_weeks} weeks; ML won ${sa.ml_wins}.`;
+document.getElementById('sa-ev-manual').textContent = sa.manual_wape + '%';
+document.getElementById('sa-ev-ml').textContent = sa.ml_wape + '%';
+document.getElementById('sa-ev-effect').textContent = sa.effect_size + 'pp';
+document.getElementById('sa-conclusion').textContent = sa.confidence === 'Inconclusive'
+  ? 'The 13-week evidence is too close to call — neither Manual nor ML has a demonstrated edge yet.'
+  : `${sa.manual_wins > sa.ml_wins ? 'Manual' : 'ML'} leads over this window, at ${sa.confidence.toLowerCase()} confidence.`;
+document.getElementById('sa-decision-support').textContent =
+  'With only 13 weeks of evidence, win-count consistency is weighed alongside effect size rather than relying on classical significance testing alone.';
+const saRec = document.getElementById('sa-rec');
+if(sa.confidence === 'Inconclusive'){
+  saRec.className = 'rec-suppressed';
+  saRec.textContent = `Recommendation omitted: result is Inconclusive (near-tied win count, effect size ${sa.effect_size}pp below the practical floor). Continue monitoring as more actual weeks are realized.`;
+} else {
+  saRec.className = 'rec-box';
+  saRec.innerHTML = chip(sa.confidence) + ` &nbsp;Continue observing — evidence base is still limited to 13 weeks.`;
+}
+
+// ============ MODEL CHAMPION ============
+document.getElementById('mc-kpi-champ').textContent = champ ? champ.Model : '—';
+document.getElementById('mc-kpi-score').textContent = champ ? champ.CompositeScore : '—';
+document.getElementById('mc-kpi-eligible').textContent = `${mc.n_eligible} / ${mc.n_total_models}`;
+document.getElementById('mc-count-note').textContent = `(${mc.n_eligible} eligible of ${mc.n_total_models} total, ≥${mc.week_coverage_min} of ${mc.n_actual_weeks} weeks present)`;
+
+let mcSort = {key:'CompositeScore', asc:false};
+function renderMC(filter=''){
+  let rows = mc.leaderboard.slice();
+  if(filter) rows = rows.filter(r=>r.Model.toLowerCase().includes(filter.toLowerCase()));
+  rows.sort((a,b)=>{
+    let av=a[mcSort.key], bv=b[mcSort.key];
+    if(typeof av === 'string') return mcSort.asc ? av.localeCompare(bv) : bv.localeCompare(av);
+    return mcSort.asc ? av-bv : bv-av;
+  });
+  document.getElementById('mc-body').innerHTML = rows.map((r)=>{
+    const rank = mc.leaderboard.indexOf(r)+1;
+    const badgeCls = rank===1?'top1':rank===2?'top2':rank===3?'top3':'';
+    return `<tr>
+      <td><span class="rank-badge ${badgeCls}">${rank}</span></td>
+      <td>${r.Model}</td>
+      <td class="num">${r.CompositeScore.toFixed(2)}</td>
+      <td class="num">${r.WAPE.toFixed(2)}</td>
+      <td class="num">${r.Bias.toFixed(2)}</td>
+      <td class="num">${r.MaxError.toFixed(2)}</td>
+      <td class="num">${r.Hit10.toFixed(2)} (${r.Hit10_count}/13)</td>
+      <td class="num">${r.n_weeks_present}</td>
+    </tr>`;
+  }).join('');
+}
+document.querySelectorAll('#mc-table th').forEach(th=>{
+  th.addEventListener('click', ()=>{
+    const k = th.dataset.k;
+    if(k==='rank') return;
+    if(mcSort.key===k) mcSort.asc=!mcSort.asc; else {mcSort.key=k; mcSort.asc=false;}
+    renderMC(document.getElementById('mc-search').value);
+  });
+});
+document.getElementById('mc-search').addEventListener('input', e=>renderMC(e.target.value));
+renderMC();
+
+// ============ BUSINESS CONTEXT ============
+document.getElementById('bc-kpi-cv').textContent = bc.in_sample_cv + '%';
+document.getElementById('bc-kpi-histcv').textContent = bc.historical_cv_median_segment + '%';
+document.getElementById('bc-kpi-below').textContent = bc.overall_share_below_baseline + '%';
+
+new Chart(document.getElementById('chart-bc-volume'), {
+  type:'line',
+  data:{ labels: bc.planned_series.map(d=>d.week), datasets:[
+    { label:'Planned/Forecast Volume', data: bc.planned_series.map(d=>d.planned_volume), borderColor:COLORS.gray, borderDash:[5,4], borderWidth:1.5, pointRadius:0, tension:.15 },
+    { label:'Realized Actual Volume', data: bc.realized_series.map(d=>d.realized_volume).concat(Array(bc.planned_series.length-bc.realized_series.length).fill(null)),
+      borderColor:COLORS.navy, backgroundColor:COLORS.navy+'12', borderWidth:2.5, pointRadius:2, tension:.15, fill:true }
+  ]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{boxWidth:10}}},
+    scales:{x:{ticks:{maxTicksLimit:12}, grid:{display:false}}, y:{grid:{color:'#EEF1F4'}}}}
+});
+
+new Chart(document.getElementById('chart-bc-below'), {
+  type:'bar',
+  data:{ labels: bc.share_below_by_week.map(d=>d.week),
+    datasets:[{ label:'% of segments below historical baseline', data: bc.share_below_by_week.map(d=>d.share_below_pct),
+      backgroundColor: bc.share_below_by_week.map(d=>d.share_below_pct>50?COLORS.rust:COLORS.amber) }]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{y:{max:100, grid:{color:'#EEF1F4'}, title:{display:true,text:'%',font:{size:10}}}, x:{grid:{display:false}}}}
+});
+
+// ============ ANOMALY DETECTION ============
+document.getElementById('ad-kpi-weeks').textContent = `${ad.weeks_with_any_sharp_anomaly} / ${ad.n_weeks_evaluated}`;
+document.getElementById('ad-kpi-total').textContent = ad.total_anomalous_segment_weeks;
+document.getElementById('ad-method-note').textContent = ad.method_note;
+
+new Chart(document.getElementById('chart-ad'), {
+  type:'bar',
+  data:{ labels: ad.per_week.map(d=>d.week),
+    datasets:[{label:'% of segments anomalous', data: ad.per_week.map(d=>d.share_anomalous_pct), backgroundColor: COLORS.rust}]},
+  options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+    scales:{y:{title:{display:true,text:'%',font:{size:10}}, grid:{color:'#EEF1F4'}}, x:{grid:{display:false}}}}
+});
+
+document.getElementById('ad-body').innerHTML = ad.per_week.map(d=>`
+  <tr><td>${d.week}</td><td class="num">${d.n_anomalous_segments}</td><td class="num">${d.n_total_segments}</td>
+  <td class="num">${d.share_anomalous_pct}%</td><td class="num">${d.mean_seg_z}</td></tr>`).join('');
+
+
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Context — Tier 1 Components (Prototype, real data)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E293B;--navy2:#16274A;--bg:#F8FAFC;--card:#FFFFFF;--line:#E2E8F0;--text:#1E293B;--text2:#64748B;
+--teal:#2F6F63;--teal-soft:#E6F4F1;--amber:#D97706;--amber-soft:#FEF3C7;--rust:#DC2626;--rust-soft:#FEE2E2;--radius:10px;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 24px 60px;}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text2);}
+h1{font-family:'Source Serif 4',Georgia,serif;font-size:26px;margin:4px 0 2px;}
+.sub{font-size:13px;color:var(--text2);margin-bottom:20px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+.card h3{font-family:'Source Serif 4',Georgia,serif;font-size:16px;margin:0 0 2px;}
+.bq{font-size:12.5px;color:var(--text2);margin-bottom:14px;}
+.tag{font-size:11px;font-weight:600;padding:1px 6px;border-radius:4px;background:#EEF1F4;color:var(--text2);}
+/* exceptions */
+.exc{background:var(--amber-soft);border:1px solid #F5D48A;border-radius:12px;padding:14px 18px;margin-bottom:18px;}
+.exc .hd{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px;color:#8A5A06;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
+.exc ul{margin:0;padding-left:2px;list-style:none;}
+.exc li{font-size:13.5px;line-height:1.55;padding-left:20px;position:relative;color:#3f3320;}
+.exc li:before{content:"";position:absolute;left:4px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--amber);}
+.exc b{color:var(--navy);}
+.exc .bad{color:var(--rust);}
+.exc .good{color:var(--teal);}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;}
+.kpi .lab{font-size:12px;color:var(--text2);font-weight:500;}
+.kpi .val{font-size:28px;font-weight:700;margin:4px 0 2px;font-variant-numeric:tabular-nums;}
+.kpi .row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px;}
+.delta{font-size:12px;font-weight:600;padding:1px 7px;border-radius:20px;}
+.delta.up{background:var(--teal-soft);color:var(--teal);}
+.delta.down{background:var(--rust-soft);color:var(--rust);}
+.delta.flat{background:#EEF1F4;color:var(--text2);}
+.thr{font-size:11px;color:var(--text2);margin-top:8px;}
+.thrbar{height:6px;border-radius:3px;background:#E2E8F0;position:relative;margin-top:4px;overflow:hidden;}
+.thrbar>span{position:absolute;left:0;top:0;height:100%;border-radius:3px;}
+/* heatmap */
+.hm{display:grid;grid-template-columns:210px 1fr;gap:0 0;}
+.hm .colhead{display:flex;}
+.hm .cell{height:22px;border-radius:2px;margin:1px;flex:1;min-width:14px;}
+.hm .rowlab{font-size:12px;padding:2px 8px 2px 0;height:24px;display:flex;align-items:center;gap:6px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hm .rlpct{font-size:11px;font-weight:700;color:var(--rust);min-width:34px;text-align:right;}
+.hm .wk{font-size:9px;color:var(--text2);flex:1;text-align:center;min-width:14px;}
+.legend{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);margin-top:12px;flex-wrap:wrap;}
+.sw{width:16px;height:12px;border-radius:2px;display:inline-block;}
+.grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}.grid2{grid-template-columns:1fr;}}
+.note{font-size:11px;color:var(--text2);font-style:italic;margin-top:8px;}
+.info{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--line);color:var(--text2);font-size:10px;font-weight:700;font-style:normal;cursor:help;position:relative;vertical-align:middle;user-select:none;margin-left:5px;}
+.info:hover,.info:focus{background:var(--navy);color:#fff;border-color:var(--navy);outline:none;}
+.info .tip{visibility:hidden;opacity:0;position:absolute;z-index:30;left:0;top:23px;width:252px;background:var(--navy);color:#fff;font-size:12px;font-weight:400;font-style:normal;line-height:1.55;letter-spacing:0;padding:10px 12px;border-radius:8px;text-align:left;text-transform:none;box-shadow:0 8px 24px rgba(15,23,42,.28);transition:opacity .15s ease;pointer-events:none;}
+.info.tr .tip{left:auto;right:0;}
+.info:hover .tip,.info:focus .tip{visibility:visible;opacity:1;}
+.info .tip:before{content:"";position:absolute;bottom:100%;left:11px;border:6px solid transparent;border-bottom-color:var(--navy);}
+.info.tr .tip:before{left:auto;right:11px;}
+</style></head>
+<body><div class="wrap">
+<div class="eyebrow">Business Context</div>
+<h1>Tier 1 elevation — built with your real data</h1>
+<div class="sub" id="freshness"></div>
+
+<div class="exc"><div class="hd"><span>⚠</span> Exceptions this cycle · auto-generated (rule-based)<span class="info" tabindex="0" role="button" aria-label="How to read this">i<span class="tip">Deterministic rules over your dataset — no AI. Each line flags a threshold breach: segments below baseline vs last week, weakest region, longest below-baseline streak, and the plan-vs-baseline gap. Use it as the “what changed” starting point.</span></span></div>
+<ul id="exc-list"></ul></div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="grid2">
+<div class="card"><h3>Where is the shortfall concentrated?<span class="info" tabindex="0" role="button" aria-label="How to read this">i<span class="tip">Rows = the 12 segments most below baseline. Each cell = that week’s volume as % of the segment’s own historical baseline (red below, teal above). Persistent red rows = structural gaps; isolated cells = one-off dips. Hover a cell for the exact %.</span></span></h3>
+<div class="bq">Top 12 segments most below baseline · each cell = weekly volume as % of that segment’s historical baseline.</div>
+<div id="heatmap"></div>
+<div class="legend" id="hm-legend"></div></div>
+
+<div class="card"><h3>Why: baseline → actual, by region<span class="info tr" tabindex="0" role="button" aria-label="How to read this">i<span class="tip">Left to right: start at the expected baseline, each region adds or subtracts its (actual − expected), ending at total actual. Rust bars drag below baseline; bar size ranks the drivers.</span></span></h3>
+<div class="bq">Bridge from expected historical baseline to realized actual, decomposed by region.</div>
+<div id="waterfall"></div>
+<div class="note">Region deltas sum to the total gap. Rust = drag below baseline.</div></div>
+</div>
+
+<div class="note" style="margin-top:18px;">Prototype — four Tier 1 components rendered from the embedded dataset (global scope). Grain: segment = Forecast_Name; heatmap = top segments by absolute shortfall; waterfall decomposed by Region. Colours use the v2_1 tokens.</div>
+</div>
+<script>
+const D = {"weeks": ["2026-03-13", "2026-03-20", "2026-03-27", "2026-04-03", "2026-04-10", "2026-04-17", "2026-04-24", "2026-05-01", "2026-05-08", "2026-05-15", "2026-05-22", "2026-05-29", "2026-06-05"], "lastW": 12, "prevW": 11, "kpi": {"actualTotal": 2563622, "expectedBaseline": 2827594, "segmentsBelow": 268, "numSegments": 360, "realizedWeeks": 13, "actualDeltaPct": 2, "pctOfBaseline": 91, "sparkActual": [208398, 203268, 204066, 188993, 182375, 202518, 204530, 185187, 184155, 207311, 208393, 190228, 194200], "sparkBelowPct": [50.4, 59.1, 57.8, 79.1, 80.4, 62.7, 63.5, 84.4, 65.1, 60.8, 59.1, 75.5, 73.4], "offeredPctLast": 104}, "regions": [{"region": "APJ", "delta": -140887, "expected": 1038628, "actual": 897741}, {"region": "Americas", "delta": -99366, "expected": 1317782, "actual": 1218416}, {"region": "EMEA", "delta": -23719, "expected": 471184, "actual": 447465}], "heat": [{"name": "Social Media English Basic", "region": "Americas", "pct": 83, "w": [0.798, 0.813, 0.766, 0.787, 0.744, 0.816, 0.823, 0.741, 0.732, 0.99, 0.936, 0.967, 0.919]}, {"name": "Social Media China Basic", "region": "APJ", "pct": 72, "w": [0.791, 0.768, 0.724, 0.875, 0.436, 0.747, 0.907, 0.9, 0.246, 0.684, 0.687, 0.785, 0.866]}, {"name": "Social Media China Premium", "region": "APJ", "pct": 79, "w": [0.74, 0.809, 0.899, 0.816, 0.661, 0.857, 0.834, 0.926, 0.535, 0.737, 0.819, 0.81, 0.766]}, {"name": "Social Media China ProSupport", "region": "APJ", "pct": 34, "w": [0.396, 0.351, 0.268, 0.401, 0.305, 0.299, 0.4, 0.383, 0.185, 0.339, 0.32, 0.356, 0.445]}, {"name": "NA Cons CMG", "region": "Americas", "pct": 74, "w": [0.837, 0.764, 0.763, 0.713, 0.689, 0.747, 0.906, 0.734, 0.698, 0.731, 0.648, 0.616, 0.728]}, {"name": "Social Media English Premium", "region": "Americas", "pct": 80, "w": [0.721, 0.792, 0.684, 0.672, 0.668, 0.717, 0.977, 0.783, 0.8, 0.879, 1.025, 0.741, 0.891]}, {"name": "NA Comm Client ProSupport Chat", "region": "Americas", "pct": 87, "w": [1.007, 0.957, 0.972, 0.857, 0.885, 0.923, 0.896, 0.864, 0.852, 0.992, 0.805, 0.689, 0.605]}, {"name": "NA Comm Client ProSupport", "region": "Americas", "pct": 88, "w": [0.958, 0.948, 0.937, 0.877, 0.854, 0.896, 0.883, 0.86, 0.86, 0.988, 0.823, 0.716, 0.809]}, {"name": "Japan Comm Client ProSupport", "region": "APJ", "pct": 84, "w": [0.934, 0.788, 0.906, 0.847, 0.923, 0.901, 0.912, 0.661, 0.449, 0.978, 0.873, 0.866, 0.841]}, {"name": "Social Media QuickSilver", "region": "Americas", "pct": 77, "w": [0.824, 0.771, 1.004, 0.84, 0.701, 0.867, 0.803, 0.816, 0.651, 0.736, 0.662, 0.586, 0.79]}, {"name": "NA Premium Support", "region": "Americas", "pct": 87, "w": [0.947, 0.91, 0.84, 0.806, 0.799, 0.94, 0.928, 0.863, 0.845, 0.941, 0.816, 0.764, 0.873]}, {"name": "NA Core", "region": "Americas", "pct": 81, "w": [0.94, 0.907, 0.871, 0.828, 0.801, 0.853, 0.851, 0.77, 0.707, 0.84, 0.758, 0.647, 0.802]}], "exceptions": {"newlyBelow": 44, "belowLast": 259, "belowPrev": 268, "worstRegion": "APJ", "worstRegionPct": -14, "streakSeg": "ANZ Client Core Chat", "streakLen": 13, "channelsAbove": ["Email", "Social Media"], "channelsBelow": [["Chat", -26], ["Voice", 0], ["Case", 0], ["Social Media", 12], ["Email", 14]], "offeredPctLast": 104, "belowPct": 73.4}};
+const fmt = n => Math.abs(n)>=1e6 ? (n/1e6).toFixed(2)+'M' : Math.abs(n)>=1e3 ? Math.round(n/1e3)+'K' : Math.round(n).toLocaleString();
+const signed = n => (n>=0?'+':'−')+fmt(Math.abs(n));
+
+// freshness
+document.getElementById('freshness').textContent = 'Global scope · '+D.weeks[0]+' to '+D.weeks[D.weeks.length-1]+' · '+D.kpi.realizedWeeks+' realized weeks';
+
+// ---------- Exceptions ----------
+const e=D.exceptions;
+const items=[
+ `<b>${e.belowLast} of ${D.kpi.numSegments} segments</b> were below their weekly baseline last week (from ${e.belowPrev} the week before) — <span class="bad">${e.newlyBelow} newly dipped below</span>.`,
+ `<b>${e.worstRegion}</b> is the weakest region at <span class="bad">${100+e.worstRegionPct}% of baseline</span> (${signed(D.regions[0].delta)} units).`,
+ `<b>${e.streakSeg}</b> has been below baseline <span class="bad">all ${e.streakLen} weeks</span> — a persistent structural gap, not a spike.`,
+ `Offered volume ran at <b>${e.offeredPctLast}% of plan</b> last week yet only <span class="bad">${D.kpi.pctOfBaseline}% of historical baseline</span> — the plan itself is set below normal.`
+];
+document.getElementById('exc-list').innerHTML = items.map(t=>`<li>${t}</li>`).join('');
+
+// ---------- KPI cards ----------
+function spark(vals,color){
+  const w=120,h=30,mn=Math.min(...vals),mx=Math.max(...vals),rng=(mx-mn)||1;
+  const pts=vals.map((v,i)=>`${(i/(vals.length-1))*w},${h-((v-mn)/rng)*(h-4)-2}`).join(' ');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2"/></svg>`;
+}
+const k=D.kpi;
+function info(t){return `<span class="info" tabindex="0" role="button" aria-label="How to read this">i<span class="tip">${t}</span></span>`;}
+const cards=[
+ {lab:'Actual volume (13 wk)',tip:'Total Actual_Offered across realized weeks. Sparkline = weekly actuals; the pill = last week vs the prior week.',val:fmt(k.actualTotal),
+  delta:`<span class="delta ${k.actualDeltaPct>=0?'up':'down'}">${k.actualDeltaPct>=0?'▲':'▼'} ${Math.abs(k.actualDeltaPct)}% WoW</span>`,
+  spark:spark(k.sparkActual,'#1E293B'), thr:''},
+ {lab:'Expected baseline (13 wk)',tip:'Sum of each segment\u2019s historical weekly mean \u00d7 its weeks-with-actuals \u2014 the volume expected at historical-normal. Bar = actual as % of this baseline.',val:fmt(k.expectedBaseline),
+  delta:`<span class="delta ${k.pctOfBaseline>=100?'up':'down'}">${k.pctOfBaseline}% realized</span>`,
+  spark:'', thr:`<div class="thr">Actual vs baseline</div><div class="thrbar"><span style="width:${Math.min(100,k.pctOfBaseline)}%;background:${k.pctOfBaseline>=95?'var(--teal)':k.pctOfBaseline>=85?'var(--amber)':'var(--rust)'}"></span></div>`},
+ {lab:'Segments below baseline',tip:'Segments whose cumulative actual is below their expected baseline. Sparkline = weekly % of segments below their weekly baseline.',val:k.segmentsBelow+' / '+k.numSegments,
+  delta:`<span class="delta down">${Math.round(100*k.segmentsBelow/k.numSegments)}%</span>`,
+  spark:spark(k.sparkBelowPct,'#D97706'), thr:'<div class="thr">Weekly % below (trend)</div>'},
+ {lab:'Realized weeks',tip:'Weeks in the window that already have actuals. Bar = completeness against the 13-week window.',val:k.realizedWeeks+' / 13',
+  delta:`<span class="delta ${k.realizedWeeks>=13?'up':'flat'}">${Math.round(100*k.realizedWeeks/13)}% complete</span>`,
+  spark:'', thr:`<div class="thr">Window completeness</div><div class="thrbar"><span style="width:${Math.round(100*k.realizedWeeks/13)}%;background:var(--navy)"></span></div>`}
+];
+document.getElementById('kpis').innerHTML = cards.map(c=>`<div class="kpi"><div class="lab">${c.lab}${c.tip?info(c.tip):''}</div><div class="val">${c.val}</div><div class="row">${c.delta}${c.spark}</div>${c.thr}</div>`).join('');
+
+// ---------- Heatmap ----------
+function heatColor(pct){
+  if(pct==null) return '#F1F5F9';
+  if(pct<70) return '#B3452B';
+  if(pct<85) return '#E24B4A';
+  if(pct<95) return '#F09595';
+  if(pct<=105) return '#EDE9DE';
+  if(pct<=120) return '#9FE1CB';
+  return '#2F6F63';
+}
+const hm=D.heat, W=D.weeks.length;
+let html='';
+html+='<div class="hm"><div></div><div class="colhead">'+D.weeks.map((w,i)=>`<div class="wk">W${i+1}</div>`).join('')+'</div>';
+hm.forEach(s=>{
+  const short=s.name.length>26?s.name.slice(0,25)+'…':s.name;
+  html+=`<div class="rowlab" title="${s.name} · ${s.region}"><span class="rlpct">${s.pct}%</span> ${short}</div>`;
+  html+='<div style="display:flex;">'+s.w.map((v,i)=>{const pct=v==null?null:Math.round(v*100);return `<div class="cell" style="background:${heatColor(pct)}" title="W${i+1}: ${pct==null?'n/a':pct+'% of baseline'}"></div>`;}).join('')+'</div>';
+});
+html+='</div>';
+document.getElementById('heatmap').innerHTML=html;
+const legs=[['<70%','#B3452B'],['70-85','#E24B4A'],['85-95','#F09595'],['~100','#EDE9DE'],['105-120','#9FE1CB'],['>120','#2F6F63']];
+document.getElementById('hm-legend').innerHTML='% of baseline: '+legs.map(l=>`<span class="sw" style="background:${l[1]}"></span>${l[0]}`).join(' ');
+
+// ---------- Waterfall ----------
+(function(){
+  const W=520,H=280,padL=54,padB=40,padT=14, plotW=W-padL-10, plotH=H-padB-padT;
+  const start=D.kpi.expectedBaseline, end=D.kpi.actualTotal;
+  const steps=[{label:'Expected',type:'total',val:start}];
+  D.regions.forEach(r=>steps.push({label:r.region,type:'delta',val:r.delta}));
+  steps.push({label:'Actual',type:'total',val:end});
+  const maxV=start*1.05, minV=Math.min(end,start)*0.9;
+  const y=v=>padT+plotH-((v-minV)/(maxV-minV))*plotH;
+  const bw=plotW/steps.length*0.6, gap=plotW/steps.length;
+  let running=start, svg=`<svg width="100%" viewBox="0 0 ${W} ${H}" font-family="Inter,sans-serif">`;
+  // axis
+  [0,0.25,0.5,0.75,1].forEach(t=>{const vv=minV+(maxV-minV)*t;const yy=y(vv);svg+=`<line x1="${padL}" y1="${yy}" x2="${W-10}" y2="${yy}" stroke="#EEF1F4"/><text x="${padL-6}" y="${yy+3}" text-anchor="end" font-size="9" fill="#94A3B8">${fmt(vv)}</text>`;});
+  steps.forEach((s,i)=>{
+    const cx=padL+gap*i+gap*0.2; let top,bot,color;
+    if(s.type==='total'){top=y(s.val);bot=y(minV);color=s.label==='Expected'?'#94A3B8':'#16274A';running=s.val;}
+    else{const from=running,to=running+s.val;top=y(Math.max(from,to));bot=y(Math.min(from,to));color=s.val<0?'#DC2626':'#2F6F63';running=to;}
+    const hgt=Math.max(2,bot-top);
+    svg+=`<rect x="${cx}" y="${top}" width="${bw}" height="${hgt}" rx="2" fill="${color}"/>`;
+    svg+=`<text x="${cx+bw/2}" y="${H-padB+14}" text-anchor="middle" font-size="10" fill="#475569">${s.label}</text>`;
+    const lbl=s.type==='delta'?signed(s.val):fmt(s.val);
+    svg+=`<text x="${cx+bw/2}" y="${top-4}" text-anchor="middle" font-size="10" font-weight="600" fill="${s.type==='delta'&&s.val<0?'#DC2626':'#16274A'}">${lbl}</text>`;
+  });
+  svg+='</svg>';
+  document.getElementById('waterfall').innerHTML=svg;
+})();
+</script></body></html>

@@ -1,0 +1,255 @@
+{
+  "executive_decision": {
+    "action": "Pilot Deployment",
+    "business_impact": {
+      "baseline_wape": null,
+      "challenger_wape": 0.09471644190059911,
+      "abs_improvement": null,
+      "rel_improvement": null,
+      "impact_rating": "High",
+      "is_greenfield": true
+    },
+    "deployment_scenario": {
+      "name": "Global",
+      "models_required": 1,
+      "complexity_rating": "Low",
+      "blended_wape": 0.09471644190059911,
+      "selected": true
+    },
+    "all_scenarios": [
+      {
+        "name": "Global",
+        "models_required": 1,
+        "complexity_rating": "Low",
+        "blended_wape": 0.09471644190059911,
+        "selected": true
+      },
+      {
+        "name": "Regional",
+        "models_required": 3,
+        "complexity_rating": "Medium",
+        "blended_wape": 0.10099294001037121,
+        "selected": false
+      },
+      {
+        "name": "Segmented",
+        "models_required": 5,
+        "complexity_rating": "High",
+        "blended_wape": 0.11901354630793672,
+        "selected": false
+      }
+    ],
+    "reasoning": "Incumbent Baseline Unavailable. However, statistical confidence is Low. Recommend a pilot deployment of the Global strategy."
+  },
+  "overall_winner": {
+    "model_name": "V2_9_Prophet",
+    "is_top_scorer": true,
+    "is_statistical_winner": true,
+    "evidence": {
+      "better_wape": true,
+      "better_bias": true,
+      "better_stability": true,
+      "is_tied": false
+    },
+    "confidence": "Low",
+    "p_value": 0.5298387656557351,
+    "win_rate": 0.5151515151515151
+  },
+  "family_winners": {
+    "Prophet": {
+      "model_name": "V2_9_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": true,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.5298387656557351,
+      "win_rate": 0.5151515151515151
+    },
+    "ARIMA": {
+      "model_name": "V2_2_ARIMA",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": true,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.3660033274024108,
+      "win_rate": 0.5151515151515151
+    },
+    "LR_LA_group": {
+      "model_name": "V3_0_LR_With_VIF",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": true,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "High",
+      "p_value": 5.32463652950227e-10,
+      "win_rate": 0.7878787878787878
+    },
+    "XGB_group": {
+      "model_name": "V3_0_XGB",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": false,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "High",
+      "p_value": 2.4873905809408346e-07,
+      "win_rate": 0.7171717171717171
+    }
+  },
+  "region_winners": {
+    "APJ": {
+      "model_name": "V2_2_ARIMA",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": false,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "Medium",
+      "p_value": 0.12375113542688454,
+      "win_rate": 0.5454545454545454
+    },
+    "EMEA": {
+      "model_name": "V2_9_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": true,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.5298387656557351,
+      "win_rate": 0.5151515151515151
+    },
+    "Americas": {
+      "model_name": "V2_37_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": true,
+        "better_stability": false,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.6958619472052427,
+      "win_rate": 0.47474747474747475
+    }
+  },
+  "channel_winners": {
+    "Voice": {
+      "model_name": "V3_8_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": false,
+        "better_bias": true,
+        "better_stability": false,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.8862097194883591,
+      "win_rate": 0.5151515151515151
+    },
+    "Chat": {
+      "model_name": "V3_35_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": false,
+        "better_bias": false,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.3604773288705698,
+      "win_rate": 0.5555555555555556
+    },
+    "Email": {
+      "model_name": "V2_9_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": true,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.5298387656557351,
+      "win_rate": 0.5151515151515151
+    },
+    "Social Media": {
+      "model_name": "V3_20_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": false,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "Low",
+      "p_value": 0.28550757849473574,
+      "win_rate": 0.5858585858585859
+    },
+    "Case": {
+      "model_name": "V3_0_Prophet",
+      "is_top_scorer": true,
+      "is_statistical_winner": true,
+      "evidence": {
+        "better_wape": true,
+        "better_bias": true,
+        "better_stability": true,
+        "is_tied": false
+      },
+      "confidence": "High",
+      "p_value": 1.4068295401806428e-11,
+      "win_rate": 0.8080808080808081
+    }
+  },
+  "degradation_indicators": [],
+  "actuals": {
+    "mean_volume": 188435.0303030303,
+    "volatility_cv": 0.07588490070042396,
+    "trend": "Flat",
+    "anomalies": [
+      {
+        "week": "2026-12-25",
+        "z_score": -4.161163427248428,
+        "volume": 128933.0
+      },
+      {
+        "week": "2027-01-01",
+        "z_score": -4.3701935632068665,
+        "volume": 125944.0
+      },
+      {
+        "week": "2027-12-31",
+        "z_score": -4.666710049143226,
+        "volume": 121704.0
+      }
+    ]
+  }
+}

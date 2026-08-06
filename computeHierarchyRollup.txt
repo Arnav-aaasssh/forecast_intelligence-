@@ -1,0 +1,117 @@
+function computeHierarchyRollup(df, groupByCol, filtersOrKey, filterVal) {
+    let target = df;
+    
+    // Support both old style (filterKey, filterVal) and new style (filtersObject)
+    if (filtersOrKey && typeof filtersOrKey === 'object') {
+        // New style: filtersOrKey is a filters dict like {Region: 'APJ', SubRegion: 'ANZ'}
+        for (const [k, v] of Object.entries(filtersOrKey)) {
+            if (k !== 'Global' && v) {
+                target = target.filter(row => v.includes(String(row[k])));
+            }
+        }
+    } else if (filtersOrKey && typeof filtersOrKey === 'string' && filtersOrKey !== 'Global') {
+        // Old style: filtersOrKey is a string column name
+        target = target.filter(row => row[filtersOrKey] == filterVal);
+    }
+    
+    // Apply classification filter if set
+    const classFilter = window.CLASSIFICATION_FILTER || [];
+    if (classFilter.length > 0) {
+        target = target.filter(row => classFilter.includes(row.Classification));
+    }
+    
+    // If groupByCol is Global, we pretend every row is 'Global'
+    const groups = {};
+    
+    target.forEach(row => {
+        if (row.Classification === 'No Data') return; // Skip No Data queues per spec
+        
+        let key = groupByCol === 'Global' ? 'Global' : row[groupByCol];
+        if (!key) key = '(Unspecified)';
+        
+        if (!groups[key]) {
+            groups[key] = {
+                'Strong ML': 0, 'Hybrid': 0, 'Manual': 0,
+                'Vol_Strong ML': 0, 'Vol_Hybrid': 0, 'Vol_Manual': 0,
+                'Conf_High': 0, 'Conf_Medium': 0, 'Conf_Low': 0,
+                Total_Queues: 0, Total_Volume: 0,
+                Queue_Wins_ML: 0, Queue_Wins_Manual: 0,
+                Manual_Err: 0, ML_Err: 0,
+                Valid_Weeks_Count: 0,
+                Classification: row.Classification || 'Manual',
+                Confidence: row.Confidence || 'High'
+            };
+        }
+        
+        const g = groups[key];
+        const classification = row.Classification || 'Manual';
+        const conf = row.Confidence || 'High';
+        
+        g[classification] += 1;
+        g['Vol_' + classification] += (row.Queue_Actual_Sum || 0);
+        g['Conf_' + conf] += 1;
+        
+        if (row.Queue_Winner_By_WAPE === 'ML') g.Queue_Wins_ML += 1;
+        else g.Queue_Wins_Manual += 1;
+        
+        g.Total_Queues += 1;
+        g.Total_Volume += (row.Queue_Actual_Sum || 0);
+        g.Manual_Err += (row.Queue_Manual_Err_Sum || 0);
+        g.ML_Err += (row.Queue_ML_Err_Sum || 0);
+        g.Prev_Year_Err_Weighted_Sum = (g.Prev_Year_Err_Weighted_Sum || 0) + ((row.Queue_WAPE_Prev_Year || 0) * (row.Queue_Actual_Sum || 0));
+        g.Valid_Weeks_Count += (row.Valid_Weeks_Count || 0);
+    });
+    
+    const results = [];
+    for (const [key, g] of Object.entries(groups)) {
+        const pctStrongML = g.Total_Queues ? (g['Strong ML'] / g.Total_Queues * 100) : 0;
+        const pctHybrid = g.Total_Queues ? (g['Hybrid'] / g.Total_Queues * 100) : 0;
+        const pctManual = g.Total_Queues ? (g['Manual'] / g.Total_Queues * 100) : 0;
+        
+        const volPctStrongML = g.Total_Volume ? (g['Vol_Strong ML'] / g.Total_Volume * 100) : 0;
+        const volPctHybrid = g.Total_Volume ? (g['Vol_Hybrid'] / g.Total_Volume * 100) : 0;
+        const volPctManual = g.Total_Volume ? (g['Vol_Manual'] / g.Total_Volume * 100) : 0;
+        
+        const confPctHigh = g.Total_Queues ? (g['Conf_High'] / g.Total_Queues * 100) : 0;
+        const confPctMedium = g.Total_Queues ? (g['Conf_Medium'] / g.Total_Queues * 100) : 0;
+        const confPctLow = g.Total_Queues ? (g['Conf_Low'] / g.Total_Queues * 100) : 0;
+        
+        const manualWape = g.Total_Volume ? (g.Manual_Err / g.Total_Volume * 100) : 0;
+        const mlWape = g.Total_Volume ? (g.ML_Err / g.Total_Volume * 100) : 0;
+        const baselineWape = g.Total_Volume ? (g.Prev_Year_Err_Weighted_Sum / g.Total_Volume * 100) : 0;
+        
+        let queueWinner = g.Queue_Wins_ML >= g.Queue_Wins_Manual ? 'ML' : 'Manual';
+        let volWinner = mlWape <= manualWape ? 'ML' : 'Manual';
+        
+        let decisionState = 'Hybrid';
+        if (queueWinner === 'ML' && volWinner === 'ML') decisionState = 'ML';
+        if (queueWinner === 'Manual' && volWinner === 'Manual') decisionState = 'Manual';
+        
+        // Classify the group based on volume-weighted Strong ML share for legacy uses
+        let groupClass = 'Manual';
+        if (volPctStrongML >= 60) groupClass = 'Strong ML';
+        else if (volPctStrongML >= 40) groupClass = 'Hybrid';
+        
+        results.push({
+            Node: key,
+            ...g,
+            Pct_Strong_ML: pctStrongML,
+            Pct_Hybrid: pctHybrid,
+            Pct_Manual: pctManual,
+            Vol_Pct_Strong_ML: volPctStrongML,
+            Vol_Pct_Hybrid: volPctHybrid,
+            Vol_Pct_Manual: volPctManual,
+            Conf_Pct_High: confPctHigh,
+            Conf_Pct_Medium: confPctMedium,
+            Conf_Pct_Low: confPctLow,
+            Manual_WAPE: manualWape,
+            ML_WAPE: mlWape,
+            Baseline_WAPE: baselineWape,
+            Queue_Winner: queueWinner,
+            Volume_Winner: volWinner,
+            Decision_State: decisionState,
+            GroupClass: groupClass
+        });
+    }
+    
+    return results;

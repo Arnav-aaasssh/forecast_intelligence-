@@ -1,0 +1,187 @@
+--- v2_1
+
++++ final
+
+@@ -699,6 +699,37 @@
+
+ 
+ #mc-table tbody tr.mc-selected { background: var(--teal-soft) !important; border-left: 3px solid var(--teal); }
+ 
++/* BC Tier-1 components */
++.bc-exc{background:var(--amber-soft);border:1px solid #F5D48A;border-radius:12px;padding:14px 18px;margin-bottom:18px;}
++.bc-exc .hd{display:flex;align-items:center;gap:8px;font-weight:600;font-size:12px;color:#8A5A06;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
++.bc-exc ul{margin:0;padding:0;list-style:none;}
++.bc-exc li{font-size:13.5px;line-height:1.55;padding-left:20px;position:relative;color:#3f3320;margin:2px 0;}
++.bc-exc li:before{content:"";position:absolute;left:4px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--amber);}
++.bc-exc b{color:var(--navy);} .bc-exc .bad{color:var(--rust);font-weight:600;}
++.kpi-extra{margin-top:8px;}
++.kpi-extra .row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
++.bc-delta{font-size:11px;font-weight:600;padding:1px 7px;border-radius:20px;white-space:nowrap;}
++.bc-delta.up{background:var(--teal-soft);color:var(--teal);}
++.bc-delta.down{background:var(--rust-soft);color:var(--rust);}
++.bc-delta.flat{background:#F1F5F9;color:var(--text-2);}
++.bc-thr{font-size:10.5px;color:var(--text-2);margin-top:6px;}
++.bc-thrbar{height:6px;border-radius:3px;background:#E2E8F0;position:relative;margin-top:4px;overflow:hidden;}
++.bc-thrbar>span{position:absolute;left:0;top:0;height:100%;border-radius:3px;}
++.bc-hm .r{display:flex;align-items:center;}
++.bc-hm .rl{font-size:11.5px;width:190px;flex:0 0 190px;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
++.bc-hm .rlpct{font-size:11px;font-weight:700;color:var(--rust);min-width:34px;text-align:right;}
++.bc-hm .cells{display:flex;flex:1;}
++.bc-hm .c{height:20px;border-radius:2px;margin:1px;flex:1;min-width:10px;}
++.bc-hm .wk{font-size:9px;color:var(--text-2);flex:1;text-align:center;min-width:10px;}
++.bc-legend{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-2);margin-top:12px;flex-wrap:wrap;}
++.bc-legend .sw{width:16px;height:11px;border-radius:2px;display:inline-block;}
++.bc-info{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--line);color:var(--text-2);font-size:10px;font-weight:700;font-style:normal;cursor:help;position:relative;vertical-align:middle;margin-left:6px;}
++.bc-info:hover,.bc-info:focus{background:var(--navy);color:#fff;border-color:var(--navy);outline:none;}
++.bc-info .tip{visibility:hidden;opacity:0;position:absolute;z-index:40;left:0;top:23px;width:250px;background:var(--navy);color:#fff;font-size:12px;font-weight:400;font-style:normal;line-height:1.5;letter-spacing:0;padding:10px 12px;border-radius:8px;text-align:left;text-transform:none;box-shadow:0 8px 24px rgba(15,23,42,.28);transition:opacity .15s;pointer-events:none;}
++.bc-info.tr .tip{left:auto;right:0;}
++.bc-info:hover .tip,.bc-info:focus .tip{visibility:visible;opacity:1;}
++.bc-info .tip:before{content:"";position:absolute;bottom:100%;left:11px;border:6px solid transparent;border-bottom-color:var(--navy);}
++.bc-info.tr .tip:before{left:auto;right:11px;}
+ </style>
+ </head>
+ <body>
+@@ -1299,13 +1330,27 @@
+
+       <span class="section-icon">✦</span> Business Context
+     </div>
+     <div style="margin:-4px 0 14px;"><button type="button" onclick="nav('sa')" style="display:inline-flex; align-items:center; gap:6px; padding:7px 13px; font-size:13px; font-weight:600; color:#fff; background:var(--navy); border:none; border-radius:6px; cursor:pointer;">Investigate these segments in Strategy Assessment <span aria-hidden="true">&rarr;</span></button></div>
++    <div id="bc-exceptions" class="bc-exc" style="display:none;"></div>
+     <div class="kpi-row">
+-        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Actual Volume (13 Wk)</div></div><div class="kpi-value" id="bc-kpi-actual"></div></div>
+-        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Expected Baseline (13 Wk)</div><div class="kpi-icon gray">I</div></div><div class="kpi-value" id="bc-kpi-mean"></div></div>
+-        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Segments Below Baseline</div><div class="kpi-icon rust">▼</div></div><div class="kpi-value" id="bc-kpi-below"></div></div>
+-        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Realized Weeks</div><div class="kpi-icon gray">n</div></div><div class="kpi-value" id="bc-kpi-realized">13 <span style="font-size:14px;color:var(--text-2);">/ 99</span></div></div>
++        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Actual Volume (13 Wk)</div></div><div class="kpi-value" id="bc-kpi-actual"></div><div class="kpi-extra" id="bc-x-actual"></div></div>
++        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Expected Baseline (13 Wk)</div><div class="kpi-icon gray">I</div></div><div class="kpi-value" id="bc-kpi-mean"></div><div class="kpi-extra" id="bc-x-mean"></div></div>
++        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Segments Below Baseline</div><div class="kpi-icon rust">▼</div></div><div class="kpi-value" id="bc-kpi-below"></div><div class="kpi-extra" id="bc-x-below"></div></div>
++        <div class="kpi"><div class="kpi-top"><div class="kpi-label">Realized Weeks</div><div class="kpi-icon gray">n</div></div><div class="kpi-value" id="bc-kpi-realized">13 <span style="font-size:14px;color:var(--text-2);">/ 99</span></div><div class="kpi-extra" id="bc-x-realized"></div></div>
+     </div>
+     
++    <div class="grid-2" style="margin-bottom:16px;">
++      <div class="card">
++        <h3>Where Is the Shortfall Concentrated?<span class="bc-info" tabindex="0" role="button" aria-label="How to read this">i<span class="tip">Rows = the 12 segments most below baseline. Each cell = that week’s volume as % of the segment’s own baseline (red below, teal above). Persistent red rows = structural; isolated cells = one-off dips. Hover a cell for the exact %.</span></span></h3>
++        <div class="bq">Top 12 segments most below baseline, by week — where and when the gap concentrates.</div>
++        <div id="bc-heatmap"></div>
++        <div class="bc-legend" id="bc-hm-legend"></div>
++      </div>
++      <div class="card">
++        <h3>Why: Baseline → Actual, by Region<span class="bc-info tr" tabindex="0" role="button" aria-label="How to read this">i<span class="tip">Left to right: start at expected baseline, each region adds or subtracts its (actual − expected), ending at total actual. Rust bars drag below baseline; bar size ranks the drivers.</span></span></h3>
++        <div class="bq">Region contributions to the gap between expected baseline and realized actual.</div>
++        <div id="bc-waterfall"></div>
++      </div>
++    </div>
+     <div class="grid-2" style="margin-bottom:16px;">
+       <div class="card">
+         <h3>How Much of the Business Is Down</h3>
+@@ -4778,6 +4823,109 @@
+
+             }
+         });
+     }
++    renderBcTier1(target, sortedWeeks);
++}
++
++function renderBcTier1(target, sortedWeeks){
++  try{
++    const MEANK='Mean (Hist. Contacts) (Last 1 yr.)';
++    const nz=v=>{const n=parseFloat(v);return isNaN(n)?null:n;};
++    const W=sortedWeeks.length; if(!W) return;
++    const widx={}; sortedWeeks.forEach((w,i)=>{widx[w]=i;});
++    const fmt=n=>{n=Math.round(n);const a=Math.abs(n);return a>=1e6?(n/1e6).toFixed(2)+'M':a>=1e3?Math.round(n/1e3)+'K':n.toLocaleString();};
++    const seg={};const wkPlan=new Array(W).fill(0);
++    target.forEach(r=>{const i=widx[r.Week_Ending];if(i===undefined)return;const s=r.Forecast_Name;
++      if(!seg[s])seg[s]={name:s,region:r.Region||'Unknown',mean:nz(r[MEANK])||0,w:new Array(W).fill(null)};
++      const a=nz(r.Actual_Offered);if(a!==null)seg[s].w[i]=(seg[s].w[i]||0)+a;
++      const p=nz(r.Manual_Forecast);if(p!==null)wkPlan[i]+=p;});
++    const segs=Object.values(seg); if(!segs.length) return;
++    segs.forEach(s=>{s.count=s.w.filter(x=>x!==null).length;s.actualTotal=s.w.reduce((t,x)=>t+(x||0),0);s.expected=s.mean*s.count;s.shortfall=s.actualTotal-s.expected;s.pctBase=s.expected?s.actualTotal/s.expected:null;});
++    const numSegments=segs.length;
++    const totalActual=segs.reduce((t,s)=>t+s.actualTotal,0);
++    const expectedBaseline=segs.reduce((t,s)=>t+s.expected,0);
++    const pctOfBaseline=expectedBaseline?Math.round(100*totalActual/expectedBaseline):0;
++    const segmentsBelow=segs.filter(s=>s.expected&&s.actualTotal<s.expected).length;
++    const wkActual=new Array(W).fill(0),wkBelow=new Array(W).fill(0),wkTot=new Array(W).fill(0);
++    segs.forEach(s=>{for(let i=0;i<W;i++){const x=s.w[i];if(x!==null){wkActual[i]+=x;wkTot[i]+=1;if(x<s.mean)wkBelow[i]+=1;}}});
++    const wkBelowPct=wkActual.map((_,i)=>wkTot[i]?Math.round(100*wkBelow[i]/wkTot[i]):0);
++    const realized=Math.max(0,...segs.map(s=>s.count));
++    let lastW=-1;for(let i=0;i<W;i++)if(wkTot[i]>0)lastW=i;const prevW=lastW-1;
++
++    const sparkSVG=(vals,color)=>{const w=104,h=26,mn=Math.min(...vals),mx=Math.max(...vals),rng=(mx-mn)||1;const pts=vals.map((v,i)=>((i/(vals.length-1))*w)+','+(h-((v-mn)/rng)*(h-4)-2)).join(' ');return '<svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'"><polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="2"/></svg>';};
++    const deltaPill=p=>{const cls=p>0?'up':p<0?'down':'flat';const ar=p>0?'\u25B2':p<0?'\u25BC':'\u25A0';return '<span class="bc-delta '+cls+'">'+ar+' '+Math.abs(p)+'% WoW</span>';};
++    const info=(t,cls)=>'<span class="bc-info '+(cls||'')+'" tabindex="0" role="button" aria-label="How to read this">i<span class="tip">'+t+'</span></span>';
++    const set=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html;};
++
++    const actualWoW=(prevW>=0&&wkActual[prevW])?Math.round(100*(wkActual[lastW]/wkActual[prevW]-1)):0;
++    set('bc-x-actual','<div class="row">'+sparkSVG(wkActual,'#16274A')+deltaPill(actualWoW)+'</div>');
++    set('bc-x-mean','<div class="bc-thr">Actual vs baseline \u00b7 '+pctOfBaseline+'%</div><div class="bc-thrbar"><span style="width:'+Math.min(100,pctOfBaseline)+'%;background:'+(pctOfBaseline>=95?'var(--teal)':pctOfBaseline>=85?'var(--amber)':'var(--rust)')+'"></span></div>');
++    set('bc-x-below','<div class="row">'+sparkSVG(wkBelowPct,'#D97706')+'<span class="bc-delta flat">'+Math.round(100*segmentsBelow/numSegments)+'% of segs</span></div>');
++    set('bc-x-realized','<div class="bc-thr">Window completeness</div><div class="bc-thrbar"><span style="width:'+Math.round(100*realized/W)+'%;background:var(--navy)"></span></div>');
++
++    const kpiTips=[['bc-kpi-actual','Total Actual Offered across realized weeks. Sparkline = weekly actuals; pill = last week vs the prior week.'],
++      ['bc-kpi-mean','Sum of each segment\u2019s historical weekly mean \u00d7 its weeks with actuals \u2014 volume expected at historical-normal. Bar = actual as % of it.'],
++      ['bc-kpi-below','Segments whose cumulative actual is below their expected baseline. Sparkline = weekly % of segments below their weekly baseline.'],
++      ['bc-kpi-realized','Weeks in the window that already have actuals. Bar = completeness vs the full window.']];
++    kpiTips.forEach(function(p){const v=document.getElementById(p[0]);if(!v)return;const card=v.closest('.kpi');const lab=card&&card.querySelector('.kpi-label');if(lab&&!lab.querySelector('.bc-info'))lab.insertAdjacentHTML('beforeend',info(p[1]));});
++
++    const belowSet=wi=>{const o=new Set();segs.forEach(s=>{if(s.w[wi]!==null&&s.w[wi]<s.mean)o.add(s.name);});return o;};
++    let excHTML='';
++    if(lastW>=0){
++      const bl=belowSet(lastW),bp=prevW>=0?belowSet(prevW):new Set();let newly=0;bl.forEach(x=>{if(!bp.has(x))newly++;});
++      const reg={};segs.forEach(s=>{const g=s.region;reg[g]=reg[g]||{e:0,a:0};reg[g].e+=s.expected;reg[g].a+=s.actualTotal;});
++      const regArr=Object.keys(reg).map(k=>({r:k,pct:reg[k].e?Math.round(100*(reg[k].a/reg[k].e-1)):0,delta:Math.round(reg[k].a-reg[k].e)})).sort((x,y)=>x.pct-y.pct);
++      const worst=regArr[0];
++      const streak=s=>{let c=0,b=0;s.w.forEach(x=>{if(x!==null&&x<s.mean){c++;b=Math.max(b,c);}else c=0;});return b;};
++      let ss=segs[0],sl=0;segs.forEach(s=>{const k=streak(s);if(k>sl){sl=k;ss=s;}});
++      const offeredPct=wkPlan[lastW]?Math.round(100*wkActual[lastW]/wkPlan[lastW]):0;
++      const lines=[];
++      lines.push('<b>'+bl.size+' of '+numSegments+' segments</b> were below their weekly baseline last week'+(prevW>=0?' (from '+bp.size+' the week before)':'')+(newly?' \u2014 <span class="bad">'+newly+' newly below</span>':'')+'.');
++      if(worst)lines.push('<b>'+worst.r+'</b> is the weakest region at <span class="bad">'+(100+worst.pct)+'% of baseline</span> ('+(worst.delta>=0?'+':'\u2212')+fmt(Math.abs(worst.delta))+' units).');
++      if(sl>=Math.max(3,Math.ceil(W*0.6)))lines.push('<b>'+ss.name+'</b> has been below baseline <span class="bad">'+sl+' of '+W+' weeks</span> \u2014 a persistent gap, not a spike.');
++      if(wkPlan[lastW])lines.push('Offered volume ran at <b>'+offeredPct+'% of plan</b> last week yet <span class="bad">'+pctOfBaseline+'% of historical baseline</span> \u2014 the plan itself is set below normal.');
++      excHTML='<div class="hd"><span>\u26A0</span> Exceptions this cycle \u00b7 auto-generated (rule-based)'+info('Deterministic rules over the current scope \u2014 no AI. Flags segments below baseline vs last week, the weakest region, the longest below-baseline streak, and the plan-vs-baseline gap.')+'</div><ul>'+lines.map(l=>'<li>'+l+'</li>').join('')+'</ul>';
++    }
++    const excEl=document.getElementById('bc-exceptions');if(excEl){excEl.innerHTML=excHTML;excEl.style.display=excHTML?'block':'none';}
++
++    const heatColor=p=>{if(p==null)return '#F1F5F9';if(p<70)return '#B3452B';if(p<85)return '#E24B4A';if(p<95)return '#F09595';if(p<=105)return '#EDE9DE';if(p<=120)return '#9FE1CB';return '#2F6F63';};
++    const below=segs.filter(s=>s.expected&&s.shortfall<0).sort((a,b)=>a.shortfall-b.shortfall).slice(0,12);
++    const hmEl=document.getElementById('bc-heatmap');
++    if(hmEl){
++      if(!below.length){hmEl.innerHTML='<div class="bq">No segments below baseline in the current scope.</div>';}
++      else{
++        let html='<div class="bc-hm"><div class="r"><div class="rl"></div><div class="cells">'+sortedWeeks.map((w,i)=>'<div class="wk">W'+(i+1)+'</div>').join('')+'</div></div>';
++        below.forEach(s=>{const nm=s.name.length>26?s.name.slice(0,25)+'\u2026':s.name;const pct=s.pctBase?Math.round(100*s.pctBase):null;
++          html+='<div class="r"><div class="rl" title="'+s.name+' \u00b7 '+s.region+'"><span class="rlpct">'+pct+'%</span> '+nm+'</div><div class="cells">'+s.w.map((x,i)=>{const p=(x!==null&&s.mean)?Math.round(100*x/s.mean):null;return '<div class="c" style="background:'+heatColor(p)+'" title="W'+(i+1)+': '+(p==null?'n/a':p+'% of baseline')+'"></div>';}).join('')+'</div></div>';});
++        html+='</div>';hmEl.innerHTML=html;
++      }
++    }
++    const legEl=document.getElementById('bc-hm-legend');
++    if(legEl){const legs=[['<70%','#B3452B'],['70-85','#E24B4A'],['85-95','#F09595'],['~100','#EDE9DE'],['105-120','#9FE1CB'],['>120','#2F6F63']];legEl.innerHTML='% of baseline: '+legs.map(l=>'<span class="sw" style="background:'+l[1]+'"></span>'+l[0]).join(' ');}
++
++    const wfEl=document.getElementById('bc-waterfall');
++    if(wfEl){
++      const reg={};segs.forEach(s=>{const g=s.region;reg[g]=reg[g]||{e:0,a:0};reg[g].e+=s.expected;reg[g].a+=s.actualTotal;});
++      const regArr=Object.keys(reg).map(k=>({r:k,delta:Math.round(reg[k].a-reg[k].e)})).sort((x,y)=>x.delta-y.delta);
++      const start=expectedBaseline,end=totalActual;
++      const steps=[{label:'Expected',type:'total',val:start}].concat(regArr.map(x=>({label:x.r,type:'delta',val:x.delta}))).concat([{label:'Actual',type:'total',val:end}]);
++      const Wd=520,Hd=260,padL=54,padB=38,padT=16,plotW=Wd-padL-10,plotH=Hd-padB-padT;
++      const maxV=Math.max(start,end)*1.05,minV=Math.min(start,end)*0.9;
++      const y=v=>padT+plotH-((v-minV)/((maxV-minV)||1))*plotH;
++      const gap=plotW/steps.length,bw=gap*0.6;
++      let running=start,svg='<svg width="100%" viewBox="0 0 '+Wd+' '+Hd+'" font-family="Inter,sans-serif">';
++      [0,.25,.5,.75,1].forEach(t=>{const vv=minV+(maxV-minV)*t,yy=y(vv);svg+='<line x1="'+padL+'" y1="'+yy+'" x2="'+(Wd-10)+'" y2="'+yy+'" stroke="#EEF1F4"/><text x="'+(padL-6)+'" y="'+(yy+3)+'" text-anchor="end" font-size="9" fill="#94A3B8">'+fmt(vv)+'</text>';});
++      steps.forEach((s,i)=>{const cx=padL+gap*i+gap*0.2;let top,bot,color;
++        if(s.type==='total'){top=y(s.val);bot=y(minV);color=s.label==='Expected'?'#94A3B8':'#16274A';running=s.val;}
++        else{const from=running,to=running+s.val;top=y(Math.max(from,to));bot=y(Math.min(from,to));color=s.val<0?'#DC2626':'#2F6F63';running=to;}
++        const hh=Math.max(2,bot-top);
++        svg+='<rect x="'+cx+'" y="'+top+'" width="'+bw+'" height="'+hh+'" rx="2" fill="'+color+'"/>';
++        svg+='<text x="'+(cx+bw/2)+'" y="'+(Hd-padB+14)+'" text-anchor="middle" font-size="10" fill="#475569">'+s.label+'</text>';
++        const lbl=s.type==='delta'?((s.val>=0?'+':'\u2212')+fmt(Math.abs(s.val))):fmt(s.val);
++        svg+='<text x="'+(cx+bw/2)+'" y="'+(top-4)+'" text-anchor="middle" font-size="9.5" font-weight="600" fill="'+(s.type==='delta'&&s.val<0?'#DC2626':'#16274A')+'">'+lbl+'</text>';
++      });
++      svg+='</svg>';wfEl.innerHTML=svg;
++    }
++  }catch(e){console.error('renderBcTier1',e);}
+ }
+ 
+ // Stub for renderRootCausePanel (called by nav/updateScope for Hybrid nodes)

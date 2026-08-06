@@ -1,0 +1,100 @@
+.status-pill.yes { background:var(--teal-soft); color:var(--teal); }
+.status-pill.notable { background:var(--rust-soft); color:var(--rust); }
+.muted-dash { color:var(--text-2); }
+
+.gauge-container { position: relative; width: 100%; max-width: 280px; margin: 0 auto; padding-top: 20px; padding-bottom: 10px; }
+.gauge-label { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; transform: translateY(15px); }
+.gauge-val { font-size: 36px; font-family: var(--serif); font-weight: 700; color: var(--navy); line-height: 1; }
+.gauge-desc { font-size: 11px; color: var(--text-2); margin-top: 8px; }
+
+#page-exec .kpi-row { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+#page-exec .kpi { padding: 24px 28px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; }
+#page-exec .kpi .kpi-value { font-size: 34px; margin-top: 8px; margin-bottom: 8px; }
+#page-exec .kpi .kpi-label { font-size: 11.5px; }
+#page-exec .kpi .kpi-sub { font-size: 13.5px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="rail">
+    <div class="rail-brand">
+      <div class="rail-mark">◆</div>
+      <div class="rail-wordmark">Forecast Intelligence</div>
+      <div class="rail-eyebrow">Enterprise Decision Platform</div>
+    </div>
+    <div class="rail-nav">
+      <div class="rail-item active" data-page="exec"><span class="rail-icon">◆</span> Executive Overview</div>
+      <div class="rail-item" data-page="sa"><span class="rail-icon">01</span> Strategy Assessment</div>
+      <div class="rail-item" data-page="mc"><span class="rail-icon">02</span> Model Champion</div>
+      <div class="rail-item" data-page="bc"><span class="rail-icon">03</span> Business Context</div>
+      <div class="rail-item" data-page="ad"><span class="rail-icon">04</span> Anomaly Detection</div>
+    </div>
+    <div class="rail-foot">Deterministic snapshot · v2 · Evidence over narrative</div>
+  </div>
+
+  <div class="main">
+    <div class="hdr">
+      <div class="hdr-inner">
+        <div>
+          <div class="hdr-eyebrow">Enterprise Forecast Decision Intelligence Platform</div>
+          <h1 id="dash-title">Loading…</h1>
+          <div class="sub" id="dash-period"></div>
+        </div>
+.gauge-label { position: absolute; bottom: 0; left: 0; right: 0; text-align: center; transform: translateY(15px); }
+.gauge-val { font-size: 36px; font-family: var(--serif); font-weight: 700; color: var(--navy); line-height: 1; }
+.gauge-desc { font-size: 11px; color: var(--text-2); margin-top: 8px; }
+
+#page-exec .kpi-row { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+#page-exec .kpi { padding: 24px 28px; min-height: 130px; display: flex; flex-direction: column; justify-content: center; }
+#page-exec .kpi .kpi-value { font-size: 34px; margin-top: 8px; margin-bottom: 8px; }
+#page-exec .kpi .kpi-label { font-size: 11.5px; }
+#page-exec .kpi .kpi-sub { font-size: 13.5px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="rail">
+    <div class="rail-brand">
+      <div class="rail-mark">◆</div>
+      <div class="rail-wordmark">Forecast Intelligence</div>
+      <div class="rail-eyebrow">Enterprise Decision Platform</div>
+    </div>
+    <div class="rail-nav">
+      <div class="rail-item active" data-page="exec"><span class="rail-icon">◆</span> Executive Overview</div>
+      <div class="rail-item" data-page="sa"><span class="rail-icon">01</span> Strategy Assessment</div>
+      <div class="rail-item" data-page="mc"><span class="rail-icon">02</span> Model Champion</div>
+      <div class="rail-item" data-page="bc"><span class="rail-icon">03</span> Business Context</div>
+      <div class="rail-item" data-page="ad"><span class="rail-icon">04</span> Anomaly Detection</div>
+    </div>
+    <div class="rail-foot">Deterministic snapshot · v2 · Evidence over narrative</div>
+  </div>
+
+  <div class="main">
+    <div class="hdr">
+      <div class="hdr-inner">
+        <div>
+          <div class="hdr-eyebrow">Enterprise Forecast Decision Intelligence Platform</div>
+          <h1 id="dash-title">Loading…</h1>
+          <div class="sub" id="dash-period"></div>
+        </div>
+        <div class="hdr-meta"><span id="dash-records"></span> records · <span id="dash-models"></span> models evaluated</div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <button id="back-nav-btn" class="back-btn" style="display:none;" onclick="nav('page-exec')">← Back to Executive Summary</button>
+      <div class="filter-bar" id="global-filter-bar">
+        <div class="filter-bar-top">
+          <div class="filter-group">
+            <label>Region</label>
+            <select id="gf-region"></select>
+          </div>
+          <div class="filter-group">
+            <label>Sub-Region</label>
+            <select id="gf-subregion"></select>
+          </div>
+          <div class="filter-group">
+            <label>Fiscal Year</label>
+            <select id="gf-fiscalyear"></select>

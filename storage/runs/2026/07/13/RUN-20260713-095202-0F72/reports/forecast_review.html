@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast Review & Decision Support Report</title>
+    <style>
+        /* Corporate Blue color palette */
+:root {
+    --primary-color: #005A9C;
+    --secondary-color: #0078D4;
+    --accent-color: #00A4EF;
+    --bg-color: #F3F2F1;
+    --card-bg: #FFFFFF;
+    --text-color: #323130;
+    --text-muted: #605E5C;
+    --border-color: #EDEBE9;
+    
+    --success-color: #107C10;
+    --warning-color: #D83B01;
+    --critical-color: #A4262C;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header .container {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+h1 {
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    font-size: 2.2rem;
+}
+
+.header-meta {
+    display: flex;
+    gap: 2rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-top: 2.5rem;
+    font-weight: 600;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.kpi-card {
+    background: var(--card-bg);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--secondary-color);
+}
+
+.kpi-card.critical { border-left-color: var(--critical-color); }
+.kpi-card.warning { border-left-color: var(--warning-color); }
+.kpi-card.success { border-left-color: var(--success-color); }
+
+.kpi-title {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #F8F8F8;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.action-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.action-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.action-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.priority-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.priority-Critical { background: #FDE7E9; color: var(--critical-color); }
+.priority-High { background: #FDE7E9; color: var(--warning-color); }
+.priority-Medium { background: #FFF4CE; color: #8A6D3B; }
+.priority-Low { background: #DFF6DD; color: var(--success-color); }
+
+.action-detail {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.action-detail strong {
+    color: var(--text-muted);
+    display: inline-block;
+    width: 150px;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-color);
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Forecast Review Report</h1>
+            <div class="header-meta">
+                <span><strong>Review Date:</strong> 2026-07-13</span>
+                <span><strong>Execution:</strong> 2026-07-13 09:52:47 UTC</span>
+                <span><strong>Status:</strong> SUCCESS</span>
+                <span><strong>Rows Processed:</strong> 35,640</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Executive Summary</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card warning">
+                <div class="kpi-title">Overall Reliability</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Forecasts Requiring Review</div>
+                <div class="kpi-value">0</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Winning Forecast Method</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Primary Reliability Driver</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Manager Reviews Required</div>
+                <div class="kpi-value">0</div>
+            </div>
+        </div>
+
+        <h2>Validation Summary</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card success">
+                <div class="kpi-title">Validation Status</div>
+                <div class="kpi-value">SUCCESS</div>
+            </div>
+            <div class="kpi-card success">
+                <div class="kpi-title">Errors</div>
+                <div class="kpi-value">0</div>
+            </div>
+            <div class="kpi-card warning">
+                <div class="kpi-title">Warnings</div>
+                <div class="kpi-value">Logged</div>
+            </div>
+        </div>
+
+        <h2>Forecast Performance</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Manual Forecast</th>
+                    <th>ML Forecast</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Accuracy</strong></td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+                <tr>
+                    <td><strong>Mean Absolute Error (MAE)</strong></td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+                <tr>
+                    <td><strong>Mean Absolute Percentage Error (MAPE)</strong></td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+                <tr>
+                    <td><strong>Winning Method</strong></td>
+                    <td colspan="2">N/A (Based on Lowest MAE)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Forecast Reliability Assessment</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card critical">
+                <div class="kpi-title">High Review Forecasts</div>
+                <div class="kpi-value">0</div>
+            </div>
+            <div class="kpi-card warning">
+                <div class="kpi-title">Medium Review Forecasts</div>
+                <div class="kpi-value">0</div>
+            </div>
+            <div class="kpi-card success">
+                <div class="kpi-title">Low Review Forecasts</div>
+                <div class="kpi-value">0</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Average Reliability Score</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Highest Risk Score</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Manager Reviews Required</div>
+                <div class="kpi-value">0</div>
+            </div>
+        </div>
+
+        <h2>Business Insights</h2>
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Highest Risk Region</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Most Variable Offering</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Primary Reliability Driver</div>
+                <div class="kpi-value">N/A</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Critical Forecasts</div>
+                <div class="kpi-value">0</div>
+            </div>
+        </div>
+
+        <h2>Recommendations</h2>
+        
+        <p>No actionable recommendations generated.</p>
+        
+
+        <h2>Pipeline Execution</h2>
+        <table>
+            <tbody>
+                <tr>
+                    <td><strong>Execution Time</strong></td>
+                    <td>1.5648 seconds</td>
+                </tr>
+                <tr>
+                    <td><strong>Modules Executed</strong></td>
+                    <td>validation, performance, comparison, drift, risk, insights, recommendations</td>
+                </tr>
+                <tr>
+                    <td><strong>Rows Processed</strong></td>
+                    <td>35,640</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        Forecast Review & Decision Support System<br>
+        Version 1.0 MVP<br>
+        Generated Automatically
+    </footer>
+</body>
+</html>

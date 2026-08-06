@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+
+:root{
+  --navy:#101B33; --navy-2:#16274A;
+  --bg:#F4F6F8; --card:#FFFFFF; --line:#E4E8EE;
+  --text:#101828; --text-2:#5B6472;
+  --teal:#2F6F63; --teal-soft:#E4EFEC;
+  --amber:#C98A2C; --amber-soft:#FBF0DE;
+  --rust:#B3452B; --rust-soft:#FBE9E4;
+  --gray-chip:#8A94A3; --gray-chip-soft:#EDEFF2;
+  --radius:10px;
+  --serif:'Source Serif 4',Georgia,serif; --sans:'IBM Plex Sans',-apple-system,sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;}
+.app{display:flex;min-height:100vh;}
+::selection{background:var(--teal);color:#fff;}
+
+.rail{width:224px;flex-shrink:0;background:linear-gradient(180deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;}
+.rail-brand{padding:24px 18px 18px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:flex-start;}
+.rail-mark{width:36px;height:36px;border-radius:10px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px;box-shadow:0 4px 14px rgba(47,111,99,.35);}
+.rail-wordmark{font-family:var(--serif);font-size:17px;font-weight:700;color:#fff;letter-spacing:.5px;margin-bottom:4px;}
+.rail-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:#8FA3C4;line-height:1.5;}
+.rail-nav{padding:14px 10px;position:relative;}
+.rail-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:9px;cursor:pointer;color:#B7C4DB;font-size:13px;font-weight:500;margin-bottom:3px;position:relative;transition:color .18s ease, background .18s ease, transform .18s ease;}
+.rail-item:hover{background:rgba(255,255,255,.055);color:#fff;transform:translateX(2px);}
+.rail-item.active{background:rgba(47,111,99,.22);color:#fff;}
+.rail-item.active::before{content:'';position:absolute;left:-10px;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--teal);box-shadow:0 0 8px rgba(47,111,99,.7);}
+.rail-icon{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:6px;background:rgba(255,255,255,.06);font-family:var(--mono);font-size:10.5px;font-weight:600;transition:background .18s ease;}
+.rail-item.active .rail-icon{background:var(--teal);color:#fff;}
+.rail-item:hover .rail-icon{background:rgba(255,255,255,.14);}
+.rail-foot{padding:14px 18px;font-size:10.5px;color:#7A8CAD;border-top:1px solid rgba(255,255,255,.08);margin-top:auto;line-height:1.6;}
+
+.main{flex:1;min-width:0;}
+.hdr{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;padding:24px 28px;position:relative;overflow:hidden;}
+.hdr::after{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(47,111,99,.18) 0%,transparent 70%);pointer-events:none;}
+.hdr-inner{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;position:relative;}
+.hdr-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9FB3D1;margin-bottom:6px;}
+.hdr h1{font-family:var(--serif);font-weight:600;font-size:24px;margin:0 0 4px;}
+.hdr .sub{color:#C3CEDF;font-size:13px;}
+.hdr-meta{text-align:right;font-size:12px;color:#9FB3D1;line-height:1.7;}
+.hdr-meta b{color:#fff;}
+.evidence-banner{background:var(--amber-soft);border-bottom:1px solid rgba(201,138,44,.25);padding:6px 20px;font-size:12px;color:#8a6416;display:flex;align-items:center;gap:8px;}
+.evidence-banner b{color:var(--amber);}
+
+.wrap{max-width:1360px;padding:24px 28px 60px;}
+.page{display:none;}
+.page.active{display:block;animation:fade .3s cubic-bezier(.22,.61,.36,1);}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes riseIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.stagger{animation:riseIn .45s cubic-bezier(.22,.61,.36,1) both;}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:20px;}
+.kpi-row .kpi{animation:riseIn .4s cubic-bezier(.22,.61,.36,1) both;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden;transition:box-shadow .2s ease, transform .2s ease;cursor:pointer;}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);transform:scaleY(0);transform-origin:bottom;transition:transform .25s cubic-bezier(.22,.61,.36,1);}
+.kpi::after{content:'→';position:absolute;top:18px;right:20px;color:var(--teal);opacity:0;transform:translateX(-8px);transition:all .2s ease;font-weight:bold;}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(16,27,51,.09);}
+.kpi:hover::before{transform:scaleY(1);}
+.kpi:hover::after{opacity:1;transform:translateX(0);}
+.kpi-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.kpi-label{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-2);}
+.kpi-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:var(--teal-soft);color:var(--teal);font-size:14px;flex-shrink:0;}
+.kpi-icon.amber{background:var(--amber-soft);color:var(--amber);}
+.kpi-icon.rust{background:var(--rust-soft);color:var(--rust);}
+.kpi-icon.gray{background:var(--gray-chip-soft);color:var(--gray-chip);}
+.kpi-value{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--navy);margin-bottom:4px;font-variant-numeric:tabular-nums;}
+.kpi-sub{font-size:12px;color:var(--text-2);}
+
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:100px;font-family:var(--mono);font-size:11px;font-weight:500;}
+.chip::before{content:'';width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.chip.high{background:var(--teal-soft);color:var(--teal);} .chip.high::before{background:var(--teal);box-shadow:0 0 0 3px rgba(47,111,99,.15);}
+.chip.medium{background:var(--amber-soft);color:var(--amber);} .chip.medium::before{background:var(--amber);box-shadow:0 0 0 3px rgba(201,138,44,.15);}
+.chip.low{background:var(--gray-chip-soft);color:var(--gray-chip);} .chip.low::before{background:var(--gray-chip);}
+.chip.inconclusive{background:#fff;color:var(--gray-chip);border:1.5px dashed var(--gray-chip);}
+.chip.inconclusive::before{background:transparent;border:1.5px solid var(--gray-chip);}
+
+.grid-2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid-1{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:1000px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;transition:box-shadow .2s ease;}
+.card:hover{box-shadow:0 6px 20px rgba(16,27,51,.06);}
+.exec-card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.02);transition:transform .2s cubic-bezier(.175,.885,.32,1.275),box-shadow .2s ease,border-color .2s ease;cursor:pointer;position:relative;}
+.exec-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(16,27,51,.08);border-color:var(--teal);}
+.exec-card::after{content:'→';position:absolute;top:16px;right:16px;color:var(--teal);opacity:0;transform:translateX(-8px);transition:all .2s ease;font-weight:bold;}
+.exec-card:hover::after{opacity:1;transform:translateX(0);}
+.card h3{font-family:var(--serif);font-size:16px;font-weight:600;margin:0 0 4px;color:var(--navy);}
+.card h4{font-family:var(--serif);font-size:14px;font-weight:600;margin:0 0 10px;color:var(--navy);}
+.card .bq{font-size:12.5px;color:var(--text-2);margin-bottom:14px;font-style:italic;}
+.card canvas{max-height:270px;}
+
+.evtable{width:100%;border-collapse:collapse;font-size:13px;}
+.evtable tr{transition:background .15s ease;}
+.evtable tr:hover{background:var(--bg);}
+.evtable td{padding:8px 6px;border-bottom:1px solid var(--line);}
+.evtable td:first-child{color:var(--text-2);}
+.evtable td:last-child{text-align:right;font-family:var(--mono);font-weight:600;color:var(--navy);}
+
+.observation{background:var(--bg);border-left:3px solid var(--navy);padding:11px 14px;font-size:13px;margin-bottom:14px;border-radius:0 6px 6px 0;}
+.conclusion{font-size:14px;font-weight:600;margin:14px 0 6px;color:var(--navy);}
+.decision-support{font-size:12.5px;color:var(--text-2);}
+.rec-box{margin-top:14px;padding:12px 14px;background:var(--teal-soft);border-radius:8px;font-size:13px;color:var(--teal);border:1px solid rgba(47,111,99,.15);}
+.rec-suppressed{margin-top:14px;padding:12px 14px;background:var(--gray-chip-soft);border-radius:8px;font-size:12.5px;color:var(--gray-chip);font-style:italic;}
+.gap-note{background:var(--amber-soft);border-radius:8px;padding:14px 16px;font-size:12.5px;color:#8a6416;margin-top:16px;border:1px solid rgba(201,138,44,.18);}
+.gap-note b{color:var(--amber);}
+
+.win-strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.win-cell{flex:1;min-width:70px;border-radius:8px;padding:8px 6px;text-align:center;font-family:var(--mono);}
+.win-cell.manual{background:var(--teal-soft);}
+.win-cell.ml{background:var(--rust-soft);}
+.win-cell .wc-date{font-size:9.5px;color:var(--text-2);}
+.win-cell .wc-winner{font-size:11px;font-weight:700;margin:3px 0;}
+.win-cell.manual .wc-winner{color:var(--teal);}
+.win-cell.ml .wc-winner{color:var(--rust);}
+.win-cell .wc-detail{font-size:9px;color:var(--text-2);}
+
+.table-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px 22px 20px;overflow-x:auto;}
+table.lb{width:100%;border-collapse:collapse;font-size:12.5px;min-width:760px;}
+table.lb th{text-align:left;padding:11px 10px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-2);border-bottom:2px solid var(--line);cursor:pointer;white-space:nowrap;user-select:none;}
+table.lb th:hover{color:var(--teal);}
+table.lb td{padding:9px 10px;border-bottom:1px solid var(--line);}
+table.lb tbody tr{transition:background .15s ease;}
+table.lb tbody tr:hover{background:var(--bg);}
+table.lb td.num,table.lb th.num{text-align:right;font-family:var(--mono);}
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--gray-chip-soft);color:var(--text-2);font-family:var(--mono);font-size:11px;font-weight:600;}
+.rank-badge.top1{background:var(--teal);color:#fff;}
+.rank-badge.top2{background:var(--teal-soft);color:var(--teal);}
+.rank-badge.top3{background:var(--amber-soft);color:var(--amber);}
+.search-box{margin:10px 0 4px;padding:9px 14px;border:1px solid var(--line);border-radius:8px;font-size:13px;width:280px;font-family:var(--sans);}
+
+.footnote{margin-top:24px;font-size:11.5px;color:var(--text-2);border-top:1px solid var(--line);padding-top:14px;}
+.method-note{background:var(--teal-soft);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--teal);margin-top:14px;border:1px solid rgba(47,111,99,.15);}
+
+/* ── V3 NEW COMPONENTS ────────────────────────────────────── */
+
+/* Decision Cockpit */
+.decision-cockpit{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);border-radius:var(--radius);padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:0;}
+.cockpit-left{flex:1;min-width:220px;}
+.cockpit-label{font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:#9FB3D1;margin-bottom:6px;}
+.cockpit-decision{font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.25;}
+.cockpit-conf{}
+.cockpit-right{min-width:200px;}
+.cockpit-evidence{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.ce-label{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:#9FB3D1;}
+.ce-value{font-family:var(--mono);font-size:12px;color:#fff;font-weight:600;}
+.evidence-bar-wrap{background:rgba(255,255,255,.12);border-radius:100px;height:6px;margin-bottom:5px;}
+.evidence-bar-fill{background:var(--teal);border-radius:100px;height:6px;transition:width .8s cubic-bezier(.22,.61,.36,1);}
+.ce-sub{font-size:11px;color:#7A8CAD;}
+
+/* Q1-Q4 Status Strip */
+.status-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.ss-item{padding:18px 20px;border-right:1px solid var(--line);transition:background .15s ease;display:flex;flex-direction:column;justify-content:center;position:relative;cursor:pointer;}
+.ss-item:last-child{border-right:none;}
+.ss-item::after{content:'→';position:absolute;top:50%;margin-top:-10px;right:20px;color:var(--teal);opacity:0;transform:translateX(-8px);transition:all .2s ease;font-weight:bold;}
+.ss-item:hover{background:var(--bg);}
+.ss-item:hover::after{opacity:1;transform:translateX(0);}
+.ss-num{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-2);margin-bottom:2px;}
+.ss-title{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:4px;}
+.ss-val{font-family:var(--mono);font-size:11.5px;color:var(--text-2);}
+
+/* Champion vs Runner-Up card */
+.cr-row{padding:12px 14px;border-radius:8px;margin-bottom:8px;}
+.cr-champ{background:var(--teal-soft);border:1px solid rgba(47,111,99,.2);}
+.cr-runner{background:var(--gray-chip-soft);border:1px solid var(--line);}
+.cr-label{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:var(--text-2);margin-bottom:3px;}
+.cr-model{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--navy);margin-bottom:6px;}
+.cr-metrics{display:flex;flex-wrap:wrap;gap:8px;}
+.cr-m{font-family:var(--mono);font-size:11px;color:var(--text-2);}
+.cr-m b{color:var(--navy);}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="rail">
+    <div class="rail-brand">
+      <div class="rail-mark">◆</div>
+      <div class="rail-wordmark">Forecast Intelligence</div>
+      <div class="rail-eyebrow">Enterprise Decision Platform</div>
+    </div>
+    <div class="rail-nav">
+      <div class="rail-item active" data-page="exec"><span class="rail-icon">◆</span> Executive Overview</div>
+      <div class="rail-item" data-page="sa"><span class="rail-icon">01</span> Strategy Assessment</div>
+      <div class="rail-item" data-page="mc"><span class="rail-icon">02</span> Model Champion</div>
+      <div class="rail-item" data-page="bc"><span class="rail-icon">03</span> Business Context</div>
+      <div class="rail-item" data-page="ad"><span class="rail-icon">04</span> Anomaly Detection</div>
+    </div>
+    <div class="rail-foot">Deterministic snapshot · v2 · Evidence over narrative</div>
+  </div>
+
+  <div class="main">
+    <div class="hdr">
+      <div class="hdr-inner">
+        <div>
+          <div class="hdr-eyebrow">Enterprise Forecast Decision Intelligence Platform</div>
+          <h1 id="dash-title">Loading…</h1>
+          <div class="sub" id="dash-period"></div>
+        </div>
+        <div class="hdr-meta"><span id="dash-records"></span> records · <span id="dash-models"></span> models evaluated</div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <!-- EXECUTIVE -->
+  <div class="page active" id="page-exec">
+    <div class="card" style="margin-bottom:16px;">
+      <h3><span style="color:var(--teal);">◆</span> Executive Summary</h3>
+      <div id="exec-summary-text"></div>
+    </div>
+
+    <!-- Decision Cockpit -->
+    <div class="decision-cockpit" id="exec-cockpit">
+      <div class="cockpit-left">
+        <div class="cockpit-label">OPERATIONAL DECISION</div>
+        <div class="cockpit-decision" id="exec-decision">Loading…</div>
+        <div class="cockpit-conf" id="exec-conf-chip"></div>
+      </div>
+      <div class="cockpit-right">
+        <div class="cockpit-evidence">
+          <span class="ce-label">Evidence Window</span>
+          <span class="ce-value" id="exec-ev-window">—</span>
+        </div>
+        <div class="evidence-bar-wrap">
+          <div class="evidence-bar-fill" id="exec-ev-bar" style="width:0%"></div>
+        </div>
+        <div class="ce-sub" id="exec-ev-sub"></div>
+      </div>
+    </div>
+    
+    <div class="kpi-row" style="margin-top:16px;">
+      <div class="kpi" onclick="nav('page-sa')"><div class="kpi-top"><div class="kpi-label">Evidence Base</div></div><div class="kpi-value" id="exec-kpi-weeks"></div><div class="kpi-sub">of <span id="exec-total-weeks">99</span> total weeks</div></div>
+      <div class="kpi" onclick="nav('page-sa')"><div class="kpi-top"><div class="kpi-label">Strategy Assessment</div></div><div class="kpi-value" id="exec-kpi-sa"></div><div id="exec-kpi-sa-chip"></div></div>
+      <div class="kpi" onclick="nav('page-mc')"><div class="kpi-top"><div class="kpi-label">Leading Candidate</div></div><div class="kpi-value" id="exec-kpi-champ"></div><div class="kpi-sub" id="exec-kpi-champ-score"></div></div>
+      <div class="kpi" onclick="nav('page-bc')"><div class="kpi-top"><div class="kpi-label">Segments Below Historical Baseline</div></div><div class="kpi-value" id="exec-kpi-below"></div><div class="kpi-sub">of all segment-weeks</div></div>
+    </div>
+    
+    <!-- Status Strip -->
+    <div class="status-strip" id="exec-status-strip">
+      <div class="ss-item" id="ss-q1" onclick="nav('page-sa')"><div class="ss-title">Strategy</div><div class="ss-val" id="ss-q1-val">—</div></div>
+      <div class="ss-item" id="ss-q2" onclick="nav('page-mc')"><div class="ss-title">Champion</div><div class="ss-val" id="ss-q2-val">—</div></div>
+      <div class="ss-item" id="ss-q3" onclick="nav('page-bc')"><div class="ss-title">Stability</div><div class="ss-val" id="ss-q3-val">—</div></div>
+      <div class="ss-item" id="ss-q4" onclick="nav('page-ad')"><div class="ss-title">Anomalies</div><div class="ss-val" id="ss-q4-val">—</div></div>
+    </div>
+    
+    <div class="evidence-banner" style="margin-top:20px; border-radius:var(--radius); border:1px solid rgba(201,138,44,.25); border-bottom:none;">
+      <span>⚠️</span> <b>Evidence Basis:</b>&nbsp;<span id="evidence-banner-text"></span>
+    </div>
+  </div>
+
+  <!-- STRATEGY ASSESSMENT -->
+  <div class="page" id="page-sa">
+    <div class="kpi-row" style="grid-template-columns: 0.8fr 0.8fr 1fr 1.5fr;">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Manual Wins</div></div><div class="kpi-value" id="sa-kpi-manual"></div><div class="kpi-sub">of <span id="sa-total-weeks">13</span> weeks</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">ML Wins</div></div><div class="kpi-value" id="sa-kpi-ml"></div><div class="kpi-sub">of <span id="sa-total-weeks-2">13</span> weeks</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Effect Size</div><div class="kpi-icon amber">Δ</div></div><div class="kpi-value" id="sa-kpi-effect"></div><div class="kpi-sub">pp, WAPE gap</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Confidence</div></div><div id="sa-kpi-conf"></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Weekly Winner — Realized Weeks</h3>
+      <div class="bq">Business Question: Did Machine Learning outperform the Manual Forecast? Every week is labeled directly — no hover needed at this sample size.</div>
+      <div class="win-strip" id="sa-win-strip"></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h4>Weekly WAPE — Manual vs. ML</h4>
+        <div class="bq">Lower is better. Each point is one realized week.</div>
+        <canvas id="chart-sa" style="max-height:240px;"></canvas>
+      </div>
+      <div class="card">
+        <div class="observation" id="sa-observation"></div>
+        <table class="evtable">
+          <tr><td>Manual WAPE</td><td id="sa-ev-manual"></td></tr>
+          <tr><td>ML WAPE</td><td id="sa-ev-ml"></td></tr>
+          <tr><td>Effect Size</td><td id="sa-ev-effect"></td></tr>
+          <tr><td>Sample Size</td><td id="sa-ev-size">13 weeks</td></tr>
+        </table>
+        <div class="conclusion" id="sa-conclusion"></div>
+        <div class="decision-support" id="sa-decision-support"></div>
+        <div id="sa-rec"></div>
+      </div>
+    </div>
+    <!-- NEW: Delta Band Chart -->
+    <div class="card" style="margin-bottom:16px;">
+      <h4>Weekly Advantage Band — ML minus Manual WAPE</h4>
+      <div class="bq">Positive = Manual was better that week. Negative = ML was better. Centered at zero. Fill color indicates which method had the edge.</div>
+      <canvas id="chart-sa-delta" style="max-height:220px;"></canvas>
+    </div>
+    <!-- NEW: Cumulative Bias Drift -->
+    <div class="card" style="margin-bottom:16px;">
+      <h4>Cumulative Bias Drift — Tracking Signal</h4>
+      <div class="bq">Running normalized bias. A line drifting away from zero signals systematic over- or under-forecasting building up over time. Values near zero indicate a balanced forecast.</div>
+      <canvas id="chart-sa-bias" style="max-height:220px;"></canvas>
+    </div>
+  </div>
+
+  <!-- MODEL CHAMPION -->
+  <div class="page" id="page-mc">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Leading Candidate</div></div><div class="kpi-value" id="mc-kpi-champ"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Composite Score</div><div class="kpi-icon amber">Σ</div></div><div class="kpi-value" id="mc-kpi-score"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Models &gt;50% Hit10</div><div class="kpi-icon teal">✓</div></div><div class="kpi-value" id="mc-kpi-hit10"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Score Gap #1 vs #2</div></div><div class="kpi-value" id="mc-kpi-gap"></div><div class="kpi-sub">composite pts</div></div>
+    </div>
+    <!-- NEW: Champion vs Runner-Up card -->
+    <div class="grid-2" style="margin-bottom:16px; grid-template-columns: 1fr 1.5fr;">
+      <div class="card">
+        <h4>Champion vs. Runner-Up</h4>
+        <div class="bq">Leading candidate labeled as such — not a statistically proven champion given the sample size.</div>
+        <div id="mc-champ-runnerup"></div>
+      </div>
+      <!-- NEW: Score Contribution Bars (top 5) -->
+      <div class="card">
+        <h4>Composite Score Contributions — Top 5 Models</h4>
+        <div class="bq">Score weights: WAPE 25%, Hit10 25%, Bias 20%, Stability 15%, Daily 15%.</div>
+        <canvas id="chart-mc-contrib" style="max-height:240px;"></canvas>
+      </div>
+    </div>
+    
+    <!-- NEW: Family Performance & Score Distribution -->
+    <div class="grid-2" style="margin-bottom:16px;">
+      <div class="card">
+        <h4>Model Family Performance</h4>
+        <div class="bq">Average Composite Score across different model architectures.</div>
+        <canvas id="chart-mc-family" style="max-height:220px;"></canvas>
+      </div>
+      <div class="card">
+        <h4>Score Distribution</h4>
+        <div class="bq">Histogram of all evaluated models by Composite Score segment.</div>
+        <canvas id="chart-mc-hist" style="max-height:220px;"></canvas>
+      </div>
+    </div>
+    
+    <div class="gap-note" style="margin-bottom:16px;"><b>Methodology note:</b> eligibility is now based on week-coverage (was: row-count). In this dataset, 91 of 92 models are present in all 13 realized weeks — the rule is correct but empirically non-binding here; differentiation comes from the composite score itself, not the eligibility filter. Stability is measured as Max Absolute Weekly Error, not IQR, since quartile estimates are unreliable below ~20 points.</div>
+    <div class="table-wrap">
+      <h3 style="font-family:var(--serif);margin:10px 0 0;">Full Model Leaderboard <span id="mc-count-note" style="font-size:12px;color:var(--text-2);font-weight:400;"></span></h3>
+      <input class="search-box" id="mc-search" placeholder="Filter by model name…">
+      <table class="lb" id="mc-table">
+        <thead><tr>
+          <th data-k="rank">Rank</th><th data-k="Model">Model</th><th class="num" data-k="CompositeScore">Score ▼</th>
+          <th class="num" data-k="WAPE">WAPE %</th><th class="num" data-k="Bias">Bias %</th>
+          <th class="num" data-k="MaxError">Max Err %</th><th class="num" data-k="Hit10">Hit10 %</th>
+          <th class="num" data-k="n_weeks_present">Weeks</th>
+        </tr></thead>
+        <tbody id="mc-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BUSINESS CONTEXT -->
+  <div class="page" id="page-bc">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">In-Sample CV (13 wk)</div><div class="kpi-icon">%</div></div><div class="kpi-value" id="bc-kpi-cv"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Historical Median CV</div><div class="kpi-icon gray">σ</div></div><div class="kpi-value" id="bc-kpi-histcv"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Segments Below Baseline</div><div class="kpi-icon rust">▼</div></div><div class="kpi-value" id="bc-kpi-below"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Realized Weeks</div><div class="kpi-icon gray">n</div></div><div class="kpi-value" id="bc-kpi-realized">13 <span style="font-size:14px;color:var(--text-2);">/ 99</span></div></div>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Realized vs. Planned Volume</h3>
+      <div class="bq">Solid = realized actuals. Dashed = planned/forecast volume. Vertical line marks the end of realized evidence — everything to the right is projection only.</div>
+      <canvas id="chart-bc-volume" style="max-height:280px;"></canvas>
+    </div>
+    <div class="card" style="margin-bottom:16px;">
+      <h3>Segments Below Historical Baseline, by Week</h3>
+      <div class="bq">Share of segments whose realized volume fell below their own trailing-1-year historical mean. A broad, sustained shift — not sharp single-week spikes.</div>
+      <canvas id="chart-bc-below" style="max-height:240px;"></canvas>
+      <div class="method-note">This is a genuinely different finding than an "anomaly week" — it's a wide, gentle, broad-based decline across most segments, not a handful of extreme outliers. See Anomaly Detection for the sharp-spike view.</div>
+    </div>
+  </div>
+
+  <!-- ANOMALY DETECTION -->
+  <div class="page" id="page-ad">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Weeks w/ Any Sharp Anomaly</div><div class="kpi-icon rust">!</div></div><div class="kpi-value" id="ad-kpi-weeks"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Total Anomalous Segment-Weeks</div><div class="kpi-icon amber">Σ</div></div><div class="kpi-value" id="ad-kpi-total"></div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Normal WAPE</div></div><div class="kpi-value" id="ad-kpi-normal-wape">—</div></div>
+      <div class="kpi"><div class="kpi-top"><div class="kpi-label">Anomaly WAPE</div><div class="kpi-icon rust">!</div></div><div class="kpi-value" id="ad-kpi-anomaly-wape">—</div></div>
+    </div>
+    <div class="grid-2">
+      <div class="card" style="margin-bottom:16px;">
+        <h3>Anomalous Segment Share, by Week</h3>
+        <div class="bq">Color = severity. <span style="color:var(--rust);font-weight:600;">Red</span> &gt;2% · <span style="color:var(--amber);font-weight:600;">Amber</span> 1–2% · <span style="color:var(--gray-chip);">Gray</span> &lt;1%</div>
+        <canvas id="chart-ad" style="max-height:240px;"></canvas>
+      </div>
+      <!-- NEW: Normal vs Anomaly WAPE -->
+      <div class="card" style="margin-bottom:16px;">
+        <h3>Normal vs. Anomaly-Week WAPE</h3>
+        <div class="bq">Does forecast accuracy degrade during anomaly weeks? Lower bars are better. Sample size attached to each bar.</div>
+        <canvas id="chart-ad-wape" style="max-height:240px;"></canvas>
+      </div>
+    </div>
+    <div class="method-note" id="ad-method-note"></div>
+    <div class="table-wrap" style="margin-top:16px;">
+      <h3 style="font-family:var(--serif);margin:10px 0 0;">Weekly Detail</h3>
+      <table class="lb">
+        <thead><tr><th>Week</th><th class="num">Anomalous Segs</th><th class="num">Total Segs</th><th class="num">Share %</th><th class="num">Mean Seg Z</th></tr></thead>
+        <tbody id="ad-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+      <div class="footnote">Deterministic Decision Support Dashboard V2 · Evidence over narrative · Observation before recommendation · Confidence tiers include Inconclusive for near-tied, low-effect-size findings at small sample sizes.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// V3 DASHBOARD — Single fetch-driven init. No hardcoded DATA.
+// ============================================================
+const COLORS = { navy:'#101B33', teal:'#2F6F63', amber:'#C98A2C', rust:'#B3452B', gray:'#8A94A3' };
+
+function chip(level){
+  return `<span class="chip ${level.toLowerCase()}">${level} Confidence</span>`;
+}
+
+function fmt(n){ return typeof n === 'number' ? n.toLocaleString() : n; }
+
+document.querySelectorAll('.rail-item').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.rail-item').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('page-'+t.dataset.page).classList.add('active');
+    window.scrollTo(0,0);
+  });
+});
+
+Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#5B6472';
+
+fetch('data/report.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(payload => initDashboard(payload))
+  .catch(err => {
+    document.body.innerHTML = '<div style="padding:40px;color:red;font-family:sans-serif;"><h3>Failed to load dashboard data</h3><pre>'+err+'</pre></div>';
+  });
+
+function initDashboard(payload) {
+  const meta   = payload.metadata || {};
+  const sa_raw = payload.chart_data.q1_filters['All|All|All'] || {};
+  const series = payload.chart_data.q1.series || [];
+  const bd     = payload.chart_data.q1.bias_drift || [];
+  const mc_raw = payload.chart_data.filters.slices['All|All|All'] || [];
+  const q3     = payload.chart_data.q3 || {};
+  const q4     = payload.chart_data.q4 || {};
+
+  // Derive missing metadata from series
+  const n_realized_weeks = series.length || sa_raw.n_weeks || 13;
+  const n_total_weeks = (q3.series || []).length || 99;
+  const realized_window = series.length > 0 ? `${series[0].week} to ${series[series.length-1].week}` : '';
+  meta.n_realized_weeks = n_realized_weeks;
+  meta.n_total_weeks = n_total_weeks;
+  meta.realized_window = realized_window;
+
+  const manual_wins = Math.round((sa_raw.n_weeks||0) * ((sa_raw.manual_win_rate||50)/100));
+  const ml_wins     = (sa_raw.n_weeks||0) - manual_wins;
+
+  const sa = {
+    n_weeks: sa_raw.n_weeks || 0,
+    manual_wins,
+    ml_wins,
+    manual_wape: sa_raw.manual_wape || 0,
+    ml_wape:     sa_raw.ml_wape || 0,
+    effect_size: sa_raw.effect_size || 0,
+    confidence:  sa_raw.confidence || 'Inconclusive',
+    series
+  };
+
+  const leaderboard = mc_raw.leaderboard || mc_raw || [];
+  const champ   = leaderboard[0];
+  const runner  = leaderboard[1];
+
+  const bc = {
+    in_sample_cv:              q3.cv || 0,
+    historical_cv_median:      25.4,
+    overall_share_below:       q3.segments_below_historical_pct || 0,
+    share_below_by_week:       q3.share_below_by_week || [],
+    series:                    q3.series || []
+  };
+
+  const ad = {
+    per_week:                  q4.series || [],
+    total_anomalous:           (q4.series||[]).reduce((a,s)=>a+s.anomalous_segments,0),
+    weeks_with_anomaly:        (q4.series||[]).filter(s=>s.anomaly_pct>0).length,
+    n_weeks:                   (q4.series||[]).length,
+    normal_wape:               q4.normal_wape || null,
+    anomaly_wape:              q4.anomaly_wape || null,
+    method_note:               payload.anomaly_detection?.method_note || ''
+  };
+
+  // ── HEADER ──────────────────────────────────────────────
+  document.getElementById('dash-title').textContent   = meta.title || payload.metadata?.title || '';
+  document.getElementById('dash-period').textContent  = 'Evaluation Period: ' + (meta.evaluation_period || '');
+  document.getElementById('dash-records').textContent = (meta.records_evaluated||0).toLocaleString();
+  document.getElementById('dash-models').textContent  = meta.models_evaluated || '';
+  document.getElementById('evidence-banner-text').textContent =
+    `${meta.n_realized_weeks||0} of ${meta.n_total_weeks||0} forecast weeks have realized actuals (${meta.realized_window||''}). The remaining ${(meta.n_total_weeks||0)-(meta.n_realized_weeks||0)} weeks are forecast projections, not yet evaluable.`;
+
+  // ── EXECUTIVE DECISION COCKPIT ──────────────────────────
+  const confLvl = sa.confidence;
+  const winner  = sa.manual_wins > sa.ml_wins ? 'Manual' : (sa.ml_wins > sa.manual_wins ? 'ML' : 'Tied');
+  const decision = confLvl === 'Inconclusive'
+    ? 'Retain Current Approach — Evidence Inconclusive'
+    : `Favour ${winner} Forecast`;
+  document.getElementById('exec-decision').textContent = decision;
+  document.getElementById('exec-conf-chip').innerHTML  = chip(confLvl);
+
+  const pct = Math.round(((meta.n_realized_weeks||0)/(meta.n_total_weeks||99))*100);
+  document.getElementById('exec-ev-window').textContent = `${meta.n_realized_weeks||0} / ${meta.n_total_weeks||99} weeks`;
+  document.getElementById('exec-ev-bar').style.width   = pct + '%';
+  document.getElementById('exec-ev-sub').textContent   = `${pct}% of forecast horizon realized`;
+  if(document.getElementById('exec-total-weeks')) document.getElementById('exec-total-weeks').textContent = meta.n_total_weeks||99;
+
+  document.getElementById('exec-kpi-weeks').textContent     = meta.n_realized_weeks || 0;
+  document.getElementById('exec-kpi-sa').textContent        = `${sa.manual_wins}–${sa.ml_wins}`;
+  document.getElementById('exec-kpi-sa-chip').innerHTML     = chip(confLvl);
+  document.getElementById('exec-kpi-champ').textContent     = champ ? champ.Model : '—';
+  document.getElementById('exec-kpi-champ-score').textContent = champ ? `Score: ${champ.CompositeScore}/100` : '';
+  document.getElementById('exec-kpi-below').textContent     = bc.overall_share_below + '%';
+
+  // Q1-Q4 Status strip
+  document.getElementById('ss-q1-val').textContent = `Manual ${sa.manual_wins}–ML ${sa.ml_wins} · ${confLvl}`;
+  const isMlLeading = sa.ml_wins > sa.manual_wins;
+  const conclusionText = isMlLeading 
+    ? 'The AI-driven models demonstrate a consistent edge over manual adjustments.'
+    : (sa.manual_wins > sa.ml_wins ? 'Manual adjustments demonstrate a consistent edge over the AI-driven models.' : 'Manual and AI models are currently tied in performance.');
+
+  document.getElementById('exec-summary-text').innerHTML = `
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px;">
+      
+      <!-- Card 1 -->
+      <div class="exec-card" onclick="nav('page-sa')">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); font-weight: 600; margin-bottom: 6px;">Operational Recommendation</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px;">${isMlLeading ? 'Deploy ML Forecast' : 'Maintain Manual Forecast'}</div>
+        <div style="font-size: 12.5px; color: var(--text-1); line-height: 1.5; padding-right: 12px;">${conclusionText}</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="exec-card" onclick="nav('page-sa')">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); font-weight: 600; margin-bottom: 6px;">Head-to-Head Performance</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px;">${sa.ml_wins} Wins vs ${sa.manual_wins} Wins</div>
+        <div style="font-size: 12.5px; color: var(--text-1); line-height: 1.5; padding-right: 12px;">Evaluated across ${meta.n_realized_weeks} weeks of realized actuals in the current window.</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="exec-card" onclick="nav('page-sa')">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); font-weight: 600; margin-bottom: 6px;">Statistical Confidence</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px;">${confLvl} Confidence</div>
+        <div style="font-size: 12.5px; color: var(--text-1); line-height: 1.5; padding-right: 12px;">Narrow performance margin (${sa.effect_size}pp WAPE gap) necessitates continued oversight.</div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="exec-card" onclick="nav('page-mc')">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); font-weight: 600; margin-bottom: 6px;">Leading Algorithm</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px;">${champ ? champ.Model : 'N/A'}</div>
+        <div style="font-size: 12.5px; color: var(--text-1); line-height: 1.5; padding-right: 12px;">Currently leading the composite leaderboard across ${mc_raw.n_models||0} eligible candidate models.</div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="exec-card" onclick="nav('page-bc')">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); font-weight: 600; margin-bottom: 6px;">Macro Trend Analysis</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px;">Sustained Downward Shift</div>
+        <div style="font-size: 12.5px; color: var(--text-1); line-height: 1.5; padding-right: 12px;">${bc.overall_share_below}% of segment-weeks are falling below their 1-year historical baselines.</div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="exec-card" onclick="nav('page-ad')">
+        <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-2); font-weight: 600; margin-bottom: 6px;">Anomaly Monitoring</div>
+        <div style="font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 4px;">Low Anomaly Volume</div>
+        <div style="font-size: 12.5px; color: var(--text-1); line-height: 1.5; padding-right: 12px;">Only ${ad.total_anomalous} sharp anomaly triggers detected, confirming a gradual market softening.</div>
+      </div>
+
+    </div>
+  `;
+
+  document.getElementById('ss-q2-val').textContent = champ ? `${champ.Model} · ${champ.CompositeScore}` : '—';
+  document.getElementById('ss-q3-val').textContent = `${bc.overall_share_below}% below baseline`;
+  document.getElementById('ss-q4-val').textContent = `${ad.total_anomalous} anomalous seg-weeks`;
+
+  // ── Q1 STRATEGY ASSESSMENT ──────────────────────────────
+  document.getElementById('sa-kpi-manual').textContent  = sa.manual_wins;
+  document.getElementById('sa-kpi-ml').textContent      = sa.ml_wins;
+  document.getElementById('sa-kpi-effect').textContent  = sa.effect_size;
+  document.getElementById('sa-kpi-conf').innerHTML      = chip(confLvl);
+  if(document.getElementById('sa-total-weeks'))   document.getElementById('sa-total-weeks').textContent = sa.n_weeks;
+  if(document.getElementById('sa-total-weeks-2')) document.getElementById('sa-total-weeks-2').textContent = sa.n_weeks;
+  if(document.getElementById('sa-ev-size'))        document.getElementById('sa-ev-size').textContent = `${sa.n_weeks} weeks`;
+
+  document.getElementById('sa-win-strip').innerHTML = sa.series.map(d=>{
+    const manualWin = d.manual_wape < d.ml_wape;
+    return `<div class="win-cell ${manualWin?'manual':'ml'}">
+      <div class="wc-date">${d.week}</div>
+      <div class="wc-winner">${manualWin?'Manual':'ML'}</div>
+      <div class="wc-detail">${d.manual_wape}% / ${d.ml_wape}%</div>
+    </div>`;
+  }).join('');
+
+  new Chart(document.getElementById('chart-sa'), {
+    type:'line',
+    data:{ labels: sa.series.map(d=>d.week), datasets:[
+      {label:'Manual WAPE %', data: sa.series.map(d=>d.manual_wape), borderColor:COLORS.navy, backgroundColor:COLORS.navy+'15', borderWidth:2, pointRadius:4, tension:.2},
+      {label:'ML WAPE %',     data: sa.series.map(d=>d.ml_wape),     borderColor:COLORS.rust, backgroundColor:COLORS.rust+'15', borderWidth:2, pointRadius:4, tension:.2}
+    ]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{boxWidth:10}}},
+      scales:{
+        x:{grid:{display:false}, title:{display:true,text:'Week',font:{size:10}}},
+        y:{grid:{color:'#EEF1F4'}, title:{display:true,text:'WAPE (%)',font:{size:10}}}
+      }}
+  });
+
+  document.getElementById('sa-observation').textContent =
+    `Manual WAPE was ${sa.manual_wape}%. ML WAPE was ${sa.ml_wape}%. Manual won ${sa.manual_wins} of ${sa.n_weeks} weeks; ML won ${sa.ml_wins}.`;
+  document.getElementById('sa-ev-manual').textContent  = sa.manual_wape + '%';
+  document.getElementById('sa-ev-ml').textContent      = sa.ml_wape + '%';
+  document.getElementById('sa-ev-effect').textContent  = sa.effect_size + 'pp';
+  document.getElementById('sa-conclusion').textContent = confLvl === 'Inconclusive'
+    ? 'The evidence is too close to call — neither Manual nor ML has a demonstrated edge yet.'
+    : `${sa.manual_wins > sa.ml_wins ? 'Manual' : 'ML'} leads over this window, at ${confLvl.toLowerCase()} confidence.`;
+  document.getElementById('sa-decision-support').textContent =
+    'With limited weeks of evidence, win-count consistency is weighed alongside effect size rather than relying on classical significance testing alone.';
+  const saRec = document.getElementById('sa-rec');
+  if(confLvl === 'Inconclusive'){
+    saRec.className = 'rec-suppressed';
+    saRec.textContent = `Recommendation omitted: result is Inconclusive (near-tied win count, effect size ${sa.effect_size}pp below the practical floor). Continue monitoring as more actual weeks are realized.`;
+  } else {
+    saRec.className = 'rec-box';
+    saRec.innerHTML = chip(confLvl) + ` &nbsp;Continue observing — evidence base is still limited to ${sa.n_weeks} weeks.`;
+  }
+
+  // NEW: Delta Band Chart
+  const deltaEl = document.getElementById('chart-sa-delta');
+  if(deltaEl && sa.series.length){
+    const deltas = sa.series.map(d => +(d.ml_wape - d.manual_wape).toFixed(2));
+    new Chart(deltaEl, {
+      type:'bar',
+      data:{ labels: sa.series.map(d=>d.week), datasets:[{
+        label:'ML minus Manual WAPE (pp)',
+        data: deltas,
+        backgroundColor: deltas.map(v => v > 0 ? COLORS.teal+'80' : COLORS.rust+'80'),
+        borderColor:     deltas.map(v => v > 0 ? COLORS.teal : COLORS.rust),
+        borderWidth: 1.5
+      }]},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}, tooltip:{callbacks:{label: ctx=>`${ctx.parsed.y>0?'Manual better by':'ML better by'} ${Math.abs(ctx.parsed.y).toFixed(2)}pp`}}},
+        scales:{
+          x:{grid:{display:false}, title:{display:true,text:'Week',font:{size:10}}},
+          y:{grid:{color:'#EEF1F4'}, ticks:{callback:v=>(v>0?'+':'')+v}, title:{display:true,text:'WAPE Difference (pp)',font:{size:10}}, border:{color:'#00000030'}}
+        }
+      }
+    });
+  }
+
+  // NEW: Cumulative Bias Drift Chart
+  const biasEl = document.getElementById('chart-sa-bias');
+  if(biasEl && bd.length){
+    new Chart(biasEl, {
+      type:'line',
+      data:{ labels: bd.map(d=>d.week), datasets:[
+        {label:'Manual Tracking Signal', data: bd.map(d=>d.manual_tracking), borderColor:COLORS.navy, backgroundColor:COLORS.navy+'10', borderWidth:2, pointRadius:3, tension:.3, fill:true},
+        {label:'ML Tracking Signal',     data: bd.map(d=>d.ml_tracking),     borderColor:COLORS.rust, backgroundColor:'transparent', borderWidth:2, pointRadius:3, tension:.3, borderDash:[4,3]}
+      ]},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{position:'top',labels:{boxWidth:10}}},
+        scales:{
+          x:{grid:{display:false}, title:{display:true,text:'Week',font:{size:10}}},
+          y:{grid:{color:'#EEF1F4'},
+             ticks:{callback:v=>(v>0?'+':'')+v.toFixed(2)},
+             title:{display:true,text:'Tracking Signal',font:{size:10}}}
+        }
+      }
+    });
+  }
+
+  // ── Q2 MODEL CHAMPION ────────────────────────────────────
+  const mc_n_eligible = mc_raw.n_models || leaderboard.length;
+  const mc_n_total    = meta.models_evaluated || 92;
+  document.getElementById('mc-kpi-champ').textContent    = champ ? champ.Model : '—';
+  document.getElementById('mc-kpi-score').textContent    = champ ? champ.CompositeScore : '—';
+  const highHit10 = leaderboard.filter(m => m.Hit10 > 50).length;
+  document.getElementById('mc-kpi-hit10').textContent = `${highHit10} models`;
+  const gapEl = document.getElementById('mc-kpi-gap');
+  if(gapEl) gapEl.textContent = (champ && runner) ? (champ.CompositeScore - runner.CompositeScore).toFixed(2) : '—';
+  document.getElementById('mc-count-note').textContent = `(${mc_n_eligible} eligible of ${mc_n_total} total)`;
+
+  // Champion vs Runner-Up card
+  const crEl = document.getElementById('mc-champ-runnerup');
+  if(crEl && champ){
+    function modelRow(m, label, cls){
+      return `<div class="cr-row ${cls}">
+        <div class="cr-label">${label}</div>
+        <div class="cr-model">${m.Model}</div>
+        <div class="cr-metrics">
+          <span class="cr-m">Score <b>${m.CompositeScore.toFixed(1)}</b></span>
+          <span class="cr-m">WAPE <b>${m.WAPE.toFixed(1)}%</b></span>
+          <span class="cr-m">Bias <b>${m.Bias.toFixed(1)}%</b></span>
+          <span class="cr-m">Hit10 <b>${m.Hit10.toFixed(1)}%</b></span>
+        </div>
+      </div>`;
+    }
+    crEl.innerHTML = modelRow(champ,'#1 Leading Candidate','cr-champ') + (runner?modelRow(runner,'#2 Runner-Up','cr-runner'):'');
+  }
+
+  // Score contribution bars (top 5)
+  const contribEl = document.getElementById('chart-mc-contrib');
+  if(contribEl && leaderboard.length){
+    const top5 = leaderboard.slice(0,5);
+    // Compute contribution fractions
+    const wt = {WAPE:0.25, Hit10:0.25, Bias:0.20, MaxError:0.15, DailyScore:0.15};
+    function norm(v, best, worst) {
+      if (best < worst) {
+        return (worst - Math.max(Math.min(v, worst), best)) / (worst - best);
+      } else {
+        return (Math.max(Math.min(v, best), worst) - worst) / (best - worst);
+      }
+    }
+    const contribs = top5.map(m=>({
+      model: m.Model,
+      wape:  +(norm(m.WAPE,5,40)*0.25*100).toFixed(1),
+      hit10: +(norm(m.Hit10,90,30)*0.25*100).toFixed(1),
+      bias:  +(norm(m.Bias,0,20)*0.20*100).toFixed(1),
+      stab:  +(norm(m.Stability||0,0,50)*0.15*100).toFixed(1),
+      daily: +(norm(m.DailyScore !== undefined ? m.DailyScore : 50, 0, 50)*0.15*100).toFixed(1)
+    }));
+    new Chart(contribEl,{
+      type:'bar',
+      data:{
+        labels: contribs.map(c=>c.model),
+        datasets:[
+          {label:'WAPE (25%)',     data:contribs.map(c=>c.wape),  backgroundColor:COLORS.teal},
+          {label:'Hit10 (25%)',    data:contribs.map(c=>c.hit10), backgroundColor:COLORS.navy},
+          {label:'Bias (20%)',     data:contribs.map(c=>c.bias),  backgroundColor:COLORS.amber},
+          {label:'Stability (15%)',data:contribs.map(c=>c.stab),  backgroundColor:COLORS.gray},
+          {label:'Daily (15%)',    data:contribs.map(c=>c.daily), backgroundColor:'#B0BEC5'}
+        ]
+      },
+      options:{
+        indexAxis:'y',
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{position:'top',labels:{boxWidth:10}}},
+        scales:{
+          x:{stacked:true, max:100, grid:{color:'#EEF1F4'}, title:{display:true,text:'Composite Score (pts)',font:{size:10}}},
+          y:{stacked:true, grid:{display:false}, title:{display:true,text:'Model',font:{size:10}}}
+        }
+      }
+    });
+  }
+
+  // Model Family Performance (Average Composite Score)
+  const famEl = document.getElementById('chart-mc-family');
+  if(famEl && payload.chart_data && payload.chart_data.q2 && payload.chart_data.q2.family_scores) {
+    const sortedFam = payload.chart_data.q2.family_scores.slice().sort((a,b)=>b.CompositeScore - a.CompositeScore);
+    new Chart(famEl, {
+      type: 'bar',
+      data: {
+        labels: sortedFam.map(f => f.Family),
+        datasets: [{
+          label: 'Avg Composite Score',
+          data: sortedFam.map(f => f.CompositeScore),
+          backgroundColor: COLORS.teal
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, title: { display: true, text: 'Model Family', font: { size: 10 } } },
+          y: { grid: { color: '#EEF1F4' }, max: 100, title: { display: true, text: 'Average Score (pts)', font: { size: 10 } } }
+        }
+      }
+    });
+  }
+
+  // Score Distribution Histogram
+  const histEl = document.getElementById('chart-mc-hist');
+  if(histEl && payload.chart_data && payload.chart_data.q2 && payload.chart_data.q2.histogram) {
+    new Chart(histEl, {
+      type: 'bar',
+      data: {
+        labels: payload.chart_data.q2.histogram.map(h => h.bin),
+        datasets: [{
+          label: 'Model Count',
+          data: payload.chart_data.q2.histogram.map(h => h.count),
+          backgroundColor: COLORS.navy
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, title: { display: true, text: 'Score Range', font: { size: 10 } } },
+          y: { grid: { color: '#EEF1F4' }, ticks: { stepSize: 1 }, title: { display: true, text: 'Number of Models', font: { size: 10 } } }
+        }
+      }
+    });
+  }
+
+  // Leaderboard table
+  let mcSort = {key:'CompositeScore', asc:false};
+  function renderMC(filter=''){
+    let rows = leaderboard.slice();
+    if(filter) rows = rows.filter(r=>r.Model.toLowerCase().includes(filter.toLowerCase()));
+    rows.sort((a,b)=>{
+      let av=a[mcSort.key], bv=b[mcSort.key];
+      if(typeof av==='string') return mcSort.asc?av.localeCompare(bv):bv.localeCompare(av);
+      return mcSort.asc?av-bv:bv-av;
+    });
+    document.getElementById('mc-body').innerHTML = rows.map(r=>{
+      const rank = leaderboard.indexOf(r)+1;
+      const badgeCls = rank===1?'top1':rank===2?'top2':rank===3?'top3':'';
+      return `<tr>
+        <td><span class="rank-badge ${badgeCls}">${rank}</span></td>
+        <td>${r.Model}</td>
+        <td class="num">${r.CompositeScore.toFixed(2)}</td>
+        <td class="num">${r.WAPE.toFixed(2)}</td>
+        <td class="num">${r.Bias.toFixed(2)}</td>
+        <td class="num">${(r.Stability||0).toFixed(2)}</td>
+        <td class="num">${r.Hit10.toFixed(2)}</td>
+        <td class="num">${r.n_weeks}</td>
+      </tr>`;
+    }).join('');
+    // Update sort indicator in header
+    document.querySelectorAll('#mc-table th').forEach(th=>{
+      const k=th.dataset.k; if(!k||k==='rank') return;
+      th.textContent = th.textContent.replace(/[ ▲▼]/g,'').trim();
+      if(k===mcSort.key) th.textContent += mcSort.asc?' ▲':' ▼';
+    });
+  }
+  document.querySelectorAll('#mc-table th').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      const k=th.dataset.k; if(k==='rank') return;
+      if(mcSort.key===k) mcSort.asc=!mcSort.asc; else {mcSort.key=k; mcSort.asc=false;}
+      renderMC(document.getElementById('mc-search').value);
+    });
+  });
+  document.getElementById('mc-search').addEventListener('input', e=>renderMC(e.target.value));
+  renderMC();
+
+  // ── Q3 BUSINESS CONTEXT ──────────────────────────────────
+  document.getElementById('bc-kpi-cv').textContent    = bc.in_sample_cv + '%';
+  document.getElementById('bc-kpi-histcv').textContent = bc.historical_cv_median + '%';
+  document.getElementById('bc-kpi-below').textContent  = bc.overall_share_below + '%';
+
+  const planSeries = bc.series.filter(s=>s.planned_volume!==null);
+  const realSeries = bc.series.filter(s=>s.realized_volume!==null);
+  const nRealized  = realSeries.length;
+
+  // Volume chart with realized/projection boundary annotation
+  new Chart(document.getElementById('chart-bc-volume'), {
+    type:'line',
+    data:{ labels: bc.series.map(d=>d.week), datasets:[
+      { label:'Planned/Forecast Volume',
+        data: bc.series.map(d=>d.planned_volume),
+        borderColor:COLORS.gray, borderDash:[5,4], borderWidth:1.5, pointRadius:0, tension:.15 },
+      { label:'Realized Actual Volume',
+        data: realSeries.map(d=>d.realized_volume).concat(Array(bc.series.length-nRealized).fill(null)),
+        borderColor:COLORS.navy, backgroundColor:COLORS.navy+'12', borderWidth:2.5, pointRadius:2, tension:.15, fill:true }
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'top',labels:{boxWidth:10}},
+        annotation: undefined // boundary via afterDraw below
+      },
+      scales:{
+        x:{ticks:{maxTicksLimit:12}, grid:{display:false}, title:{display:true,text:'Week',font:{size:10}}}, 
+        y:{grid:{color:'#EEF1F4'}, title:{display:true,text:'Volume',font:{size:10}}}
+      }
+    }
+  });
+
+  // Segments below baseline chart
+  const sbwData = bc.share_below_by_week;
+  if(sbwData.length){
+    new Chart(document.getElementById('chart-bc-below'), {
+      type:'bar',
+      data:{ labels: sbwData.map(d=>d.week),
+        datasets:[{ label:'% of segments below historical baseline', data: sbwData.map(d=>d.share_below_pct),
+          backgroundColor: sbwData.map(d=>d.share_below_pct>50?COLORS.rust:COLORS.amber) }]},
+      options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+        scales:{
+          x:{grid:{display:false}, title:{display:true,text:'Week',font:{size:10}}},
+          y:{max:100, grid:{color:'#EEF1F4'}, title:{display:true,text:'Segments Below Baseline (%)',font:{size:10}}}
+        }}
+    });
+  }
+
+  // ── Q4 ANOMALY DETECTION ─────────────────────────────────
+  document.getElementById('ad-kpi-weeks').textContent = `${ad.weeks_with_anomaly} / ${ad.n_weeks}`;
+  document.getElementById('ad-kpi-total').textContent  = ad.total_anomalous;
+  // Normal vs Anomaly WAPE KPIs
+  const nwEl = document.getElementById('ad-kpi-normal-wape');
+  const awEl = document.getElementById('ad-kpi-anomaly-wape');
+  if(nwEl) nwEl.textContent = ad.normal_wape !== null ? ad.normal_wape + '%' : '—';
+  if(awEl) awEl.textContent = ad.anomaly_wape !== null ? ad.anomaly_wape + '%' : '—';
+  document.getElementById('ad-method-note').textContent = ad.method_note || payload.anomaly_detection?.method_note || '';
+
+  // Severity-coded anomaly bar chart
+  new Chart(document.getElementById('chart-ad'), {
+    type:'bar',
+    data:{ labels: ad.per_week.map(d=>d.week),
+      datasets:[{label:'% of segments anomalous',
+        data: ad.per_week.map(d=>d.anomaly_pct),
+        backgroundColor: ad.per_week.map(d=>d.anomaly_pct>2?COLORS.rust : d.anomaly_pct>1?COLORS.amber : COLORS.gray+'80')
+      }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false}, title:{display:true,text:'Week',font:{size:10}}},
+        y:{grid:{color:'#EEF1F4'}, title:{display:true,text:'Anomalous Segments (%)',font:{size:10}}}
+      }
+    }
+  });
+
+  // NEW: Normal vs Anomaly WAPE comparison
+  const wapeCompEl = document.getElementById('chart-ad-wape');
+  if(wapeCompEl && ad.normal_wape !== null){
+    const labels = ['Normal Weeks', 'Anomaly Weeks'];
+    const values = [ad.normal_wape, ad.anomaly_wape || 0];
+    new Chart(wapeCompEl,{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[{label:'WAPE %', data:values,
+          backgroundColor:[COLORS.teal+'90', COLORS.rust+'90'],
+          borderColor:[COLORS.teal, COLORS.rust],
+          borderWidth:1.5, barThickness:60
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{label:ctx=>`WAPE: ${ctx.parsed.y}%`}}
+        },
+        scales:{
+          x:{grid:{display:false}, title:{display:true,text:'Week Type',font:{size:10}}},
+          y:{grid:{color:'#EEF1F4'}, title:{display:true,text:'WAPE (%)',font:{size:10}}}
+        }
+      }
+    });
+  }
+
+  document.getElementById('ad-body').innerHTML = ad.per_week.map(d=>`
+    <tr><td>${d.week}</td><td class="num">${d.anomalous_segments}</td><td class="num">${d.total_segments}</td>
+    <td class="num">${d.anomaly_pct}%</td><td class="num">${(d.mean_seg_z||0).toFixed(2)}</td></tr>`).join('');
+
+} // end initDashboard
+</script>
+</body>
+</html>

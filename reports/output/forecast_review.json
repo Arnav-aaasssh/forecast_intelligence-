@@ -1,0 +1,223 @@
+{
+    "metadata": {
+        "schema_version": "1.0",
+        "application_version": "0.9.0",
+        "generated_at": "2026-07-01T16:12:39.745170+00:00",
+        "generated_by": "Forecast Review System",
+        "environment": "development"
+    },
+    "pipeline": {
+        "status": "SUCCESS",
+        "execution_time_seconds": 9.663,
+        "rows_processed": 35640,
+        "modules_executed": [
+            "validation",
+            "performance",
+            "comparison",
+            "drift",
+            "risk",
+            "insights",
+            "recommendations"
+        ],
+        "failed_module": null
+    },
+    "validation": {
+        "status": "SUCCESS",
+        "warnings": 0,
+        "errors": 0
+    },
+    "performance": {
+        "manual_accuracy": 75.58876984475424,
+        "ml_accuracy": 72.57675752734339,
+        "manual_mae": 93.36945327754879,
+        "ml_mae": 110.49956126411335,
+        "manual_mape": 31.12330410787981,
+        "ml_mape": 36.79804057503268,
+        "manual_bias": -11.235729104024923,
+        "ml_bias": 1.3172939323512893,
+        "manual_adherence": 0.6416397700354858,
+        "ml_adherence": 0.5952472465446937,
+        "manual_within_10_pct": 35.19640852974186,
+        "ml_within_10_pct": 30.754769921436587,
+        "winner": "Manual"
+    },
+    "comparison": {
+        "manual_wins": 19831,
+        "ml_wins": 15809,
+        "ties": 0,
+        "manual_win_rate": 55.64253647586981,
+        "ml_win_rate": 44.35746352413019,
+        "average_accuracy_difference": -3.012012317410856,
+        "average_error_difference": -17.13010798656457
+    },
+    "risk": {
+        "average_risk_score": 21.5681133938356,
+        "maximum_risk_score": 97.5,
+        "minimum_risk_score": 2.2254598065995226,
+        "high_risk_forecasts": 521,
+        "medium_risk_forecasts": 7834,
+        "low_risk_forecasts": 27285,
+        "manager_reviews_required": 521,
+        "top_primary_risk_driver": "Forecast Drift",
+        "average_confidence": 24.86868686868687,
+        "highest_risk_region": "EMEA",
+        "highest_risk_offering": "Premium",
+        "highest_risk_channel": "Case"
+    },
+    "insights": {
+        "overall_forecast_health": "Critical",
+        "overall_model_performance": "Manual",
+        "overall_drift_status": "High",
+        "overall_risk_status": "Low",
+        "critical_forecasts": 521,
+        "manager_reviews": 521,
+        "top_business_observation": "High Forecast Drift",
+        "executive_highlight": "Overall forecast health is critical due to aggregate risk, drift, or review signals."
+    },
+    "recommendations": {
+        "summary": {
+            "critical_recommendations": 521,
+            "high_priority_recommendations": 7834,
+            "medium_priority_recommendations": 27285,
+            "low_priority_recommendations": 0,
+            "manager_reviews_required": 521,
+            "top_recommendation_category": "Forecast Review",
+            "top_recommended_owner": "Forecast Analyst",
+            "highest_confidence": 100.0,
+            "average_confidence": 87.66835016835017,
+            "top_recommendations": [
+                {
+                    "priority": "Critical",
+                    "action": "Escalate for executive approval.",
+                    "reason": "Manager review is required due to elevated operational risk; Forecast risk is high; Forecast health is critical.",
+                    "category": "Executive Review"
+                },
+                {
+                    "priority": "High",
+                    "action": "Investigate forecast revisions.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast revisions are high.",
+                    "category": "Demand Validation"
+                },
+                {
+                    "priority": "High",
+                    "action": "Validate demand drivers.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                    "category": "Demand Validation"
+                },
+                {
+                    "priority": "High",
+                    "action": "Investigate forecast revisions.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast revisions are high.",
+                    "category": "Forecast Review"
+                },
+                {
+                    "priority": "High",
+                    "action": "Validate business risk conditions.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                    "category": "Business Validation"
+                },
+                {
+                    "priority": "High",
+                    "action": "Investigate forecast revisions.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast revisions are high.",
+                    "category": "Business Validation"
+                },
+                {
+                    "priority": "High",
+                    "action": "Validate historical demand.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                    "category": "Business Validation"
+                },
+                {
+                    "priority": "High",
+                    "action": "Review forecast assumptions.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                    "category": "Forecast Review"
+                },
+                {
+                    "priority": "High",
+                    "action": "Validate historical demand.",
+                    "reason": "Forecast risk is elevated; Forecast health needs attention; Historical demand is volatile.",
+                    "category": "Business Validation"
+                },
+                {
+                    "priority": "Medium",
+                    "action": "Validate demand drivers.",
+                    "reason": "Forecast accuracy is below threshold; Holiday effects are present; Manual forecasting is underperforming.",
+                    "category": "Demand Validation"
+                }
+            ]
+        },
+        "actions": [
+            {
+                "priority": "Critical",
+                "action": "Escalate for executive approval.",
+                "reason": "Manager review is required due to elevated operational risk; Forecast risk is high; Forecast health is critical.",
+                "category": "Executive Review"
+            },
+            {
+                "priority": "High",
+                "action": "Investigate forecast revisions.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast revisions are high.",
+                "category": "Demand Validation"
+            },
+            {
+                "priority": "High",
+                "action": "Validate demand drivers.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                "category": "Demand Validation"
+            },
+            {
+                "priority": "High",
+                "action": "Investigate forecast revisions.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast revisions are high.",
+                "category": "Forecast Review"
+            },
+            {
+                "priority": "High",
+                "action": "Validate business risk conditions.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                "category": "Business Validation"
+            },
+            {
+                "priority": "High",
+                "action": "Investigate forecast revisions.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast revisions are high.",
+                "category": "Business Validation"
+            },
+            {
+                "priority": "High",
+                "action": "Validate historical demand.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                "category": "Business Validation"
+            },
+            {
+                "priority": "High",
+                "action": "Review forecast assumptions.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Forecast accuracy is below threshold.",
+                "category": "Forecast Review"
+            },
+            {
+                "priority": "High",
+                "action": "Validate historical demand.",
+                "reason": "Forecast risk is elevated; Forecast health needs attention; Historical demand is volatile.",
+                "category": "Business Validation"
+            },
+            {
+                "priority": "Medium",
+                "action": "Validate demand drivers.",
+                "reason": "Forecast accuracy is below threshold; Holiday effects are present; Manual forecasting is underperforming.",
+                "category": "Demand Validation"
+            }
+        ]
+    },
+    "artifacts": {
+        "directory": "D:\\project_1 imp docs\\Forecast review\\reports\\output",
+        "html": "forecast_review.html",
+        "json": "forecast_review.json",
+        "executive_summary": "executive_summary.md",
+        "manager_summary": "manager_summary.md",
+        "email_summary": "email_summary.md",
+        "teams_summary": "teams_summary.md"
+    }
+}

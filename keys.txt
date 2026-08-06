@@ -1,0 +1,52 @@
+Forecast_Name
+Model
+Family
+Fiscal_Year
+Week_Ending
+Fiscal_Week
+Month_Number
+Week_Number
+Country
+Region
+SubRegion
+Offering
+Channel
+Forecaster
+Planned_ASU
+Actual_ASU
+Final_Units
+Final_Y5
+Final_Y4
+Final_Y3
+Final_Y2
+Final_Y1
+Final_upp_units
+Holiday_Count
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday
+Sunday
+Volume_Category
+Manual_Adh
+ML_Adh
+Manual_±10%
+ML_±10%
+ML≥Manual_or_±10%
+Mean (Hist. Contacts) (Last 1 yr.)
+Std Dev (Hist. Contacts)
+RISK Cat (w/ Holiday)
+RISK Flag (w/ Holiday)
+Actual_Offered
+Manual_Forecast
+Previous_Forecast
+ML_Forecast
+Manual_Abs_Err
+ML_Abs_Err
+Manual_WAPE
+ML_WAPE
+Winner
+Within_Tolerance_ML
+Within_Tolerance_Manual
