@@ -1,137 +1,80 @@
-# Forecast Review & Decision Support System
+# Enterprise Forecast Decision Intelligence Platform: Prompt Trail & Evolution
 
-## Prompt Trail & Architectural Reasoning Document
+## Initial Product Thinking
+The platform began as a review pipeline — a system that computed statistical metrics and formatted them into a report. Initial architecture was a monolithic scorer that performed all computation, decision-making, and report generation in a single module. The system behaved like a data scientist's notebook: compute metrics, format tables, output Markdown. The fundamental gap identified: the system was architected as a review tool, not a decision intelligence platform. This gap was architectural, not a defect. Core realization: a statistical calculator is not the same as a decision support system. The business needed analytical reasoning, not formatted averages.
 
-## 1. Generative AI Prompt History (Project Build Record)
+## Report Evolution
+Phase 1 (8-page analyst report): Structured by analytical modules. Separate Macro and Micro pages for each question. Designed for analysts, not executives. Self-critique: Too long for a 10-minute executive read. Page 1 did not stand alone. Splitting Q1/Q2 into Macro/Micro destroyed narrative coherence.
 
-This section serves as a historical record of the primary prompts provided to the AI assistant to architect, implement, and verify this system. These prompts document the evolution from the initial concept to the Enterprise Decision Intelligence Engine.
+Phase 2 (6-page executive report): Consolidated Macro/Micro into unified pages. Reordered to follow a McKinsey strategy deck narrative (Action → Reality → Strategy → Tactic → Risk → Proof). Key insight: Actuals (business volume) should come BEFORE accuracy assessment because you cannot explain forecast accuracy without first establishing volume reality. Self-critique: This executive ordering works for strategy decks but not for weekly diagnostic use by planning managers.
 
-### Phase: Enterprise AI Infrastructure Layer
-**Prompt 1:**
-> "You are the Principal Software Architect and Technical Lead responsible for completing the Enterprise AI Infrastructure Layer of the Forecast Review & Decision Support System. This is NOT a feature implementation task. This is an enterprise infrastructure sprint. The objective is to transform the existing provider abstraction into a scalable AI infrastructure capable of supporting multiple providers, observability, execution benchmarking, auditing, and future production deployment without requiring architectural refactoring."
+Phase 3 (Planning Manager diagnostic flow): Reordered for operational diagnostics (Score → Why did we miss? → Did volume break it? → How to fix it?). Key insight: Different audiences need different information ordering. A planner asks "What was our score?" first. An executive asks "What should I approve?" first. Resolution: The platform adopted the Planner flow for body sections but preserved the Executive Dashboard as Page 1.
 
-**Prompt 2 (Refinements):**
-> "incorporate the following architectural refinements before implementation: Keep storage/ as a top-level infrastructure directory, separate from reports/. Replace random or sequential execution IDs with timestamp + short UUID format (RUN-YYYYMMDD-HHMMSS-XXXX). Introduce an immutable ExecutionContext model... Add a StorageManager service... Expand ProviderMetrics and PipelineExecutionMetrics..."
+Phase 4 (Dynamic composition): Introduced disappearing/condensing pages. Sections that lack sufficient data condense to single statements instead of rendering empty pages with null values. Key insight: An executive loses trust instantly upon seeing empty pages full of null values. Dynamic condensation maintains credibility.
 
-### Phase: Independent Verification & Validation (IV&V)
-**Prompt 3:**
-> "# Enterprise Independent Verification & Validation (IV&V) Prompt
-> Role: You are acting as an Independent Enterprise Verification Team... Your responsibility is to perform an independent enterprise-grade audit of the Forecast Review & Decision Support System exactly as an external verification organization would prior to approving the system for production deployment."
+## Architecture Evolution
+Phase 1 (Monolith): Single module performing scoring, comparison, recommendation, and report generation.
 
-**Prompt 4 (IV&V Additions):**
-> "Proceed with the IV&V audit after incorporating these five additions: Introduce an evidence matrix... Expand the analytics audit to include business-level validation... Add a comprehensive failure injection matrix... Include a dedicated Demo Readiness Assessment... Conclude with a Production Gap Analysis..."
+Phase 2 (Modular decomposition): Decomposed into domain-driven analytical modules aligned with business questions (actuals.py, performance.py, comparison.py, degradation.py, recommendation.py). Decision: Domain-driven module organization was chosen over mathematical-function-based organization. Domain alignment means changing how Manual vs ML comparison works touches only one file. Rejected alternative: Mathematically-grouped flat modules were initially proposed but violated business cohesion.
 
-### Phase: Enterprise Architecture Review
-**Prompt 5:**
-> "# Enterprise Architecture Review Prompt: Forecast Decision Intelligence Platform
-> Role: You are an independent enterprise architecture review board... Your responsibility is to critically evaluate the current product, architecture, user experience, and long-term strategy, then propose the next-generation architecture for an enterprise Forecast Decision Intelligence Platform."
+Phase 3 (Layer separation): Introduced the 3-layer architecture (Analytics → Decision Intelligence → Presentation). This was later refined to 6 layers by splitting Data Validation, Content Engine, and PDF Rendering into distinct layers. Rejected: Over-engineered alternatives including hypothesis testing pipelines, state evaluation engines, and multi-stage orchestration abstractions. These were deemed unnecessary for a 13-week dataset. Rejected: Complete architectural flattening into god-scripts. Proper modularity was necessary even for MVP.
 
-### Phase: Decision Intelligence Engine (`model_scorer.py`)
-**Prompt 6:**
-> "You are no longer acting as an implementation engineer. You are now acting as the following people simultaneously: Principal Forecast Analytics Consultant, Principal Data Scientist, Principal Statistician... Your task is to independently review, challenge, validate and improve the statistical methodology implemented inside model_scorer.py. ... The required business output is: Determine which forecasting model should be recommended..."
+Phase 4 (Contract-driven architecture): Replaced dictionary-based communication with strongly-typed frozen dataclasses. Introduced contract narrowing between layers. Key insight: Weakly-typed interfaces create hidden dependencies. A dictionary key typo produces silent failure. Strongly-typed contracts produce immediate, traceable errors.
 
-**Prompt 7 (Bug Fix & Recalibration):**
-> "model_scorer.py is bullshit , please fix that" *(Note: Resolved an issue where Hit10 normalization bounds were inverted, causing lower performance to score artificially higher).*
+Phase 5 (Immutable contracts): Applied frozen=True to all dataclasses. No downstream layer can mutate upstream evidence.
 
-### Phase: Documentation Synchronization
-**Prompt 8:**
-> "please update all the documentation of the project as well as the requirements.txt"
+## Decision Intelligence Introduction
+The original system conflated three concepts: statistical winner, operational recommendation, and deployment decision. Architectural separation recognized that these are three distinct concerns: Which model scored highest? (Analytics layer — mathematical fact.) Should we deploy it? (Decision Intelligence — policy application.) How should we deploy it? (Decision Intelligence — scenario evaluation.) This separation was the single most important architectural insight. A model winning statistically does not justify deployment if confidence is low, improvement is marginal, or switching costs exceed benefit. The DecisionPolicy was introduced to externalize all business thresholds. Previously, thresholds were hardcoded across 30+ locations in 6+ files. The Executive Decision Matrix was introduced to map (Confidence × Impact × Complexity) to deterministic actions. Progressive complexity escalation was adopted: system defaults to Global deployment. Regional requires >1% improvement. Segmented requires >2% improvement. Complexity must be earned.
 
----
+## Content Engine Evolution
+Phase 1 (Report builder): Content was generated inline within the report rendering module. Analytics, narrative, and formatting were interleaved.
 
-## 2. System Prompt Strategy (The MASTER_SUMMARY_PROMPT)
+Phase 2 (Separated builders): Content generation was extracted into dedicated builder functions, each answering one business question. Key decision: Builders were made pure functions that do not import pandas, numpy, or scipy. This prevents mathematical computation from leaking into the content layer.
 
-The runtime prompt strategy enforces a strict separation between deterministic analytics and generated narrative.
+Phase 3 (Structural contracts): Builders began returning structured ReportSection objects instead of Markdown strings. This decoupled content from presentation format.
 
-> Python = Truth  
-> LLM = Narrative
+Phase 4 (8-field content architecture): The legacy content hierarchy was permanently deprecated. Replaced with a deterministic 8-field contract (Business Question, Observation, Primary Evidence, Supporting Evidence, Conclusion, Decision Support, Recommendation, Recommendation Suppression).
 
-The LLM does not calculate, score, validate, or infer missing facts. It receives structured outputs from Python analytics modules and converts those outputs into readable business language.
+Phase 5 (Traceability): TraceabilityMetadata added to every section, recording source layer and originating contract types.
 
-### Core Architecture Update: The Single Master Prompt
+Phase 6 (Immutable ContentContract): ReportDocument replaced with frozen ContentContract. The document structure itself became an immutable typed contract.
 
-Historically, this system relied on 6 individual prompts (Executive, Risk, Comparison, Recommendation, Regional Insight, Management Narrative). This approach was deprecated and replaced with a **Single Master Prompt (`MASTER_SUMMARY_PROMPT`)** enforcing a strict JSON output schema.
+## Evidence-First Philosophy
+The platform's relationship with evidence evolved through three stages:
+1. Evidence as decoration: Metrics were computed and placed in tables to support predetermined narratives.
+2. Evidence as structure: Metrics became the primary content, with narrative serving to explain them.
+3. Evidence as authority: No narrative statement may exist without a corresponding metric in the evidence tables. Evidence cardinality limits were imposed (Primary ≤ 3, Supporting ≤ 5) to force prioritization.
 
-## 3. Architecture Decision Record (ADR): Moving to a Master Prompt
+The principle "Observation is more important than Recommendation; Evidence is more important than Recommendation" became the platform's foundational design axiom.
 
-| Decision | Move from 6 sequential prompts to 1 Master JSON Prompt |
-|---|---|
-| **Context** | Making 6 independent HTTP calls to an LLM provider was slow, expensive, and fragile. Network interruptions during step 4 (out of 6) required complex rollback or partial-state recovery logic. |
-| **Action** | We implemented `MASTER_SUMMARY_PROMPT`, forcing the LLM to write all 4 critical narrative sections (executive summary, risk explanation, comparison, recommendations) in a single unified JSON output payload (`SummaryBundle`). |
-| **Outcome** | Reduced API latency by ~80%, significantly lowered token costs, and eliminated partial-failure states. The JSON format allows strict schema validation via Pydantic (`ResponseParser`). |
-| **Trade-offs** | Requires a more sophisticated `ResponseCleaner` to strip markdown fences (````json`) returned by chat-aligned models. |
+## Recommendation Philosophy
+Phase 1 (Always recommend): Every section produced a recommendation, even when evidence was weak. This created trust problems when low-confidence recommendations contradicted executive judgment.
 
-## 4. Core Principle
+Phase 2 (Soften when uncertain): Weak recommendations were hedged with language like "Consider exploring..." or replaced with "N/A". This was worse — it appeared evasive.
 
-| Layer | Responsibility |
-|---|---|
-| Python | Metrics, calculations, risk scoring, comparisons, drift detection, recommendation candidates, decision intelligence (model_scorer.py). |
-| LLM | Summaries, explanations, executive narratives, management-ready wording formatted strictly in JSON. |
+Phase 3 (Suppress when uncertain): Recommendations became deterministic functions: R = f(Policy, Evidence, Confidence). Missing input = complete omission. No softening, no hedging, no "N/A".
 
-## 5. AI Responsibilities
+Phase 4 (Permanent prohibition): Questions 3 (Business Context) and 4 (Forecast Degradation) were permanently prohibited from producing recommendations. These sections exist solely to provide interpretive context.
 
-### Allowed AI Responsibilities
-| Allowed Use | Description |
-|---|---|
-| Summaries | Summarize verified analytics outputs. |
-| Explanations | Explain why metrics or risks matter. |
-| Recommendations | Phrase Python-generated recommendation candidates for management. |
-| JSON Serialization | Output all narrative in a strictly defined JSON string. |
+Key principle adopted: The content layer never fabricates recommendations. Recommendations are sourced from the Decision Intelligence layer or omitted entirely.
 
-### Not Allowed AI Responsibilities
-| Not Allowed | Reason |
-|---|---|
-| Calculations | Must be performed by Python for auditability. |
-| Markdown Text | System expects parsed JSON; plain text or raw markdown will fail validation. |
-| Risk Scores | Must be produced by `risk.py` or review logic. |
-| Fabricated context | The LLM must not invent regions, causes, actions, or performance values. |
+## Dynamic Report Composition
+Initially, the report had a fixed structure. Every section always rendered, even when data was insufficient. Problem identified: Greenfield scenarios (no manual baseline) produced sections full of "null", "N/A", and 0.0% — destroying executive trust. Solution: Dynamic condensation. Sections with insufficient data condense to single-statement summaries. Sections are never fully removed — they always appear in the report to maintain structural consistency. This philosophy extended to: single-model scenarios (Q2 condenses), zero-anomaly scenarios (Q4 condenses), and insufficient sample size (all recommendations suppressed).
 
-## 6. The Master Summary Prompt Structure
+## Final Analytical Philosophy
+All computation is deterministic. No LLM inference in the analytical pipeline. Statistical significance (p-value) alone is insufficient for decision-making. Practical significance (effect size) is required. Sample size below minimum forces LOW confidence regardless of other metrics. The system aggregates to weekly temporal grain before statistical testing. Executing tests on daily rows artificially inflates N and produces false-positive significance. Seasonality analysis on 13 weeks of data is a statistical fallacy. Permanently rejected. The system identifies associations, never causation. Without external causal data, claiming root cause is hallucination.
 
-### Inputs (Injected by PromptBuilder)
+## Final Decision Support Philosophy
+The platform produces a Decision Support Document, not a decision. The system provides evidence, observations, and guidance. The executive makes the decision. Recommendations are permitted only when mathematically justified by the policy engine. When permitted, recommendations identify the statistical champion and deployment scenario. They do not mandate operational change. The system is conservative by default. Retaining the incumbent is the default action. Switching requires positive evidence meeting defined thresholds.
 
-| Input | Source |
-|---|---|
-| Forecast health score | Forecast Review Engine |
-| Key risk level | `risk.py` |
-| Comparison table | `comparison.py` |
-| Recommendation candidates | `recommendations.py` |
-
-### Guardrails
-
-| Guardrail | Requirement |
-|---|---|
-| JSON strictness | Must parse cleanly in Python's `json.loads`. |
-| No calculations | Do not compute or alter metrics. |
-| No invented context | Use only supplied facts. |
-
-## 7. Context Injection Strategy
-
-The `PromptBuilder` injects context in structured sections:
-
-```text
-Forecast Metadata:
-{metadata}
-
-Performance Metrics:
-{performance_metrics}
-
-Comparison Results:
-{comparison_results}
-
-Risk Assessment:
-{risk_assessment}
-
-Recommendation Candidates:
-{recommendation_candidates}
-```
-
-## 8. LLM Model Strategy
-
-### ProviderChain Resilience
-
-The architecture utilizes a `ProviderChain` that cascades through configured LLMs. 
-- **Primary:** Gemini (`gemini-2.5-pro` / `gemini-1.5-pro`) — Excellent at following strict JSON adherence instructions.
-- **Failover:** Company Provider (`llama3.1:8b` via Ollama/Local) — Robust local fallback for network partitions or primary service outages.
-
-Because both models receive the same prompt and are piped through the same `ResponseCleaner`, the application orchestrator doesn't need to know which model ultimately generated the JSON.
+## Permanent Lessons Learned
+1. A statistical calculator is not a decision support system. The gap is architectural.
+2. Over-engineering kills clarity. Simple, deterministic modules aligned to business questions are superior to abstract frameworks.
+3. The system can only say WHAT happened, not WHY. Claiming causation without causal data destroys trust.
+4. Financial hallucination is an existential risk. Never state financial impact without financial data.
+5. Weak evidence demands silence, not hedging. Omit, do not soften.
+6. Reports structured around business questions outperform reports structured around code modules.
+7. Different audiences need different information ordering — but Page 1 must always stand alone.
+8. Protect validated assets. Deprecate, never delete. Parity before migration.
+9. Immutable contracts prevent an entire class of integration defects.
+10. Thresholds externalized into policy objects enable business stakeholders to modify system behavior without engineering changes.
