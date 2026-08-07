@@ -10,4 +10,7 @@ logs/
 .vscode/
 codebase.zip
 dashboard_handover.zip
-.
+*.xlsx
+*.xls
+*.xlsm
+*.csv
