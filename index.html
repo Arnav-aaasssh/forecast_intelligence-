@@ -1006,7 +1006,7 @@
         <span>Upload Dataset</span>
       </a>
       <a href="dashboard_final.html" class="btn-navy" id="hdrDashboardBtn">
-        <span id="hdrDashboardLabel">Preview Dashboard</span>
+        <span id="hdrDashboardLabel">View Dashboard</span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
     </div>
@@ -1560,10 +1560,9 @@
     }
 
     function updateHeaderCTA(sessions) {
-      const activeSess = sessions.find(s => s.active);
       const label = document.getElementById('hdrDashboardLabel');
-      if (label && activeSess) {
-        label.innerHTML = `Launch Dashboard (${activeSess.name.split('.')[0]})`;
+      if (label) {
+        label.innerHTML = 'View Dashboard';
       }
     }
 
