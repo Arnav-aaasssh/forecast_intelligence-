@@ -42,11 +42,6 @@
     }
 
     body {
-    body, .nav-header, .bento-card, .workspace-box {
-      transform: translateZ(0);
-      will-change: transform, opacity;
-    }
-
       background: var(--bg-canvas);
       color: var(--text-main);
       font-family: var(--sans);
@@ -54,6 +49,11 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
+
+    .bento-card, .workspace-box {
+      will-change: transform;
+    }
+
 
     /* Tabular Numerals for Numerical Precision */
     .telemetry-val, .stat-val, [data-tabular] {
