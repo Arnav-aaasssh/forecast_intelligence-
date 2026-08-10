@@ -443,6 +443,207 @@
       gap: 32px;
     }
 
+
+    /* Comparison Panel CSS */
+    .compare-section {
+      padding: 80px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .compare-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-hairline);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow-hairline-luxe);
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .compare-selectors {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .compare-selectors { grid-template-columns: 1fr; }
+    }
+
+    .select-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .select-label {
+      font-family: var(--mono);
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    .custom-select {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .custom-select:focus, .custom-select:hover {
+      border-color: var(--emerald);
+      background: #FFFFFF;
+    }
+
+    .vs-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--navy-deep);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 4px 14px rgba(16, 27, 51, 0.25);
+      margin: 20px auto 0 auto;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
+    .run-column {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-hairline);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+
+    .run-column.winner {
+      border-color: var(--emerald-bright);
+      background: rgba(5, 150, 105, 0.02);
+    }
+
+    .column-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .column-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .badge-winner {
+      background: rgba(5, 150, 105, 0.12);
+      color: var(--emerald);
+      border: 1px solid rgba(5, 150, 105, 0.25);
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--mono);
+    }
+
+    .badge-baseline {
+      background: rgba(100, 116, 139, 0.1);
+      color: var(--text-sub);
+      border: 1px solid var(--border-hairline);
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--mono);
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border-hairline);
+    }
+
+    .metric-row:last-child { border-bottom: none; }
+
+    .m-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .m-val {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      font-family: var(--mono);
+    }
+
+    .delta-banner {
+      background: linear-gradient(135deg, var(--navy-deep) 0%, #1E293B 100%);
+      color: #FFFFFF;
+      border-radius: 16px;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      box-shadow: 0 10px 30px rgba(16, 27, 51, 0.15);
+    }
+
+    .delta-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .delta-stat-title {
+      font-size: 12px;
+      color: #94A3B8;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .delta-stat-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #34D399;
+      font-family: var(--mono);
+    }
+
     /* Upload Section */
     .upload-section {
       padding: 80px 0;
@@ -676,6 +877,7 @@
     <ul class="nav-links">
       <li><a href="#vision">Overview</a></li>
       <li><a href="#upload">Upload</a></li>
+      <li><a href="#compare">Compare Runs</a></li>
       <li><a href="#features">Features</a></li>
     </ul>
 
@@ -799,6 +1001,112 @@
     <!-- Hairline Divider -->
     <div class="hairline-divider"></div>
 
+    <!-- Hairline Divider -->
+    <div class="hairline-divider"></div>
+
+    <!-- Dual Dashboard Comparison Section -->
+    <section class="compare-section" id="compare">
+      <div class="section-title-group">
+        <div class="section-tag">DUAL DASHBOARD COMPARISON</div>
+        <h2 class="section-heading">Compare Two Forecast Runs Side-by-Side</h2>
+        <p class="section-sub">Select any two datasets or model runs to compare overall WAPE, model champion wins, and volume variance in real time.</p>
+      </div>
+
+      <div class="compare-card">
+        <!-- Selectors -->
+        <div class="compare-selectors">
+          <div class="select-box">
+            <span class="select-label">Run A — Baseline Dataset</span>
+            <select class="custom-select" id="selectRunA" onchange="updateComparison()">
+              <option value="run1" selected>Q3 Operational Forecast (Manual Baseline)</option>
+              <option value="run2">Q3 ML Champion Model Run v1</option>
+              <option value="run3">FY26 Regional Review Dataset</option>
+            </select>
+          </div>
+
+          <div class="vs-badge">VS</div>
+
+          <div class="select-box">
+            <span class="select-label">Run B — Target Dataset</span>
+            <select class="custom-select" id="selectRunB" onchange="updateComparison()">
+              <option value="run1">Q3 Operational Forecast (Manual Baseline)</option>
+              <option value="run2" selected>Q3 ML Champion Model Run v1</option>
+              <option value="run3">FY26 Regional Review Dataset</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Comparison Grid -->
+        <div class="compare-grid">
+          <!-- Column A -->
+          <div class="run-column" id="colA">
+            <div class="column-header">
+              <span class="column-title" id="titleA">Q3 Manual Baseline</span>
+              <span class="badge-baseline" id="badgeA">BASELINE</span>
+            </div>
+
+            <div class="metric-row">
+              <span class="m-label">Weighted WAPE Accuracy</span>
+              <span class="m-val" id="wapeA">14.20%</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">Champion Selection</span>
+              <span class="m-val" id="champA">Manual Overrides</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">Total Forecasted Units</span>
+              <span class="m-val" id="volA">1,420,500</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">Exception Queues Flagged</span>
+              <span class="m-val" id="flagsA">48 Queues</span>
+            </div>
+          </div>
+
+          <!-- Column B -->
+          <div class="run-column winner" id="colB">
+            <div class="column-header">
+              <span class="column-title" id="titleB">Q3 ML Champion Run</span>
+              <span class="badge-winner" id="badgeB">WINNER (2.40% Better)</span>
+            </div>
+
+            <div class="metric-row">
+              <span class="m-label">Weighted WAPE Accuracy</span>
+              <span class="m-val" id="wapeB" style="color:var(--emerald);">11.80%</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">Champion Selection</span>
+              <span class="m-val" id="champB">Ensemble XGBoost</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">Total Forecasted Units</span>
+              <span class="m-val" id="volB">1,439,980</span>
+            </div>
+            <div class="metric-row">
+              <span class="m-label">Exception Queues Flagged</span>
+              <span class="m-val" id="flagsB">18 Queues</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delta Summary Banner -->
+        <div class="delta-banner">
+          <div class="delta-stat">
+            <span class="delta-stat-title">Accuracy Delta (&Delta; WAPE)</span>
+            <span class="delta-stat-val" id="deltaWape">+2.40% Error Reduction</span>
+          </div>
+
+          <div class="delta-stat">
+            <span class="delta-stat-title">Volume Net Advantage</span>
+            <span class="delta-stat-val" id="deltaVol">+19,480 Units Saved</span>
+          </div>
+
+          <a href="dashboard_final.html" class="btn-navy" style="background:#FFFFFF; color:var(--navy-deep); font-size:13.5px;">
+            <span>Open Dual View in Dashboard &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
     <!-- Dashboard Features Showcase -->
     <section class="bento-section" id="features">
       <div class="section-title-group">
