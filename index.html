@@ -644,6 +644,124 @@
       font-family: var(--mono);
     }
 
+
+    /* Previous Runs Workspace CSS */
+    .sessions-section {
+      padding: 80px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .sessions-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-hairline);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: var(--shadow-hairline-luxe);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .sessions-table-wrap {
+      overflow-x: auto;
+    }
+
+    .sessions-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    .sessions-table th {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-sub);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-hairline);
+      font-weight: 600;
+    }
+
+    .sessions-table td {
+      padding: 16px;
+      border-bottom: 1px dashed var(--border-hairline);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .sessions-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .sessions-table tr:hover td {
+      background: var(--bg-subtle);
+    }
+
+    .run-active-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald-bright);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+      margin-right: 8px;
+    }
+
+    .run-name-text {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .sessions-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-hairline);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .btn-sm-action {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      border: 1px solid var(--border-hairline);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-sm-action:hover {
+      border-color: var(--emerald);
+      color: var(--emerald);
+      background: #FFFFFF;
+    }
+
+    .btn-sm-del {
+      color: #94A3B8;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 13px;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+
+    .btn-sm-del:hover {
+      color: #EF4444;
+    }
+
     /* Upload Section */
     .upload-section {
       padding: 80px 0;
@@ -877,6 +995,7 @@
     <ul class="nav-links">
       <li><a href="#vision">Overview</a></li>
       <li><a href="#upload">Upload</a></li>
+      <li><a href="#history">Previous Runs</a></li>
       <li><a href="#features">Features</a></li>
       <li><a href="#compare">Compare Runs</a></li>
     </ul>
@@ -886,8 +1005,8 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
         <span>Upload Dataset</span>
       </a>
-      <a href="dashboard_final.html" class="btn-navy">
-        <span>View Dashboard</span>
+      <a href="dashboard_final.html" class="btn-navy" id="hdrDashboardBtn">
+        <span id="hdrDashboardLabel">Preview Dashboard</span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
     </div>
@@ -1003,6 +1122,46 @@
 
     <!-- Hairline Divider -->
     <div class="hairline-divider"></div>
+
+    <!-- Hairline Divider -->
+    <div class="hairline-divider"></div>
+
+    <!-- Previous Runs Workspace Section -->
+    <section class="sessions-section" id="history">
+      <div class="section-title-group" style="text-align:left; align-items:flex-start;">
+        <div class="section-tag">WORKSPACE HISTORY</div>
+        <h2 class="section-heading">Previous Dataset Runs</h2>
+        <p class="section-sub">All your uploaded datasets are saved locally in browser storage. Launch any session or compare two runs side-by-side.</p>
+      </div>
+
+      <div class="sessions-card">
+        <div class="sessions-table-wrap">
+          <table class="sessions-table">
+            <thead>
+              <tr>
+                <th style="width:40px; text-align:center;">Compare</th>
+                <th>Dataset / Run Name</th>
+                <th>Uploaded Date</th>
+                <th>Rows &amp; Queues</th>
+                <th>WAPE Accuracy</th>
+                <th>Champion Model</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="sessionsTableBody">
+              <!-- Populated dynamically via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sessions-footer">
+          <div style="font-size:13px; color:var(--text-sub);" id="selectedCountText">Select 2 runs above to enable comparison</div>
+          <button class="btn-navy" id="btnCompareSelected" onclick="compareSelectedRuns()" style="font-size:13px; padding:10px 20px;" disabled>
+            <span>Compare Selected Runs &rarr;</span>
+          </button>
+        </div>
+      </div>
+    </section>
 
     <!-- Dashboard Features Showcase -->
     <section class="bento-section" id="features">
