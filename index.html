@@ -1151,11 +1151,11 @@
             <tbody id="sessionsTableBody">
               <tr>
                 <td style="text-align:center;"><input type="checkbox" class="compare-chk" value="run1" onchange="onCompareCheckboxChange()"></td>
-                <td><div style="display:flex; align-items:center;"><span class="run-active-dot" title="Active Workspace"></span><span class="run-name-text">Q3 ML Champion Run (Default Dataset)</span></div></td>
-                <td style="color:var(--text-sub); font-family:var(--mono); font-size:12.5px;">Aug 10, 2026</td>
+                <td><div style="display:flex; align-items:center;"><span class="run-active-dot" title="Active Workspace"></span><span class="run-name-text">Forecast_19_June.xlsx (Default)</span></div></td>
+                <td style="color:var(--text-sub); font-family:var(--mono); font-size:12.5px;">Jun 19, 2026</td>
                 <td style="font-family:var(--mono); font-size:12.5px;">4,680 rows &middot; 360 queues</td>
                 <td><span style="font-weight:700; font-family:var(--mono); color:var(--emerald);">11.80%</span></td>
-                <td><span style="font-size:12.5px; font-weight:600; color:var(--navy-deep);">Ensemble XGBoost</span></td>
+                <td><span style="font-size:12.5px; font-weight:600; color:var(--navy-deep);">Auto-Ranked Champion</span></td>
                 <td style="text-align:right;"><a href="dashboard_final.html" onclick="setActiveSession('run1')" class="btn-sm-action"><span>Launch Dashboard</span> &rarr;</a></td>
               </tr>
             </tbody>
@@ -1295,8 +1295,8 @@
           <div class="select-box">
             <span class="select-label">Run A — Baseline Dataset</span>
             <select class="custom-select" id="selectRunA" onchange="updateComparison()">
-              <option value="run1" selected>Q3 Manual Baseline</option>
-              <option value="run2">Q3 ML Champion Run v1</option>
+              <option value="run1" selected>Forecast_19_June.xlsx (Default)</option>
+              <option value="run2">Forecast_19_June.xlsx (Default)</option>
               <option value="run3">FY26 Regional Review Dataset</option>
             </select>
           </div>
@@ -1472,7 +1472,7 @@
   <!-- Upload Processing & Multi-Session Engine Handler Script -->
   <script>
     const DEFAULT_SESSIONS = [
-      { id: 'run1', name: 'Q3 ML Champion Run (Default Dataset)', date: 'Aug 10, 2026', rows: 4680, queues: 360, wape: 11.80, champ: 'Ensemble XGBoost', vol: 1439980, flags: 18, active: true }
+      { id: 'run1', name: 'Forecast_19_June.xlsx (Default)', date: 'Jun 19, 2026', rows: 4680, queues: 360, wape: 11.80, champ: 'Auto-Ranked Champion', vol: 1439980, flags: 18, active: true }
     ];
 
     function getStoredSessions() {
@@ -1482,6 +1482,10 @@
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed) && parsed.length > 0) {
             // Upgrade legacy 3-dummy session cache if present
+            if (parsed.some(s => s.name && s.name.includes('Q3 ML Champion Run'))) {
+              localStorage.removeItem('forecast_sessions');
+              return DEFAULT_SESSIONS;
+            }
             if (parsed.length === 3 && parsed.some(s => s.id === 'run3')) {
               localStorage.removeItem('forecast_sessions');
               return DEFAULT_SESSIONS;
