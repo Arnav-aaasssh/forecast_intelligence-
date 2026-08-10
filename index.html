@@ -102,69 +102,42 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 1;
+      z-index: 0;
       pointer-events: none;
     }
 
+    
     /* Floating Hairline Glass Navbar */
     .nav-header {
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 64px);
+      width: calc(100% - 48px);
       max-width: 1280px;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border-hairline);
       border-radius: 100px;
-      padding: 12px 28px;
+      padding: 10px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      z-index: 100;
+      gap: 20px;
+      z-index: 1000;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-main);
-    }
-
-    .brand-icon-svg {
-      width: 32px;
-      height: 32px;
-      background: var(--navy-deep);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(16, 27, 51, 0.25);
-    }
-
-    .brand-title {
-      font-family: var(--sans);
-      font-weight: 800;
-      font-size: 16px;
-      letter-spacing: -0.02em;
-      color: var(--navy-deep);
-    }
-    
-    .brand-sub {
-      font-size: 11px;
-      color: var(--text-sub);
-      font-weight: 500;
+      white-space: nowrap;
     }
 
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 24px;
       list-style: none;
+      align-items: center;
+      flex-shrink: 0;
     }
+
 
     .nav-links a {
       color: var(--text-muted);
@@ -513,7 +486,6 @@
       <li><a href="#vision">Vision</a></li>
       <li><a href="#bento">3 Pillars</a></li>
       <li><a href="#workspaces">Workspace Hub</a></li>
-      <li><a href="dashboard_final.html">Sacred Dashboard</a></li>
     </ul>
 
     <div class="nav-actions">
@@ -722,12 +694,27 @@
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
+      
+      // Create smooth round particle canvas texture
+      const pCanvas = document.createElement('canvas');
+      pCanvas.width = 16;
+      pCanvas.height = 16;
+      const pCtx = pCanvas.getContext('2d');
+      pCtx.beginPath();
+      pCtx.arc(8, 8, 7, 0, Math.PI * 2);
+      pCtx.fillStyle = '#059669';
+      pCtx.fill();
+      const pTexture = new THREE.CanvasTexture(pCanvas);
+
       const material = new THREE.PointsMaterial({
         color: 0x059669,
-        size: 0.65,
+        size: 0.75,
+        map: pTexture,
         transparent: true,
-        opacity: 0.45
+        opacity: 0.35,
+        depthWrite: false
       });
+
 
       const particles = new THREE.Points(geometry, material);
       scene.add(particles);
