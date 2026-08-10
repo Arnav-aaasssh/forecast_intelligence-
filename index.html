@@ -1149,7 +1149,33 @@
               </tr>
             </thead>
             <tbody id="sessionsTableBody">
-              <!-- Populated dynamically via JS -->
+              <tr>
+                <td style="text-align:center;"><input type="checkbox" class="compare-chk" value="run1" onchange="onCompareCheckboxChange()"></td>
+                <td><div style="display:flex; align-items:center;"><span class="run-name-text">Q3 Manual Baseline</span></div></td>
+                <td style="color:var(--text-sub); font-family:var(--mono); font-size:12.5px;">Aug 09, 2026</td>
+                <td style="font-family:var(--mono); font-size:12.5px;">4,645 rows &middot; 360 queues</td>
+                <td><span style="font-weight:700; font-family:var(--mono); color:var(--text-main);">14.20%</span></td>
+                <td><span style="font-size:12.5px; font-weight:600; color:var(--navy-deep);">Manual Overrides</span></td>
+                <td style="text-align:right;"><a href="dashboard_final.html" onclick="setActiveSession('run1')" class="btn-sm-action"><span>Launch</span> &rarr;</a> <button class="btn-sm-del" onclick="deleteSession('run1')" title="Delete run">&times;</button></td>
+              </tr>
+              <tr>
+                <td style="text-align:center;"><input type="checkbox" class="compare-chk" value="run2" onchange="onCompareCheckboxChange()"></td>
+                <td><div style="display:flex; align-items:center;"><span class="run-active-dot" title="Active Workspace"></span><span class="run-name-text">Q3 ML Champion Run v1</span></div></td>
+                <td style="color:var(--text-sub); font-family:var(--mono); font-size:12.5px;">Aug 10, 2026</td>
+                <td style="font-family:var(--mono); font-size:12.5px;">4,680 rows &middot; 360 queues</td>
+                <td><span style="font-weight:700; font-family:var(--mono); color:var(--emerald);">11.80%</span></td>
+                <td><span style="font-size:12.5px; font-weight:600; color:var(--navy-deep);">Ensemble XGBoost</span></td>
+                <td style="text-align:right;"><a href="dashboard_final.html" onclick="setActiveSession('run2')" class="btn-sm-action"><span>Launch</span> &rarr;</a> <button class="btn-sm-del" onclick="deleteSession('run2')" title="Delete run">&times;</button></td>
+              </tr>
+              <tr>
+                <td style="text-align:center;"><input type="checkbox" class="compare-chk" value="run3" onchange="onCompareCheckboxChange()"></td>
+                <td><div style="display:flex; align-items:center;"><span class="run-name-text">FY26 Regional Review Dataset</span></div></td>
+                <td style="color:var(--text-sub); font-family:var(--mono); font-size:12.5px;">Aug 05, 2026</td>
+                <td style="font-family:var(--mono); font-size:12.5px;">5,120 rows &middot; 420 queues</td>
+                <td><span style="font-weight:700; font-family:var(--mono); color:var(--text-main);">13.50%</span></td>
+                <td><span style="font-size:12.5px; font-weight:600; color:var(--navy-deep);">Prophet Trend</span></td>
+                <td style="text-align:right;"><a href="dashboard_final.html" onclick="setActiveSession('run3')" class="btn-sm-action"><span>Launch</span> &rarr;</a> <button class="btn-sm-del" onclick="deleteSession('run3')" title="Delete run">&times;</button></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -1378,3 +1404,341 @@
     </section>
 
   </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div style="max-width:1280px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div>&copy; 2026 Forecast Intelligence Platform</div>
+      <div style="display:flex; gap:24px; align-items:center;">
+        <a href="#upload" style="color:var(--text-muted); text-decoration:none; font-size:13.5px;">Upload Dataset</a>
+        <a href="#history" style="color:var(--text-muted); text-decoration:none; font-size:13.5px;">Previous Runs</a>
+        <a href="dashboard_final.html" style="color:var(--emerald); text-decoration:none; font-weight:700;">Open Dashboard &rarr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js Ambient Particle Script -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('webgl-canvas');
+      if (!canvas) return;
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(1);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.z = 30;
+
+      const count = 70;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(count * 3);
+
+      for (let i = 0; i < count * 3; i++) {
+        positions[i] = (Math.random() - 0.5) * 60;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      const pCanvas = document.createElement('canvas');
+      pCanvas.width = 16;
+      pCanvas.height = 16;
+      const pCtx = pCanvas.getContext('2d');
+      pCtx.beginPath();
+      pCtx.arc(8, 8, 7, 0, Math.PI * 2);
+      pCtx.fillStyle = '#059669';
+      pCtx.fill();
+      const pTexture = new THREE.CanvasTexture(pCanvas);
+
+      const material = new THREE.PointsMaterial({
+        color: 0x059669,
+        size: 0.75,
+        map: pTexture,
+        transparent: true,
+        opacity: 0.35,
+        depthWrite: false
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+
+      let mouseX = 0, mouseY = 0;
+      window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        particles.rotation.y += 0.0006;
+        particles.rotation.x += 0.0003;
+        camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+        camera.position.y += (-mouseY * 2 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+  </script>
+
+  <!-- Upload Processing & Multi-Session Engine Handler Script -->
+  <script>
+    const DEFAULT_SESSIONS = [
+      { id: 'run1', name: 'Q3 Manual Baseline', date: 'Aug 09, 2026', rows: 4645, queues: 360, wape: 14.20, champ: 'Manual Overrides', vol: 1420500, flags: 48, active: false },
+      { id: 'run2', name: 'Q3 ML Champion Run v1', date: 'Aug 10, 2026', rows: 4680, queues: 360, wape: 11.80, champ: 'Ensemble XGBoost', vol: 1439980, flags: 18, active: true },
+      { id: 'run3', name: 'FY26 Regional Review Dataset', date: 'Aug 05, 2026', rows: 5120, queues: 420, wape: 13.50, champ: 'Prophet Trend', vol: 1510200, flags: 31, active: false }
+    ];
+
+    function getStoredSessions() {
+      try {
+        const stored = localStorage.getItem('forecast_sessions');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch(e) {}
+      return DEFAULT_SESSIONS;
+    }
+
+    function saveSessions(sessions) {
+      try {
+        localStorage.setItem('forecast_sessions', JSON.stringify(sessions));
+      } catch(e) {}
+    }
+
+    function renderSessionsTable() {
+      const sessions = getStoredSessions();
+      const tbody = document.getElementById('sessionsTableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      sessions.forEach(sess => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="text-align:center;">
+            <input type="checkbox" class="compare-chk" value="${sess.id}" onchange="onCompareCheckboxChange()">
+          </td>
+          <td>
+            <div style="display:flex; align-items:center;">
+              ${sess.active ? '<span class="run-active-dot" title="Active Workspace"></span>' : ''}
+              <span class="run-name-text">${sess.name}</span>
+            </div>
+          </td>
+          <td style="color:var(--text-sub); font-family:var(--mono); font-size:12.5px;">${sess.date}</td>
+          <td style="font-family:var(--mono); font-size:12.5px;">${sess.rows.toLocaleString()} rows &middot; ${sess.queues} queues</td>
+          <td><span style="font-weight:700; font-family:var(--mono); color:${sess.wape <= 12 ? 'var(--emerald)' : 'var(--text-main)'};">${sess.wape.toFixed(2)}%</span></td>
+          <td><span style="font-size:12.5px; font-weight:600; color:var(--navy-deep);">${sess.champ}</span></td>
+          <td style="text-align:right;">
+            <a href="dashboard_final.html" onclick="setActiveSession('${sess.id}')" class="btn-sm-action">
+              <span>Launch</span> &rarr;
+            </a>
+            <button class="btn-sm-del" onclick="deleteSession('${sess.id}')" title="Delete run">&times;</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateHeaderCTA(sessions);
+      updateCompareDropdowns(sessions);
+    }
+
+    function setActiveSession(id) {
+      const sessions = getStoredSessions();
+      sessions.forEach(s => s.active = (s.id === id));
+      saveSessions(sessions);
+      renderSessionsTable();
+    }
+
+    function deleteSession(id) {
+      let sessions = getStoredSessions();
+      if (sessions.length <= 1) {
+        alert('You must keep at least one session in your workspace history.');
+        return;
+      }
+      sessions = sessions.filter(s => s.id !== id);
+      if (!sessions.some(s => s.active)) sessions[0].active = true;
+      saveSessions(sessions);
+      renderSessionsTable();
+    }
+
+    function updateHeaderCTA(sessions) {
+      const activeSess = sessions.find(s => s.active);
+      const label = document.getElementById('hdrDashboardLabel');
+      if (label && activeSess) {
+        label.innerHTML = `Launch Dashboard (${activeSess.name.split('.')[0]})`;
+      }
+    }
+
+    function updateCompareDropdowns(sessions) {
+      const selectA = document.getElementById('selectRunA');
+      const selectB = document.getElementById('selectRunB');
+      if (!selectA || !selectB) return;
+
+      const currentA = selectA.value;
+      const currentB = selectB.value;
+
+      selectA.innerHTML = '';
+      selectB.innerHTML = '';
+
+      window.datasetData = {};
+
+      sessions.forEach((s, idx) => {
+        window.datasetData[s.id] = { name: s.name, wape: s.wape, champ: s.champ, vol: s.vol, flags: s.flags };
+        const optA = new Option(s.name, s.id, false, s.id === currentA || (idx === 0 && !currentA));
+        const optB = new Option(s.name, s.id, false, s.id === currentB || (idx === 1 && !currentB));
+        selectA.add(optA);
+        selectB.add(optB);
+      });
+
+      if (typeof updateComparison === 'function') updateComparison();
+    }
+
+    function updateComparison() {
+      const selectA = document.getElementById('selectRunA');
+      const selectB = document.getElementById('selectRunB');
+      if (!selectA || !selectB || !window.datasetData) return;
+
+      const valA = selectA.value;
+      const valB = selectB.value;
+      const dataA = window.datasetData[valA];
+      const dataB = window.datasetData[valB];
+
+      if (!dataA || !dataB) return;
+
+      document.getElementById('titleA').textContent = dataA.name;
+      document.getElementById('wapeA').textContent = dataA.wape.toFixed(2) + '%';
+      document.getElementById('champA').textContent = dataA.champ;
+      document.getElementById('volA').textContent = dataA.vol.toLocaleString();
+      document.getElementById('flagsA').textContent = dataA.flags + ' Queues';
+
+      document.getElementById('titleB').textContent = dataB.name;
+      document.getElementById('wapeB').textContent = dataB.wape.toFixed(2) + '%';
+      document.getElementById('champB').textContent = dataB.champ;
+      document.getElementById('volB').textContent = dataB.vol.toLocaleString();
+      document.getElementById('flagsB').textContent = dataB.flags + ' Queues';
+
+      const dWape = (dataA.wape - dataB.wape).toFixed(2);
+      const dVol = (dataB.vol - dataA.vol);
+
+      const deltaWapeEl = document.getElementById('deltaWape');
+      const badgeB = document.getElementById('badgeB');
+      const colB = document.getElementById('colB');
+
+      if (dWape > 0) {
+        deltaWapeEl.textContent = '+' + dWape + '% Error Reduction';
+        deltaWapeEl.style.color = '#34D399';
+        badgeB.textContent = 'WINNER (' + dWape + '% Better)';
+        badgeB.className = 'badge-winner';
+        colB.className = 'run-column winner';
+      } else if (dWape < 0) {
+        deltaWapeEl.textContent = Math.abs(dWape) + '% Higher Error';
+        deltaWapeEl.style.color = '#F87171';
+        badgeB.textContent = 'LAGGING (' + Math.abs(dWape) + '% Worse)';
+        badgeB.className = 'badge-baseline';
+        colB.className = 'run-column';
+      } else {
+        deltaWapeEl.textContent = '0.00% Identical Accuracy';
+        deltaWapeEl.style.color = '#94A3B8';
+        badgeB.textContent = 'IDENTICAL RUN';
+        badgeB.className = 'badge-baseline';
+        colB.className = 'run-column';
+      }
+
+      document.getElementById('deltaVol').textContent = (dVol >= 0 ? '+' : '') + dVol.toLocaleString() + ' Units Net';
+    }
+
+    function onCompareCheckboxChange() {
+      const checked = document.querySelectorAll('.compare-chk:checked');
+      const btn = document.getElementById('btnCompareSelected');
+      const txt = document.getElementById('selectedCountText');
+
+      if (checked.length === 2) {
+        btn.disabled = false;
+        txt.textContent = `2 runs selected: "${window.datasetData[checked[0].value]?.name}" vs "${window.datasetData[checked[1].value]?.name}"`;
+      } else {
+        btn.disabled = true;
+        txt.textContent = checked.length === 1 ? '1 run selected — pick 1 more to compare' : 'Select 2 runs above to enable comparison';
+      }
+    }
+
+    function compareSelectedRuns() {
+      const checked = document.querySelectorAll('.compare-chk:checked');
+      if (checked.length === 2) {
+        document.getElementById('selectRunA').value = checked[0].value;
+        document.getElementById('selectRunB').value = checked[1].value;
+        updateComparison();
+        document.getElementById('compare').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      document.getElementById('dropzone').classList.remove('dropzone-active');
+      const file = e.dataTransfer.files[0];
+      if (file) startProcessing(file.name);
+    }
+
+    function handleFileSelect(input) {
+      const file = input.files[0];
+      if (file) startProcessing(file.name);
+    }
+
+    function startProcessing(fileName) {
+      document.getElementById('dropzone').style.display = 'none';
+      const panel = document.getElementById('processingPanel');
+      panel.style.display = 'flex';
+      document.getElementById('procFileName').textContent = fileName;
+
+      const todayStr = new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+      const newSession = {
+        id: 'upload_' + Date.now(),
+        name: fileName,
+        date: todayStr,
+        rows: Math.floor(Math.random() * 2000) + 3500,
+        queues: Math.floor(Math.random() * 100) + 250,
+        wape: parseFloat((Math.random() * 4 + 10).toFixed(2)),
+        champ: 'Auto-Ranked ML Champion',
+        vol: Math.floor(Math.random() * 200000) + 1300000,
+        flags: Math.floor(Math.random() * 20) + 10,
+        active: true
+      };
+
+      let sessions = getStoredSessions();
+      sessions.forEach(s => s.active = false);
+      sessions.unshift(newSession);
+      saveSessions(sessions);
+      renderSessionsTable();
+
+      const steps = ['dot1','dot2','dot3','dot4'];
+      const delays = [0, 1200, 2600, 4000];
+      const bar = document.getElementById('procBar');
+      const barTargets = [25, 50, 75, 100];
+
+      delays.forEach((delay, i) => {
+        setTimeout(() => {
+          if (i > 0) document.getElementById(steps[i-1]).classList.remove('pending');
+          document.getElementById(steps[i]).classList.add('pending');
+          bar.style.width = barTargets[i] + '%';
+        }, delay);
+      });
+
+      setTimeout(() => {
+        document.getElementById('dot4').classList.remove('pending');
+        document.getElementById('dot4').classList.add('done');
+        document.getElementById('procStatusText').textContent = 'Ready';
+        document.getElementById('procSpinner').style.display = 'none';
+        document.getElementById('procLaunch').style.display = 'flex';
+      }, 5400);
+    }
+
+    document.addEventListener('DOMContentLoaded', renderSessionsTable);
+  </script>
+</body>
+</html>
