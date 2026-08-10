@@ -18,18 +18,18 @@
       --bg-canvas: #F8FAFC;
       --bg-surface: #FFFFFF;
       --bg-subtle: #F1F5F9;
-      --border-light: rgba(226, 232, 240, 0.9);
+      --border-hairline: rgba(226, 232, 240, 0.9);
       --border-hover: #CBD5E1;
-      --border-emerald: rgba(16, 185, 129, 0.4);
+      --border-emerald: rgba(16, 185, 129, 0.45);
       --text-main: #0F172A;
       --text-muted: #475569;
       --text-sub: #64748B;
       --navy-deep: #101B33;
       --emerald: #059669;
       --emerald-bright: #10B981;
-      --emerald-glow: rgba(5, 150, 105, 0.15);
+      --emerald-glow: rgba(5, 150, 105, 0.12);
       --blue-accent: #2563EB;
-      --shadow-luxe: 0 20px 50px rgba(15, 23, 42, 0.05), 0 4px 12px rgba(15, 23, 42, 0.03);
+      --shadow-hairline-luxe: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 20px 50px rgba(15, 23, 42, 0.05), 0 4px 12px rgba(15, 23, 42, 0.03);
       --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
       --serif: 'Newsreader', Georgia, serif;
       --mono: 'Geist Mono', monospace;
@@ -42,12 +42,23 @@
     }
 
     body {
+    body, .nav-header, .bento-card, .workspace-box {
+      transform: translateZ(0);
+      will-change: transform, opacity;
+    }
+
       background: var(--bg-canvas);
       color: var(--text-main);
       font-family: var(--sans);
       overflow-x: hidden;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+    }
+
+    /* Tabular Numerals for Numerical Precision */
+    .telemetry-val, .stat-val, [data-tabular] {
+      font-variant-numeric: tabular-nums !important;
+      font-feature-settings: "tnum" !important;
     }
 
     /* Ambient Background Mesh Blur */
@@ -66,8 +77,8 @@
       position: absolute;
       top: -10%;
       left: 20%;
-      width: 50vw;
-      height: 50vw;
+      width: 55vw;
+      height: 55vw;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(248, 250, 252, 0) 70%);
       filter: blur(80px);
@@ -77,8 +88,8 @@
       position: absolute;
       top: 30%;
       right: -10%;
-      width: 40vw;
-      height: 40vw;
+      width: 45vw;
+      height: 45vw;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, rgba(248, 250, 252, 0) 70%);
       filter: blur(100px);
@@ -91,69 +102,42 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 1;
+      z-index: 0;
       pointer-events: none;
     }
 
-    /* Floating Glass Header Navbar */
+    
+    /* Floating Hairline Glass Navbar */
     .nav-header {
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 64px);
+      width: calc(100% - 48px);
       max-width: 1280px;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--border-hairline);
       border-radius: 100px;
-      padding: 12px 28px;
+      padding: 10px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      z-index: 100;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-    }
-
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-main);
-    }
-
-    .brand-icon-svg {
-      width: 32px;
-      height: 32px;
-      background: var(--navy-deep);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(16, 27, 51, 0.2);
-    }
-
-    .brand-title {
-      font-family: var(--sans);
-      font-weight: 800;
-      font-size: 16px;
-      letter-spacing: -0.02em;
-      color: var(--navy-deep);
-    }
-    
-    .brand-sub {
-      font-size: 11px;
-      color: var(--text-sub);
-      font-weight: 500;
+      gap: 20px;
+      z-index: 1000;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 30px rgba(15, 23, 42, 0.06);
+      white-space: nowrap;
     }
 
     .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 28px;
       list-style: none;
+      align-items: center;
+      flex-shrink: 0;
     }
+
 
     .nav-links a {
       color: var(--text-muted);
@@ -204,8 +188,8 @@
       font-size: 13.5px;
       font-weight: 600;
       text-decoration: none;
-      border: 1px solid var(--border-light);
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      border: 1px solid var(--border-hairline);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 8px rgba(15, 23, 42, 0.04);
       transition: all 0.2s ease;
       cursor: pointer;
       display: inline-flex;
@@ -287,6 +271,14 @@
       margin-top: 12px;
     }
 
+    /* Structural Hairline Divider */
+    .hairline-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--border-hairline) 20%, var(--border-hairline) 80%, transparent 100%);
+      margin: 20px 0;
+    }
+
     /* Bento Grid Section */
     .bento-section {
       display: flex;
@@ -326,21 +318,21 @@
 
     .bento-card {
       background: var(--bg-surface);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-hairline);
       border-radius: 20px;
       padding: 36px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 20px;
-      box-shadow: var(--shadow-luxe);
+      box-shadow: var(--shadow-hairline-luxe);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
     }
 
     .bento-card:hover {
-      border-color: var(--border-hover);
-      box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08);
+      border-color: var(--border-emerald);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 25px 60px rgba(15, 23, 42, 0.08), 0 0 20px var(--emerald-glow);
       transform: translateY(-4px);
     }
 
@@ -352,7 +344,7 @@
       width: 46px;
       height: 46px;
       background: var(--bg-subtle);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-hairline);
       border-radius: 12px;
       display: flex;
       align-items: center;
@@ -382,7 +374,7 @@
 
     .telemetry-item {
       background: var(--bg-subtle);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-hairline);
       border-radius: 12px;
       padding: 18px;
     }
@@ -393,22 +385,22 @@
       color: var(--text-sub);
       text-transform: uppercase;
       margin-bottom: 6px;
+      letter-spacing: 0.08em;
     }
 
     .telemetry-val {
       font-size: 30px;
       font-weight: 800;
       color: var(--emerald);
-      font-variant-numeric: tabular-nums;
     }
 
     /* Workspace Session Hub Box */
     .workspace-box {
       background: var(--bg-surface);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-hairline);
       border-radius: 24px;
       padding: 44px;
-      box-shadow: var(--shadow-luxe);
+      box-shadow: var(--shadow-hairline-luxe);
       display: flex;
       flex-direction: column;
       gap: 32px;
@@ -441,7 +433,7 @@
 
     .session-item {
       background: var(--bg-subtle);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-hairline);
       border-radius: 14px;
       padding: 24px;
       display: flex;
@@ -452,7 +444,7 @@
 
     /* Footer */
     .footer {
-      border-top: 1px solid var(--border-light);
+      border-top: 1px solid var(--border-hairline);
       background: #FFFFFF;
       padding: 40px 32px;
       text-align: center;
@@ -494,7 +486,6 @@
       <li><a href="#vision">Vision</a></li>
       <li><a href="#bento">3 Pillars</a></li>
       <li><a href="#workspaces">Workspace Hub</a></li>
-      <li><a href="dashboard_final.html">Sacred Dashboard</a></li>
     </ul>
 
     <div class="nav-actions">
@@ -503,8 +494,8 @@
         <span>Workspace Hub</span>
       </a>
       <a href="dashboard_final.html" class="btn-navy">
-        <span>🚀 Launch Sacred Dashboard</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        <span>Launch Sacred Dashboard</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </a>
     </div>
   </header>
@@ -529,7 +520,7 @@
 
       <div class="hero-actions">
         <a href="dashboard_final.html" class="btn-navy" style="font-size:15px; padding:14px 32px;">
-          <span>🚀 Launch Sacred Dashboard</span>
+          <span>Launch Sacred Dashboard</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
         </a>
         <a href="#workspaces" class="btn-light-glass" style="font-size:15px; padding:14px 28px;">
@@ -538,6 +529,9 @@
         </a>
       </div>
     </section>
+
+    <!-- Structural Hairline Divider -->
+    <div class="hairline-divider"></div>
 
     <!-- Bento Grid Showcase -->
     <section class="bento-section" id="bento">
@@ -623,6 +617,9 @@
       </div>
     </section>
 
+    <!-- Structural Hairline Divider -->
+    <div class="hairline-divider"></div>
+
     <!-- Workspace Hub Ingestion Section -->
     <section class="workspace-box" id="workspaces">
       <div class="section-title-group" style="text-align:left; align-items:flex-start;">
@@ -678,16 +675,17 @@
   <!-- Three.js Ambient Particle Script -->
   <script>
     (function() {
+      
       const canvas = document.getElementById('webgl-canvas');
       const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setPixelRatio(1); // Capped for 60 FPS speed
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
       camera.position.z = 30;
 
-      const count = 250;
+      const count = 70; // Smooth 60 FPS lightweight particles
       const geometry = new THREE.BufferGeometry();
       const positions = new Float32Array(count * 3);
 
@@ -697,12 +695,26 @@
 
       geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
+      // Create smooth round particle texture
+      const pCanvas = document.createElement('canvas');
+      pCanvas.width = 16;
+      pCanvas.height = 16;
+      const pCtx = pCanvas.getContext('2d');
+      pCtx.beginPath();
+      pCtx.arc(8, 8, 7, 0, Math.PI * 2);
+      pCtx.fillStyle = '#059669';
+      pCtx.fill();
+      const pTexture = new THREE.CanvasTexture(pCanvas);
+
       const material = new THREE.PointsMaterial({
         color: 0x059669,
-        size: 0.65,
+        size: 0.75,
+        map: pTexture,
         transparent: true,
-        opacity: 0.45
+        opacity: 0.35,
+        depthWrite: false
       });
+
 
       const particles = new THREE.Points(geometry, material);
       scene.add(particles);
