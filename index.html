@@ -42,6 +42,11 @@
     }
 
     body {
+    body, .nav-header, .bento-card, .workspace-box {
+      transform: translateZ(0);
+      will-change: transform, opacity;
+    }
+
       background: var(--bg-canvas);
       color: var(--text-main);
       font-family: var(--sans);
@@ -76,7 +81,7 @@
       height: 55vw;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(248, 250, 252, 0) 70%);
-      filter: blur(80px);
+      filter: blur(40px);
     }
 
     .ambient-blob-2 {
@@ -87,7 +92,7 @@
       height: 45vw;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(37, 99, 235, 0.06) 0%, rgba(248, 250, 252, 0) 70%);
-      filter: blur(100px);
+      filter: blur(40px);
     }
 
     /* WebGL Canvas Overlay */
@@ -110,8 +115,8 @@
       width: calc(100% - 64px);
       max-width: 1280px;
       background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       border: 1px solid var(--border-hairline);
       border-radius: 100px;
       padding: 12px 28px;
